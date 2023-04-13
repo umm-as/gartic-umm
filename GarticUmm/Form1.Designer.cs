@@ -29,26 +29,41 @@
         private void InitializeComponent()
         {
             this.metroLabel1 = new MetroFramework.Controls.MetroLabel();
+            this.metroLabel2 = new MetroFramework.Controls.MetroLabel();
             this.SuspendLayout();
             // 
             // metroLabel1
             // 
             this.metroLabel1.AutoSize = true;
             this.metroLabel1.FontSize = MetroFramework.MetroLabelSize.Tall;
-            this.metroLabel1.Location = new System.Drawing.Point(23, 77);
+            this.metroLabel1.Location = new System.Drawing.Point(26, 69);
             this.metroLabel1.Name = "metroLabel1";
             this.metroLabel1.Size = new System.Drawing.Size(519, 25);
             this.metroLabel1.Style = MetroFramework.MetroColorStyle.Blue;
             this.metroLabel1.TabIndex = 0;
             this.metroLabel1.Text = "샬롬~ 이웅재 프로젝트 초기화 완료! 다들 풀리 테스트 해보세영";
             // 
+            // metroLabel2
+            // 
+            this.metroLabel2.AutoSize = true;
+            this.metroLabel2.FontSize = MetroFramework.MetroLabelSize.Tall;
+            this.metroLabel2.FontWeight = MetroFramework.MetroLabelWeight.Bold;
+            this.metroLabel2.Location = new System.Drawing.Point(353, 208);
+            this.metroLabel2.Name = "metroLabel2";
+            this.metroLabel2.Size = new System.Drawing.Size(48, 25);
+            this.metroLabel2.Style = MetroFramework.MetroColorStyle.Blue;
+            this.metroLabel2.TabIndex = 1;
+            this.metroLabel2.Text = "해위";
+            // 
             // GarticUmm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(889, 405);
+            this.Controls.Add(this.metroLabel2);
             this.Controls.Add(this.metroLabel1);
             this.Name = "GarticUmm";
+            this.Padding = new System.Windows.Forms.Padding(22, 54, 22, 18);
             this.Text = "Gartic Umm";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -58,6 +73,7 @@
         #endregion
 
         private MetroFramework.Controls.MetroLabel metroLabel1;
+        private MetroFramework.Controls.MetroLabel metroLabel2;
     }
 }
 

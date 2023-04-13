@@ -16,7 +16,7 @@ namespace GarticUmm
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new GarticUmm());
+            Application.Run(new GULoginForm());
         }
     }
 }

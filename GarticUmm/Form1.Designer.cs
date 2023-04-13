@@ -1,6 +1,6 @@
 ﻿namespace GarticUmm
 {
-    partial class GarticUmm
+    partial class GULoginForm
     {
         /// <summary>
         /// 필수 디자이너 변수입니다.
@@ -28,73 +28,64 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.metroLabel1 = new MetroFramework.Controls.MetroLabel();
+            this.colorDialog1 = new System.Windows.Forms.ColorDialog();
+            this.btnCreateServer = new MetroFramework.Controls.MetroButton();
+            this.btnJoinServer = new MetroFramework.Controls.MetroButton();
             this.label1 = new System.Windows.Forms.Label();
-            this.metroLabel2 = new MetroFramework.Controls.MetroLabel();
             this.SuspendLayout();
             // 
-            // metroLabel1
+            // btnCreateServer
             // 
-            this.metroLabel1.AutoSize = true;
-            this.metroLabel1.FontSize = MetroFramework.MetroLabelSize.Tall;
-            this.metroLabel1.Location = new System.Drawing.Point(20, 58);
-            this.metroLabel1.Location = new System.Drawing.Point(26, 69);
-            this.metroLabel1.Name = "metroLabel1";
-            this.metroLabel1.Size = new System.Drawing.Size(519, 25);
-            this.metroLabel1.Style = MetroFramework.MetroColorStyle.Blue;
-            this.metroLabel1.TabIndex = 0;
-            this.metroLabel1.Text = "샬롬~ 이웅재 프로젝트 초기화 완료! 다들 풀리 테스트 해보세영";
+            this.btnCreateServer.Location = new System.Drawing.Point(167, 240);
+            this.btnCreateServer.Name = "btnCreateServer";
+            this.btnCreateServer.Size = new System.Drawing.Size(193, 70);
+            this.btnCreateServer.TabIndex = 0;
+            this.btnCreateServer.Text = "Create Server";
+            this.btnCreateServer.UseSelectable = true;
+            this.btnCreateServer.Click += new System.EventHandler(this.btnCreateServer_Click);
+            // 
+            // btnJoinServer
+            // 
+            this.btnJoinServer.Location = new System.Drawing.Point(464, 240);
+            this.btnJoinServer.Name = "btnJoinServer";
+            this.btnJoinServer.Size = new System.Drawing.Size(193, 70);
+            this.btnJoinServer.TabIndex = 1;
+            this.btnJoinServer.Text = "Join Server";
+            this.btnJoinServer.UseSelectable = true;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(610, 285);
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.Font = new System.Drawing.Font("MV Boli", 40F, System.Drawing.FontStyle.Bold);
+            this.label1.Location = new System.Drawing.Point(149, 100);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(67, 15);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "끼에에엥";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.BottomRight;
+            this.label1.Size = new System.Drawing.Size(508, 105);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "Gartic Umm";
             // 
-            // GarticUmm
+            // GULoginForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(711, 338);
+            this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.label1);
-            // metroLabel2
-            // 
-            this.metroLabel2.AutoSize = true;
-            this.metroLabel2.FontSize = MetroFramework.MetroLabelSize.Tall;
-            this.metroLabel2.FontWeight = MetroFramework.MetroLabelWeight.Bold;
-            this.metroLabel2.Location = new System.Drawing.Point(353, 208);
-            this.metroLabel2.Name = "metroLabel2";
-            this.metroLabel2.Size = new System.Drawing.Size(48, 25);
-            this.metroLabel2.Style = MetroFramework.MetroColorStyle.Blue;
-            this.metroLabel2.TabIndex = 1;
-            this.metroLabel2.Text = "해위";
-            // 
-            // GarticUmm
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(889, 405);
-            this.Controls.Add(this.metroLabel2);
-            this.Controls.Add(this.metroLabel1);
+            this.Controls.Add(this.btnJoinServer);
+            this.Controls.Add(this.btnCreateServer);
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.Name = "GarticUmm";
-            this.Padding = new System.Windows.Forms.Padding(18, 45, 18, 15);
-            this.Padding = new System.Windows.Forms.Padding(22, 54, 22, 18);
-            this.Text = "Gartic Umm";
+            this.Name = "GULoginForm";
+            this.Padding = new System.Windows.Forms.Padding(20, 67, 20, 20);
+            this.Resizable = false;
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private MetroFramework.Controls.MetroLabel metroLabel1;
+        private System.Windows.Forms.ColorDialog colorDialog1;
+        private MetroFramework.Controls.MetroButton btnCreateServer;
+        private MetroFramework.Controls.MetroButton btnJoinServer;
         private System.Windows.Forms.Label label1;
-        private MetroFramework.Controls.MetroLabel metroLabel2;
     }
 }
 

@@ -7,12 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MetroFramework.Forms;
 
 namespace GarticUmm
 {
-    public partial class Form1 : Form
+    public partial class GarticUmm : MetroForm
     {
-        public Form1()
+        public GarticUmm()
         {
             InitializeComponent();
         }

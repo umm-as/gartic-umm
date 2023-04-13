@@ -1,6 +1,6 @@
 ﻿namespace GarticUmm
 {
-    partial class Form1
+    partial class GarticUmm
     {
         /// <summary>
         /// 필수 디자이너 변수입니다.
@@ -28,13 +28,36 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.metroLabel1 = new MetroFramework.Controls.MetroLabel();
+            this.SuspendLayout();
+            // 
+            // metroLabel1
+            // 
+            this.metroLabel1.AutoSize = true;
+            this.metroLabel1.FontSize = MetroFramework.MetroLabelSize.Tall;
+            this.metroLabel1.Location = new System.Drawing.Point(23, 77);
+            this.metroLabel1.Name = "metroLabel1";
+            this.metroLabel1.Size = new System.Drawing.Size(519, 25);
+            this.metroLabel1.Style = MetroFramework.MetroColorStyle.Blue;
+            this.metroLabel1.TabIndex = 0;
+            this.metroLabel1.Text = "샬롬~ 이웅재 프로젝트 초기화 완료! 다들 풀리 테스트 해보세영";
+            // 
+            // GarticUmm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "Form1";
+            this.Controls.Add(this.metroLabel1);
+            this.Name = "GarticUmm";
+            this.Text = "Gartic Umm";
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
         }
 
         #endregion
+
+        private MetroFramework.Controls.MetroLabel metroLabel1;
     }
 }
 

@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUGameForm));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.panel = new System.Windows.Forms.Panel();
             this.toolBar2 = new System.Windows.Forms.ToolBar();
             this.thinbtn = new System.Windows.Forms.ToolBarButton();
             this.middlebtn = new System.Windows.Forms.ToolBarButton();
@@ -49,7 +50,6 @@
             this.MessageLog = new MetroFramework.Controls.MetroTextBox();
             this.MessageSend = new MetroFramework.Controls.MetroTextBox();
             this.toolBar1 = new System.Windows.Forms.ToolBar();
-            this.panel = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -79,6 +79,17 @@
             this.splitContainer1.SplitterDistance = 696;
             this.splitContainer1.TabIndex = 0;
             // 
+            // panel
+            // 
+            this.panel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel.Location = new System.Drawing.Point(0, 44);
+            this.panel.Name = "panel";
+            this.panel.Size = new System.Drawing.Size(696, 538);
+            this.panel.TabIndex = 1;
+            this.panel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel_MouseDown);
+            this.panel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panel_MouseMove);
+            this.panel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panel_MouseUp);
+            // 
             // toolBar2
             // 
             this.toolBar2.Buttons.AddRange(new System.Windows.Forms.ToolBarButton[] {
@@ -99,6 +110,7 @@
             this.toolBar2.ShowToolTips = true;
             this.toolBar2.Size = new System.Drawing.Size(696, 44);
             this.toolBar2.TabIndex = 0;
+            this.toolBar2.ButtonClick += new System.Windows.Forms.ToolBarButtonClickEventHandler(this.toolBar2_ButtonClick);
             // 
             // thinbtn
             // 
@@ -264,17 +276,6 @@
             this.toolBar1.ShowToolTips = true;
             this.toolBar1.Size = new System.Drawing.Size(737, 42);
             this.toolBar1.TabIndex = 0;
-            // 
-            // panel
-            // 
-            this.panel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel.Location = new System.Drawing.Point(0, 44);
-            this.panel.Name = "panel";
-            this.panel.Size = new System.Drawing.Size(696, 538);
-            this.panel.TabIndex = 1;
-            this.panel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel_MouseDown);
-            this.panel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panel_MouseMove);
-            this.panel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panel_MouseUp);
             // 
             // GUGameForm
             // 

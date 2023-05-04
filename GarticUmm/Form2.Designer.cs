@@ -31,14 +31,6 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUGameForm));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.SendButton = new MetroFramework.Controls.MetroButton();
-            this.MessageLog = new MetroFramework.Controls.MetroTextBox();
-            this.MessageSend = new MetroFramework.Controls.MetroTextBox();
-            this.LabelTimer = new MetroFramework.Controls.MetroLabel();
-            this.LabelStatus = new MetroFramework.Controls.MetroLabel();
-            
-            this.toolBar1 = new System.Windows.Forms.ToolBar();
-            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.toolBar2 = new System.Windows.Forms.ToolBar();
             this.thinbtn = new System.Windows.Forms.ToolBarButton();
             this.middlebtn = new System.Windows.Forms.ToolBarButton();
@@ -50,6 +42,14 @@
             this.purplebtn = new System.Windows.Forms.ToolBarButton();
             this.blackbtn = new System.Windows.Forms.ToolBarButton();
             this.eraserbtn = new System.Windows.Forms.ToolBarButton();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.LabelStatus = new MetroFramework.Controls.MetroLabel();
+            this.LabelTimer = new MetroFramework.Controls.MetroLabel();
+            this.SendButton = new MetroFramework.Controls.MetroButton();
+            this.MessageLog = new MetroFramework.Controls.MetroTextBox();
+            this.MessageSend = new MetroFramework.Controls.MetroTextBox();
+            this.toolBar1 = new System.Windows.Forms.ToolBar();
+            this.panel = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -65,9 +65,8 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.panel);
             this.splitContainer1.Panel1.Controls.Add(this.toolBar2);
-            this.splitContainer1.Size = new System.Drawing.Size(1045, 770);
-            this.splitContainer1.SplitterDistance = 737;
             // 
             // splitContainer1.Panel2
             // 
@@ -79,32 +78,6 @@
             this.splitContainer1.Size = new System.Drawing.Size(1058, 582);
             this.splitContainer1.SplitterDistance = 696;
             this.splitContainer1.TabIndex = 0;
-            // 
-            // toolBar1
-            // 
-            this.toolBar1.Dock = System.Windows.Forms.DockStyle.None;
-            this.toolBar1.DropDownArrows = true;
-            this.toolBar1.Location = new System.Drawing.Point(3, 19);
-            this.toolBar1.Name = "toolBar1";
-            this.toolBar1.ShowToolTips = true;
-            this.toolBar1.Size = new System.Drawing.Size(737, 42);
-            this.toolBar1.TabIndex = 0;
-            // 
-            // imageList1
-            // 
-            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-            this.imageList1.Tag = "";
-            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "btn_small.png");
-            this.imageList1.Images.SetKeyName(1, "btn_medium.png");
-            this.imageList1.Images.SetKeyName(2, "btn_big.png");
-            this.imageList1.Images.SetKeyName(3, "btn_red.png");
-            this.imageList1.Images.SetKeyName(4, "btn_yellow.png");
-            this.imageList1.Images.SetKeyName(5, "btn_green.png");
-            this.imageList1.Images.SetKeyName(6, "btn_blue.png");
-            this.imageList1.Images.SetKeyName(7, "btn_purple.png");
-            this.imageList1.Images.SetKeyName(8, "btn_black.png");
-            this.imageList1.Images.SetKeyName(9, "btn_eraser.png");
             // 
             // toolBar2
             // 
@@ -124,7 +97,7 @@
             this.toolBar2.Location = new System.Drawing.Point(0, 0);
             this.toolBar2.Name = "toolBar2";
             this.toolBar2.ShowToolTips = true;
-            this.toolBar2.Size = new System.Drawing.Size(737, 44);
+            this.toolBar2.Size = new System.Drawing.Size(696, 44);
             this.toolBar2.TabIndex = 0;
             // 
             // thinbtn
@@ -176,6 +149,40 @@
             // 
             this.eraserbtn.ImageIndex = 9;
             this.eraserbtn.Name = "eraserbtn";
+            // 
+            // imageList1
+            // 
+            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.Tag = "";
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList1.Images.SetKeyName(0, "btn_small.png");
+            this.imageList1.Images.SetKeyName(1, "btn_medium.png");
+            this.imageList1.Images.SetKeyName(2, "btn_big.png");
+            this.imageList1.Images.SetKeyName(3, "btn_red.png");
+            this.imageList1.Images.SetKeyName(4, "btn_yellow.png");
+            this.imageList1.Images.SetKeyName(5, "btn_green.png");
+            this.imageList1.Images.SetKeyName(6, "btn_blue.png");
+            this.imageList1.Images.SetKeyName(7, "btn_purple.png");
+            this.imageList1.Images.SetKeyName(8, "btn_black.png");
+            this.imageList1.Images.SetKeyName(9, "btn_eraser.png");
+            // 
+            // LabelStatus
+            // 
+            this.LabelStatus.AutoSize = true;
+            this.LabelStatus.Location = new System.Drawing.Point(17, 33);
+            this.LabelStatus.Name = "LabelStatus";
+            this.LabelStatus.Size = new System.Drawing.Size(43, 19);
+            this.LabelStatus.TabIndex = 3;
+            this.LabelStatus.Text = "Status";
+            // 
+            // LabelTimer
+            // 
+            this.LabelTimer.AutoSize = true;
+            this.LabelTimer.Location = new System.Drawing.Point(231, 33);
+            this.LabelTimer.Name = "LabelTimer";
+            this.LabelTimer.Size = new System.Drawing.Size(43, 19);
+            this.LabelTimer.TabIndex = 0;
+            this.LabelTimer.Text = "Timer";
             // 
             // SendButton
             // 
@@ -248,23 +255,26 @@
             this.MessageSend.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.MessageSend.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             // 
-            // LabelTimer
+            // toolBar1
             // 
-            this.LabelTimer.AutoSize = true;
-            this.LabelTimer.Location = new System.Drawing.Point(231, 33);
-            this.LabelTimer.Name = "LabelTimer";
-            this.LabelTimer.Size = new System.Drawing.Size(45, 20);
-            this.LabelTimer.TabIndex = 0;
-            this.LabelTimer.Text = "Timer";
+            this.toolBar1.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolBar1.DropDownArrows = true;
+            this.toolBar1.Location = new System.Drawing.Point(3, 19);
+            this.toolBar1.Name = "toolBar1";
+            this.toolBar1.ShowToolTips = true;
+            this.toolBar1.Size = new System.Drawing.Size(737, 42);
+            this.toolBar1.TabIndex = 0;
             // 
-            // LabelStatus
+            // panel
             // 
-            this.LabelStatus.AutoSize = true;
-            this.LabelStatus.Location = new System.Drawing.Point(17, 33);
-            this.LabelStatus.Name = "LabelStatus";
-            this.LabelStatus.Size = new System.Drawing.Size(45, 20);
-            this.LabelStatus.TabIndex = 3;
-            this.LabelStatus.Text = "Status";
+            this.panel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel.Location = new System.Drawing.Point(0, 44);
+            this.panel.Name = "panel";
+            this.panel.Size = new System.Drawing.Size(696, 538);
+            this.panel.TabIndex = 1;
+            this.panel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel_MouseDown);
+            this.panel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panel_MouseMove);
+            this.panel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panel_MouseUp);
             // 
             // GUGameForm
             // 
@@ -277,9 +287,9 @@
             this.Resizable = false;
             this.Text = "Gartic Umm";
             this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.Panel2.PerformLayout();
-            this.splitContainer1.Panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -307,5 +317,6 @@
         private System.Windows.Forms.ToolBarButton purplebtn;
         private System.Windows.Forms.ToolBarButton blackbtn;
         private System.Windows.Forms.ToolBarButton eraserbtn;
+        private System.Windows.Forms.Panel panel;
     }
 }

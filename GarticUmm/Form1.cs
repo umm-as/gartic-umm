@@ -24,5 +24,7 @@ namespace GarticUmm
             gameForm.Owner = this;
             gameForm.ShowDialog();
         }
+
+        
     }
 }

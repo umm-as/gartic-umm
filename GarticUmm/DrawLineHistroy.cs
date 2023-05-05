@@ -192,11 +192,11 @@ namespace GarticUmm
         {
             switch (width)
             {
-                case 1:
-                    return MyThick.small;
-                case 3:
-                    return MyThick.medium;
                 case 5:
+                    return MyThick.small;
+                case 10:
+                    return MyThick.medium;
+                case 30:
                     return MyThick.large;
                 default:
                     return MyThick.small;
@@ -208,13 +208,13 @@ namespace GarticUmm
             switch (thick)
             {
                 case MyThick.small:
-                    return 1;
-                case MyThick.medium:
-                    return 3;
-                case MyThick.large:
                     return 5;
+                case MyThick.medium:
+                    return 10;
+                case MyThick.large:
+                    return 30;
                 default:
-                    return 1;
+                    return 5;
             }
         }
 

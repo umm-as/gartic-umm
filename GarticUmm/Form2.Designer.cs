@@ -1,4 +1,4 @@
-﻿namespace GarticUmm
+namespace GarticUmm
 {
     partial class GUGameForm
     {
@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUGameForm));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.panel = new System.Windows.Forms.Panel();
             this.toolBar2 = new System.Windows.Forms.ToolBar();
             this.thinbtn = new System.Windows.Forms.ToolBarButton();
             this.middlebtn = new System.Windows.Forms.ToolBarButton();
@@ -50,10 +51,16 @@
             this.MessageSend = new MetroFramework.Controls.MetroTextBox();
             this.toolBar1 = new System.Windows.Forms.ToolBar();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.menuOpen = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuSave = new System.Windows.Forms.ToolStripMenuItem();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -65,6 +72,7 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.panel);
             this.splitContainer1.Panel1.Controls.Add(this.toolBar2);
             // 
             // splitContainer1.Panel2
@@ -77,6 +85,17 @@
             this.splitContainer1.Size = new System.Drawing.Size(1058, 582);
             this.splitContainer1.SplitterDistance = 696;
             this.splitContainer1.TabIndex = 0;
+            // 
+            // panel
+            // 
+            this.panel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel.Location = new System.Drawing.Point(0, 44);
+            this.panel.Name = "panel";
+            this.panel.Size = new System.Drawing.Size(696, 538);
+            this.panel.TabIndex = 1;
+            this.panel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel_MouseDown);
+            this.panel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panel_MouseMove);
+            this.panel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panel_MouseUp);
             // 
             // toolBar2
             // 
@@ -98,6 +117,7 @@
             this.toolBar2.ShowToolTips = true;
             this.toolBar2.Size = new System.Drawing.Size(696, 44);
             this.toolBar2.TabIndex = 0;
+            this.toolBar2.ButtonClick += new System.Windows.Forms.ToolBarButtonClickEventHandler(this.toolBar2_ButtonClick);
             // 
             // thinbtn
             // 
@@ -181,7 +201,6 @@
             this.LabelTimer.Name = "LabelTimer";
             this.LabelTimer.Size = new System.Drawing.Size(22, 20);
             this.LabelTimer.TabIndex = 0;
-            this.LabelTimer.Tag = "";
             this.LabelTimer.Text = "10";
             // 
             // SendButton
@@ -268,11 +287,38 @@
             // timer1
             // 
             this.timer1.Interval = 1000;
+            //
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuOpen,
+            this.menuSave});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(102, 48);
+            // 
+            // menuOpen
+            // 
+            this.menuOpen.Name = "menuOpen";
+            this.menuOpen.Size = new System.Drawing.Size(180, 22);
+            this.menuOpen.Text = "open";
+            this.menuOpen.Click += new System.EventHandler(this.menuOpen_Click);
+            // 
+            // menuSave
+            // 
+            this.menuSave.Name = "menuSave";
+            this.menuSave.Size = new System.Drawing.Size(180, 22);
+            this.menuSave.Text = "save";
+            this.menuSave.Click += new System.EventHandler(this.menuSave_Click);
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
             // 
             // GUGameForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(1098, 666);
+            this.ContextMenuStrip = this.contextMenuStrip1;
             this.Controls.Add(this.splitContainer1);
             this.Font = new System.Drawing.Font("MV Boli", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "GUGameForm";
@@ -286,6 +332,7 @@
             this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -312,5 +359,11 @@
         private System.Windows.Forms.ToolBarButton blackbtn;
         private System.Windows.Forms.ToolBarButton eraserbtn;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Panel panel;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem menuOpen;
+        private System.Windows.Forms.ToolStripMenuItem menuSave;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
     }
 }

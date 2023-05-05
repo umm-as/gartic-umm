@@ -268,7 +268,6 @@
             // timer1
             // 
             this.timer1.Interval = 1000;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // GUGameForm
             // 
@@ -280,6 +279,7 @@
             this.Padding = new System.Windows.Forms.Padding(20, 63, 20, 21);
             this.Resizable = false;
             this.Text = "Gartic Umm";
+            this.Load += new System.EventHandler(this.GUGameForm_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);

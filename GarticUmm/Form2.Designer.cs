@@ -1,4 +1,4 @@
-﻿namespace GarticUmm
+namespace GarticUmm
 {
     partial class GUGameForm
     {
@@ -50,10 +50,17 @@
             this.MessageLog = new MetroFramework.Controls.MetroTextBox();
             this.MessageSend = new MetroFramework.Controls.MetroTextBox();
             this.toolBar1 = new System.Windows.Forms.ToolBar();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.menuOpen = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuSave = new System.Windows.Forms.ToolStripMenuItem();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -183,18 +190,18 @@
             this.LabelStatus.AutoSize = true;
             this.LabelStatus.Location = new System.Drawing.Point(17, 33);
             this.LabelStatus.Name = "LabelStatus";
-            this.LabelStatus.Size = new System.Drawing.Size(45, 20);
+            this.LabelStatus.Size = new System.Drawing.Size(119, 20);
             this.LabelStatus.TabIndex = 3;
-            this.LabelStatus.Text = "Status";
+            this.LabelStatus.Text = "Check the picture";
             // 
             // LabelTimer
             // 
             this.LabelTimer.AutoSize = true;
             this.LabelTimer.Location = new System.Drawing.Point(231, 33);
             this.LabelTimer.Name = "LabelTimer";
-            this.LabelTimer.Size = new System.Drawing.Size(45, 20);
+            this.LabelTimer.Size = new System.Drawing.Size(22, 20);
             this.LabelTimer.TabIndex = 0;
-            this.LabelTimer.Text = "Timer";
+            this.LabelTimer.Text = "10";
             // 
             // SendButton
             // 
@@ -277,22 +284,55 @@
             this.toolBar1.Size = new System.Drawing.Size(737, 42);
             this.toolBar1.TabIndex = 0;
             // 
+            // timer1
+            // 
+            this.timer1.Interval = 1000;
+            //
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuOpen,
+            this.menuSave});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(102, 48);
+            // 
+            // menuOpen
+            // 
+            this.menuOpen.Name = "menuOpen";
+            this.menuOpen.Size = new System.Drawing.Size(180, 22);
+            this.menuOpen.Text = "open";
+            this.menuOpen.Click += new System.EventHandler(this.menuOpen_Click);
+            // 
+            // menuSave
+            // 
+            this.menuSave.Name = "menuSave";
+            this.menuSave.Size = new System.Drawing.Size(180, 22);
+            this.menuSave.Text = "save";
+            this.menuSave.Click += new System.EventHandler(this.menuSave_Click);
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
+            // 
             // GUGameForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(1098, 666);
+            this.ContextMenuStrip = this.contextMenuStrip1;
             this.Controls.Add(this.splitContainer1);
             this.Font = new System.Drawing.Font("MV Boli", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "GUGameForm";
             this.Padding = new System.Windows.Forms.Padding(20, 63, 20, 21);
             this.Resizable = false;
             this.Text = "Gartic Umm";
+            this.Load += new System.EventHandler(this.GUGameForm_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -318,6 +358,12 @@
         private System.Windows.Forms.ToolBarButton purplebtn;
         private System.Windows.Forms.ToolBarButton blackbtn;
         private System.Windows.Forms.ToolBarButton eraserbtn;
+        private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Panel panel;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem menuOpen;
+        private System.Windows.Forms.ToolStripMenuItem menuSave;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
     }
 }

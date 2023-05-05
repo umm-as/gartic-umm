@@ -187,8 +187,75 @@ namespace GarticUmm
                 Set_initial();
                 panel.Refresh();
             }
+            
+            if (e.Button == redbtn)
+            {
+                this.redbtn.Pushed = true;
+                this.greenbtn.Pushed = false;
+                this.bluebtn.Pushed = false;
+                this.yellowbtn.Pushed = false;
+                this.purplebtn.Pushed = false;
+                this.blackbtn.Pushed = false;
 
+                pen.Color = Color.Red;
+            }
+            else if (e.Button == yellowbtn)
+            {
+                this.redbtn.Pushed = false;
+                this.greenbtn.Pushed = false;
+                this.bluebtn.Pushed = false;
+                this.yellowbtn.Pushed = true;
+                this.purplebtn.Pushed = false;
+                this.blackbtn.Pushed = false;
+
+                pen.Color = Color.Yellow;
+            }
+            else if (e.Button == greenbtn)
+            {
+                this.redbtn.Pushed = false;
+                this.greenbtn.Pushed = true;
+                this.bluebtn.Pushed = false;
+                this.yellowbtn.Pushed = false;
+                this.purplebtn.Pushed = false;
+                this.blackbtn.Pushed = false;
+
+                pen.Color = Color.Green;
+            }
+            else if (e.Button == bluebtn)
+            {
+                this.redbtn.Pushed = false;
+                this.greenbtn.Pushed = false;
+                this.bluebtn.Pushed = true;
+                this.yellowbtn.Pushed = false;
+                this.purplebtn.Pushed = false;
+                this.blackbtn.Pushed = false;
+
+                pen.Color = Color.Blue;
+            }
+            else if (e.Button == purplebtn)
+            {
+                this.redbtn.Pushed = false;
+                this.greenbtn.Pushed = false;
+                this.bluebtn.Pushed = false;
+                this.yellowbtn.Pushed = false;
+                this.purplebtn.Pushed = true;
+                this.blackbtn.Pushed = false;
+
+                pen.Color = Color.Purple;
+            }
+            else if (e.Button == blackbtn)
+            {
+                this.redbtn.Pushed = false;
+                this.greenbtn.Pushed = false;
+                this.bluebtn.Pushed = false;
+                this.yellowbtn.Pushed = false;
+                this.purplebtn.Pushed = false;
+                this.blackbtn.Pushed = true;
+
+                pen.Color = Color.Black;
+            }
         }
+            
         private void Set_initial()
         {
             this.thinbtn.Pushed = true;

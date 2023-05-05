@@ -116,6 +116,7 @@
             this.toolBar2.ShowToolTips = true;
             this.toolBar2.Size = new System.Drawing.Size(696, 44);
             this.toolBar2.TabIndex = 0;
+            this.toolBar2.ButtonClick += new System.Windows.Forms.ToolBarButtonClickEventHandler(this.toolBar2_ButtonClick);
             // 
             // thinbtn
             // 

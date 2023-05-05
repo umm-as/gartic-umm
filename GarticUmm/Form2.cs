@@ -15,6 +15,8 @@ namespace GarticUmm
         int y = -1;
         bool moving = false;
         Pen pen;
+        Color color = Color.Black;// 펜 색 저장하는 변수 색깔 바꿀 때 이거 써주세요@@@@@
+        int pen_thick = 5; // 펜굵기 저장하는 변수
         private DrawLineHistroy history = new DrawLineHistroy();
 
         private void AddDrawingHistory(Pen pen, Point pointFrom, Point pointDest)
@@ -32,7 +34,11 @@ namespace GarticUmm
             InitializeComponent();
             g = panel.CreateGraphics();
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-            pen = new Pen(Color.Black, 5);
+            
+            // 그림판 초기 상태: 펜굵기 제일 얇음, 펜 색상 검정, 얇은 펜, 검은색 버튼 눌린 상태
+            pen = new Pen(color, pen_thick);
+            this.thinbtn.Pushed = true;
+            this.blackbtn.Pushed = true;
 
             // For develop - Woong
             openFileDialog1.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
@@ -104,6 +110,55 @@ namespace GarticUmm
                 sw.Close();
                 stream.Close();
             }
+        }
+
+        private void toolBar2_ButtonClick(object sender, ToolBarButtonClickEventArgs e)
+        {
+            if (e.Button == thinbtn)
+            {
+                this.thinbtn.Pushed = true;
+                this.middlebtn.Pushed = false;
+                this.thickbtn.Pushed = false;
+                pen_thick = 5;
+                pen = new Pen(color, pen_thick);
+            }
+            if (e.Button == middlebtn)
+            {
+                this.thinbtn.Pushed = false;
+                this.middlebtn.Pushed = true;
+                this.thickbtn.Pushed = false;
+                pen_thick = 10;
+                pen = new Pen(color, pen_thick);
+            }
+            if (e.Button == thickbtn)
+            {
+                this.thinbtn.Pushed = false;
+                this.middlebtn.Pushed = false;
+                this.thickbtn.Pushed = true;
+                pen_thick = 30;
+                pen = new Pen(color, pen_thick);
+            }
+            if(e.Button == eraserbtn)
+            {
+                Set_initial();
+                panel.Refresh();
+            }
+
+        }
+        private void Set_initial()
+        {
+            this.thinbtn.Pushed = true;
+            this.middlebtn.Pushed = false;
+            this.thickbtn.Pushed = false;
+            this.redbtn.Pushed = false;
+            this.yellowbtn.Pushed = false;
+            this.greenbtn.Pushed = false;
+            this.bluebtn.Pushed = false;
+            this.purplebtn.Pushed = false;
+            this.blackbtn.Pushed = true;
+            pen_thick = 5;
+            color = Color.Black;
+            pen = new Pen(color, pen_thick);
         }
     }
 }

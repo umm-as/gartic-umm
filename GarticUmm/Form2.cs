@@ -3,84 +3,27 @@ using System.Drawing;
 using System.Windows.Forms;
 using MetroFramework.Forms;
 using System.IO;
-using System.Net;
 
 
 namespace GarticUmm
 {
     public partial class GUGameForm : MetroForm
     {
-        private void GUGameForm_Load(object sender, EventArgs e)
-        {
-            UpdateCountdown();//타이머설정 및 타이머 따라 상태 변화
-        }
-        
-        private void UpdateCountdown()
-        {
-            int count = 10;//최초 실행시 그림 확인 시간 10초로 초기화
-            int[] times = { 10, 3, 30 };//한 천에 사용되는 시간들, 최초 확인시간 10초, 그릴 준비 3초, 그리는 시간 30초
-            int index = 0;
-            Timer timer = new Timer();
-            timer.Interval = 1000;//1초마다 실행
-            timer.Tick += (s, e) =>
-            {
-                count--;//카운트 다운 시작
-                if(count <0)
-                {
-                    index++; //최초 10초가 다 지나면 배열 인덱스 증가
-                    if(index >= times.Length)//턴이 모두 실행 됐을 때
-                    {
-                        timer.Stop(); //타이머 동작 중지 후 턴 종료 메세지 박스
-                        MessageBox.Show("Turn End");
-                        return;
-                    }
-                    switch(index)
-                    {
-                        case 0://최초 상태
-                            LabelStatus.Text = " ";
-                            break;
-                        case 1://준비 단계
-                            LabelStatus.Text = "Ready...";
-                            break;
-                        case 2://그리는 단계
-                            LabelStatus.Text = "Drawing...";
-                            break;
-                    }
-                    count = times[index];//다음 시간 대입
-                }
-                LabelTimer.Text = count.ToString();  
-                
-            };
-            timer.Start();
-        }
-                
         Graphics g;
         int x = -1;
         int y = -1;
         bool moving = false;
         Pen pen;
-        Color color = Color.Black;// 펜 색 저장하는 변수 색깔 바꿀 때 이거 써주세요@@@@@
-        int pen_thick = 5; // 펜굵기 저장하는 변수
         private DrawLineHistroy history = new DrawLineHistroy();
-
-        private void AddDrawingHistory(Pen pen, Point pointFrom, Point pointDest)
-        {
-            history.addHistory(pen, pointFrom, pointDest);
-        }
-
-        private void ClearDrawingHistory()
-        {
-            history.clearHistory();
-        }
 
         public GUGameForm()
         {
             InitializeComponent();
             g = panel.CreateGraphics();
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-            
+
             // 그림판 초기 상태: 펜굵기 제일 얇음, 펜 색상 검정, 얇은 펜, 검은색 버튼 눌린 상태
-            pen = new Pen(color, pen_thick);
+            pen = new Pen(Color.Black, 5);
             this.thinbtn.Pushed = true;
             this.blackbtn.Pushed = true;
 
@@ -90,6 +33,62 @@ namespace GarticUmm
             openFileDialog1.Filter = "Text (*.txt)|*.txt";
             saveFileDialog1.Filter = "Text (*.txt)|*.txt";
             saveFileDialog1.FileName = "*.txt";
+        }
+
+        private void GUGameForm_Load(object sender, EventArgs e)
+        {
+            UpdateCountdown(); // 타이머설정 및 타이머 따라 상태 변화
+        }
+        
+        private void UpdateCountdown()
+        {
+            int count = 10; // 최초 실행시 그림 확인 시간 10초로 초기화
+            int[] times = { 10, 3, 30 }; // 한 천에 사용되는 시간들, 최초 확인시간 10초, 그릴 준비 3초, 그리는 시간 30초
+            int index = 0;
+            Timer timer = new Timer();
+            timer.Interval = 1000; // 1초마다 실행
+            timer.Tick += (s, e) =>
+            {
+                count--; // 카운트 다운 시작
+                if (count < 0)
+                {
+                    index++; // 최초 10초가 다 지나면 배열 인덱스 증가
+                    if (index >= times.Length) // 턴이 모두 실행 됐을 때
+                    {
+                        timer.Stop(); // 타이머 동작 중지 후 턴 종료 메세지 박스
+                        MessageBox.Show("Turn End");
+                        return;
+                    }
+
+                    switch(index)
+                    {
+                        case 0: // 최초 상태
+                            LabelStatus.Text = " ";
+                            break;
+                        case 1: // 준비 단계
+                            LabelStatus.Text = "Ready...";
+                            break;
+                        case 2: // 그리는 단계
+                            LabelStatus.Text = "Drawing...";
+                            break;
+                    }
+
+                    count = times[index]; // 다음 시간 대입
+                }
+
+                LabelTimer.Text = count.ToString();
+            };
+            timer.Start();
+        }
+
+        private void AddDrawingHistory(Pen pen, Point pointFrom, Point pointDest)
+        {
+            history.addHistory(pen, pointFrom, pointDest);
+        }
+
+        private void ClearDrawingHistory()
+        {
+            history.clearHistory();
         }
 
         private void panel_MouseDown(object sender, MouseEventArgs e)
@@ -163,29 +162,30 @@ namespace GarticUmm
                 this.thinbtn.Pushed = true;
                 this.middlebtn.Pushed = false;
                 this.thickbtn.Pushed = false;
-                pen_thick = 5;
-                pen = new Pen(color, pen_thick);
+
+                pen.Width = 5;
             }
             if (e.Button == middlebtn)
             {
                 this.thinbtn.Pushed = false;
                 this.middlebtn.Pushed = true;
                 this.thickbtn.Pushed = false;
-                pen_thick = 10;
-                pen = new Pen(color, pen_thick);
+
+                pen.Width = 10;
             }
             if (e.Button == thickbtn)
             {
                 this.thinbtn.Pushed = false;
                 this.middlebtn.Pushed = false;
                 this.thickbtn.Pushed = true;
-                pen_thick = 30;
-                pen = new Pen(color, pen_thick);
+
+                pen.Width = 30;
             }
             if(e.Button == eraserbtn)
             {
                 Set_initial();
                 panel.Refresh();
+                ClearDrawingHistory();
             }
             
             if (e.Button == redbtn)
@@ -267,9 +267,9 @@ namespace GarticUmm
             this.bluebtn.Pushed = false;
             this.purplebtn.Pushed = false;
             this.blackbtn.Pushed = true;
-            pen_thick = 5;
-            color = Color.Black;
-            pen = new Pen(color, pen_thick);
+
+            pen.Width = 5;
+            pen.Color = Color.Black;
         }
     }
 }

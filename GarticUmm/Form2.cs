@@ -205,6 +205,7 @@ namespace GarticUmm
                 this.yellowbtn.Pushed = false;
                 this.purplebtn.Pushed = false;
                 this.blackbtn.Pushed = false;
+                this.whitebtn.Pushed = false;
 
                 pen.Color = Color.Red;
             }
@@ -216,6 +217,7 @@ namespace GarticUmm
                 this.yellowbtn.Pushed = true;
                 this.purplebtn.Pushed = false;
                 this.blackbtn.Pushed = false;
+                this.whitebtn.Pushed = false;
 
                 pen.Color = Color.Yellow;
             }
@@ -227,6 +229,7 @@ namespace GarticUmm
                 this.yellowbtn.Pushed = false;
                 this.purplebtn.Pushed = false;
                 this.blackbtn.Pushed = false;
+                this.whitebtn.Pushed = false;
 
                 pen.Color = Color.Green;
             }
@@ -238,6 +241,7 @@ namespace GarticUmm
                 this.yellowbtn.Pushed = false;
                 this.purplebtn.Pushed = false;
                 this.blackbtn.Pushed = false;
+                this.whitebtn.Pushed = false;
 
                 pen.Color = Color.Blue;
             }
@@ -249,6 +253,7 @@ namespace GarticUmm
                 this.yellowbtn.Pushed = false;
                 this.purplebtn.Pushed = true;
                 this.blackbtn.Pushed = false;
+                this.whitebtn.Pushed = false;
 
                 pen.Color = Color.Purple;
             }
@@ -260,10 +265,23 @@ namespace GarticUmm
                 this.yellowbtn.Pushed = false;
                 this.purplebtn.Pushed = false;
                 this.blackbtn.Pushed = true;
+                this.whitebtn.Pushed = false;
 
                 pen.Color = Color.Black;
             }
+            else if (e.Button == whitebtn)
+            {
+                this.redbtn.Pushed = false;
+                this.greenbtn.Pushed = false;
+                this.bluebtn.Pushed = false;
+                this.yellowbtn.Pushed = false;
+                this.purplebtn.Pushed = false;
+                this.blackbtn.Pushed = false;
+                this.whitebtn.Pushed = true;
 
+                pen.Color = Color.White;
+            }
+            
             brush.Color = pen.Color;
         }
             
@@ -278,6 +296,7 @@ namespace GarticUmm
             this.bluebtn.Pushed = false;
             this.purplebtn.Pushed = false;
             this.blackbtn.Pushed = true;
+            this.whitebtn.Pushed = false;
 
             pen.Width = 5;
             pen.Color = Color.Black;

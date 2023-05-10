@@ -56,6 +56,7 @@ namespace GarticUmm
             this.menuSave = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.whitebtn = new System.Windows.Forms.ToolBarButton();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -109,6 +110,7 @@ namespace GarticUmm
             this.bluebtn,
             this.purplebtn,
             this.blackbtn,
+            this.whitebtn,
             this.eraserbtn});
             this.toolBar2.DropDownArrows = true;
             this.toolBar2.ImageList = this.imageList1;
@@ -184,6 +186,7 @@ namespace GarticUmm
             this.imageList1.Images.SetKeyName(7, "btn_purple.png");
             this.imageList1.Images.SetKeyName(8, "btn_black.png");
             this.imageList1.Images.SetKeyName(9, "btn_eraser.png");
+            this.imageList1.Images.SetKeyName(10, "btn_white.png");
             // 
             // LabelStatus
             // 
@@ -287,32 +290,38 @@ namespace GarticUmm
             // timer1
             // 
             this.timer1.Interval = 1000;
-            //
+            // 
             // contextMenuStrip1
             // 
+            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuOpen,
             this.menuSave});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(102, 48);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(114, 52);
             // 
             // menuOpen
             // 
             this.menuOpen.Name = "menuOpen";
-            this.menuOpen.Size = new System.Drawing.Size(180, 22);
+            this.menuOpen.Size = new System.Drawing.Size(113, 24);
             this.menuOpen.Text = "open";
             this.menuOpen.Click += new System.EventHandler(this.menuOpen_Click);
             // 
             // menuSave
             // 
             this.menuSave.Name = "menuSave";
-            this.menuSave.Size = new System.Drawing.Size(180, 22);
+            this.menuSave.Size = new System.Drawing.Size(113, 24);
             this.menuSave.Text = "save";
             this.menuSave.Click += new System.EventHandler(this.menuSave_Click);
             // 
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // whitebtn
+            // 
+            this.whitebtn.ImageIndex = 10;
+            this.whitebtn.Name = "whitebtn";
             // 
             // GUGameForm
             // 
@@ -365,5 +374,6 @@ namespace GarticUmm
         private System.Windows.Forms.ToolStripMenuItem menuSave;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.ToolBarButton whitebtn;
     }
 }

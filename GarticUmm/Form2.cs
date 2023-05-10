@@ -14,6 +14,7 @@ namespace GarticUmm
         int y = -1;
         bool moving = false;
         Pen pen;
+        SolidBrush brush;
         private DrawLineHistroy history = new DrawLineHistroy();
 
         public GUGameForm()
@@ -24,6 +25,7 @@ namespace GarticUmm
 
             // 그림판 초기 상태: 펜굵기 제일 얇음, 펜 색상 검정, 얇은 펜, 검은색 버튼 눌린 상태
             pen = new Pen(Color.Black, 5);
+            brush = new SolidBrush(Color.Black);
             this.thinbtn.Pushed = true;
             this.blackbtn.Pushed = true;
 
@@ -104,6 +106,7 @@ namespace GarticUmm
             {
                 AddDrawingHistory(pen, new Point(x, y), e.Location);
                 g.DrawLine(pen, new Point(x, y), e.Location);
+                g.FillEllipse(brush, x - (float)pen.Width / 2f, y - (float)pen.Width / 2f, (float)pen.Width, (float)pen.Width);
                 x = e.X;
                 y = e.Y;
             }
@@ -132,10 +135,15 @@ namespace GarticUmm
                 // deserialize drawing history
                 history.loadHistory(DrawLineHistroy.toList(csv));
                 // drawing
+                Pen penHistory = new Pen(Color.Black, 1);
+                SolidBrush brushHistory = new SolidBrush(Color.Black);
                 foreach (var line in history.getHistory())
                 {
-                    Pen penHistory = new Pen(line.getColor(), line.getWidth());
+                    penHistory.Color = line.getColor();
+                    penHistory.Width = line.getWidth();
+                    brushHistory.Color = line.getColor();
                     g.DrawLine(penHistory, new Point(line.FromX, line.FromY), new Point(line.DestX, line.DestY));
+                    g.FillEllipse(brushHistory, line.FromX - (float)penHistory.Width / 2f, line.FromY - (float)penHistory.Width / 2f, (float)penHistory.Width, (float)penHistory.Width);
                 }
             }
         }
@@ -165,7 +173,7 @@ namespace GarticUmm
 
                 pen.Width = 5;
             }
-            if (e.Button == middlebtn)
+            else if (e.Button == middlebtn)
             {
                 this.thinbtn.Pushed = false;
                 this.middlebtn.Pushed = true;
@@ -173,7 +181,7 @@ namespace GarticUmm
 
                 pen.Width = 10;
             }
-            if (e.Button == thickbtn)
+            else if (e.Button == thickbtn)
             {
                 this.thinbtn.Pushed = false;
                 this.middlebtn.Pushed = false;
@@ -181,14 +189,15 @@ namespace GarticUmm
 
                 pen.Width = 30;
             }
-            if(e.Button == eraserbtn)
+
+            else if(e.Button == eraserbtn)
             {
                 Set_initial();
                 panel.Refresh();
                 ClearDrawingHistory();
             }
             
-            if (e.Button == redbtn)
+            else if (e.Button == redbtn)
             {
                 this.redbtn.Pushed = true;
                 this.greenbtn.Pushed = false;
@@ -196,6 +205,7 @@ namespace GarticUmm
                 this.yellowbtn.Pushed = false;
                 this.purplebtn.Pushed = false;
                 this.blackbtn.Pushed = false;
+                this.whitebtn.Pushed = false;
 
                 pen.Color = Color.Red;
             }
@@ -207,6 +217,7 @@ namespace GarticUmm
                 this.yellowbtn.Pushed = true;
                 this.purplebtn.Pushed = false;
                 this.blackbtn.Pushed = false;
+                this.whitebtn.Pushed = false;
 
                 pen.Color = Color.Yellow;
             }
@@ -218,6 +229,7 @@ namespace GarticUmm
                 this.yellowbtn.Pushed = false;
                 this.purplebtn.Pushed = false;
                 this.blackbtn.Pushed = false;
+                this.whitebtn.Pushed = false;
 
                 pen.Color = Color.Green;
             }
@@ -229,6 +241,7 @@ namespace GarticUmm
                 this.yellowbtn.Pushed = false;
                 this.purplebtn.Pushed = false;
                 this.blackbtn.Pushed = false;
+                this.whitebtn.Pushed = false;
 
                 pen.Color = Color.Blue;
             }
@@ -240,6 +253,7 @@ namespace GarticUmm
                 this.yellowbtn.Pushed = false;
                 this.purplebtn.Pushed = true;
                 this.blackbtn.Pushed = false;
+                this.whitebtn.Pushed = false;
 
                 pen.Color = Color.Purple;
             }
@@ -251,9 +265,24 @@ namespace GarticUmm
                 this.yellowbtn.Pushed = false;
                 this.purplebtn.Pushed = false;
                 this.blackbtn.Pushed = true;
+                this.whitebtn.Pushed = false;
 
                 pen.Color = Color.Black;
             }
+            else if (e.Button == whitebtn)
+            {
+                this.redbtn.Pushed = false;
+                this.greenbtn.Pushed = false;
+                this.bluebtn.Pushed = false;
+                this.yellowbtn.Pushed = false;
+                this.purplebtn.Pushed = false;
+                this.blackbtn.Pushed = false;
+                this.whitebtn.Pushed = true;
+
+                pen.Color = Color.White;
+            }
+            
+            brush.Color = pen.Color;
         }
             
         private void Set_initial()
@@ -267,9 +296,11 @@ namespace GarticUmm
             this.bluebtn.Pushed = false;
             this.purplebtn.Pushed = false;
             this.blackbtn.Pushed = true;
+            this.whitebtn.Pushed = false;
 
             pen.Width = 5;
             pen.Color = Color.Black;
+            brush.Color = Color.Black;
         }
     }
 }

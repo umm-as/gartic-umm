@@ -12,6 +12,7 @@ namespace GarticUmm
         Graphics g;
         int x = -1;
         int y = -1;
+        int flag = 0;
         bool moving = false;
         Pen pen;
         SolidBrush brush;
@@ -135,16 +136,7 @@ namespace GarticUmm
                 // deserialize drawing history
                 history.loadHistory(DrawLineHistroy.toList(csv));
                 // drawing
-                Pen penHistory = new Pen(Color.Black, 1);
-                SolidBrush brushHistory = new SolidBrush(Color.Black);
-                foreach (var line in history.getHistory())
-                {
-                    penHistory.Color = line.getColor();
-                    penHistory.Width = line.getWidth();
-                    brushHistory.Color = line.getColor();
-                    g.DrawLine(penHistory, new Point(line.FromX, line.FromY), new Point(line.DestX, line.DestY));
-                    g.FillEllipse(brushHistory, line.FromX - (float)penHistory.Width / 2f, line.FromY - (float)penHistory.Width / 2f, (float)penHistory.Width, (float)penHistory.Width);
-                }
+                drawFromHistory();
             }
         }
         // For develop - Woong
@@ -160,6 +152,20 @@ namespace GarticUmm
                 sw.Write(csv);
                 sw.Close();
                 stream.Close();
+            }
+        }
+
+        private void drawFromHistory()
+        {
+            Pen penHistory = new Pen(Color.Black, 1);
+            SolidBrush brushHistory = new SolidBrush(Color.Black);
+            foreach (var line in history.getHistory())
+            {
+                penHistory.Color = line.getColor();
+                penHistory.Width = line.getWidth();
+                brushHistory.Color = line.getColor();
+                g.DrawLine(penHistory, new Point(line.FromX, line.FromY), new Point(line.DestX, line.DestY));
+                g.FillEllipse(brushHistory, line.FromX - (float)penHistory.Width / 2f, line.FromY - (float)penHistory.Width / 2f, (float)penHistory.Width, (float)penHistory.Width);
             }
         }
 
@@ -193,8 +199,10 @@ namespace GarticUmm
             else if(e.Button == eraserbtn)
             {
                 Set_initial();
+                flag = 1;
                 panel.Refresh();
                 ClearDrawingHistory();
+                
             }
             
             else if (e.Button == redbtn)
@@ -301,6 +309,17 @@ namespace GarticUmm
             pen.Width = 5;
             pen.Color = Color.Black;
             brush.Color = Color.Black;
+        }
+
+        private void panel_Paint(object sender, PaintEventArgs e)
+        {
+            if (flag != 0)
+            {
+                flag = 0;
+                return;
+            };
+
+            drawFromHistory();
         }
     }
 }

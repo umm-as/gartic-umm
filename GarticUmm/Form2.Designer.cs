@@ -42,6 +42,7 @@ namespace GarticUmm
             this.bluebtn = new System.Windows.Forms.ToolBarButton();
             this.purplebtn = new System.Windows.Forms.ToolBarButton();
             this.blackbtn = new System.Windows.Forms.ToolBarButton();
+            this.whitebtn = new System.Windows.Forms.ToolBarButton();
             this.eraserbtn = new System.Windows.Forms.ToolBarButton();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.LabelStatus = new MetroFramework.Controls.MetroLabel();
@@ -56,7 +57,6 @@ namespace GarticUmm
             this.menuSave = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.whitebtn = new System.Windows.Forms.ToolBarButton();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -94,6 +94,7 @@ namespace GarticUmm
             this.panel.Name = "panel";
             this.panel.Size = new System.Drawing.Size(696, 538);
             this.panel.TabIndex = 1;
+            this.panel.Paint += new System.Windows.Forms.PaintEventHandler(this.panel_Paint);
             this.panel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel_MouseDown);
             this.panel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panel_MouseMove);
             this.panel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panel_MouseUp);
@@ -166,6 +167,11 @@ namespace GarticUmm
             this.blackbtn.ImageIndex = 8;
             this.blackbtn.Name = "blackbtn";
             // 
+            // whitebtn
+            // 
+            this.whitebtn.ImageIndex = 10;
+            this.whitebtn.Name = "whitebtn";
+            // 
             // eraserbtn
             // 
             this.eraserbtn.ImageIndex = 9;
@@ -193,7 +199,7 @@ namespace GarticUmm
             this.LabelStatus.AutoSize = true;
             this.LabelStatus.Location = new System.Drawing.Point(17, 33);
             this.LabelStatus.Name = "LabelStatus";
-            this.LabelStatus.Size = new System.Drawing.Size(119, 20);
+            this.LabelStatus.Size = new System.Drawing.Size(110, 19);
             this.LabelStatus.TabIndex = 3;
             this.LabelStatus.Text = "Check the picture";
             // 
@@ -202,7 +208,7 @@ namespace GarticUmm
             this.LabelTimer.AutoSize = true;
             this.LabelTimer.Location = new System.Drawing.Point(231, 33);
             this.LabelTimer.Name = "LabelTimer";
-            this.LabelTimer.Size = new System.Drawing.Size(22, 20);
+            this.LabelTimer.Size = new System.Drawing.Size(21, 19);
             this.LabelTimer.TabIndex = 0;
             this.LabelTimer.Text = "10";
             // 
@@ -298,30 +304,25 @@ namespace GarticUmm
             this.menuOpen,
             this.menuSave});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(114, 52);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(127, 68);
             // 
             // menuOpen
             // 
             this.menuOpen.Name = "menuOpen";
-            this.menuOpen.Size = new System.Drawing.Size(113, 24);
+            this.menuOpen.Size = new System.Drawing.Size(126, 32);
             this.menuOpen.Text = "open";
             this.menuOpen.Click += new System.EventHandler(this.menuOpen_Click);
             // 
             // menuSave
             // 
             this.menuSave.Name = "menuSave";
-            this.menuSave.Size = new System.Drawing.Size(113, 24);
+            this.menuSave.Size = new System.Drawing.Size(126, 32);
             this.menuSave.Text = "save";
             this.menuSave.Click += new System.EventHandler(this.menuSave_Click);
             // 
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
-            // 
-            // whitebtn
-            // 
-            this.whitebtn.ImageIndex = 10;
-            this.whitebtn.Name = "whitebtn";
             // 
             // GUGameForm
             // 

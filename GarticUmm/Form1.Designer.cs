@@ -76,7 +76,7 @@
             this.Controls.Add(this.btnCreateServer);
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "GULoginForm";
-            this.Padding = new System.Windows.Forms.Padding(18, 50, 18, 15);
+            this.Padding = new System.Windows.Forms.Padding(18, 60, 18, 15);
             this.Resizable = false;
             this.ResumeLayout(false);
             this.PerformLayout();

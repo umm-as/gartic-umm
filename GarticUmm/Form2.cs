@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using MetroFramework.Forms;
 using System.IO;
-
+using System.Collections.Generic;
 
 namespace GarticUmm
 {
@@ -37,6 +37,7 @@ namespace GarticUmm
             saveFileDialog1.Filter = "Text (*.txt)|*.txt";
             saveFileDialog1.FileName = "*.txt";
         }
+        
 
         private void GUGameForm_Load(object sender, EventArgs e)
         {
@@ -321,5 +322,22 @@ namespace GarticUmm
 
             drawFromHistory();
         }
+
+        //제시어 입력창 생성 및 저장(임시)
+        private List<string> words;//WordForm에서 입력받은 제시어 저장할 리스트
+        private void btnWord_Click(object sender, EventArgs e)
+        {
+            GUWordForm wordForm = new GUWordForm();
+            wordForm.DataPass += new GUWordForm.DataPassEventHandler(ReciveWord);
+            wordForm.ShowDialog();
+        }
+        public void ReciveWord(string data)//WordForm에서 받아온 제시어 저장 및 출력
+        {
+            words = new List<string>();
+            words.Add(data);
+            Testlabel.Text = data;
+        }
+
+       
     }
 }

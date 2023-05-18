@@ -22,11 +22,6 @@ namespace GarticUmm
             clientSocket = new TcpClient();
         }
 
-        ~SocketClient()
-        {
-            recieveThread.Abort();
-        }
-
         public delegate void ReceivedHandler(string res);
         public event ReceivedHandler OnReceived;
 
@@ -34,7 +29,6 @@ namespace GarticUmm
         {
             try
             {
-                Console.WriteLine("Connection requrest");
                 clientSocket.Connect(Constant.LOCALHOST, Constant.PORT);
 
                 recieveThread = new Thread(RecieveMessage);
@@ -43,10 +37,17 @@ namespace GarticUmm
 
                 isConnected = true;
             }
-            catch (Exception ex)
+            catch
             {
-                Trace.WriteLine(ex);
+                // 서버가 개방되지 않았는데 접속할 경우
+                Console.WriteLine("-- Connect Exception --");
             }
+        }
+
+        public void Disconnect()
+        {
+            isConnected = false;
+            clientSocket.Close();
         }
 
         private void RecieveMessage()
@@ -56,9 +57,21 @@ namespace GarticUmm
 
             while(isConnected)
             {
-                string res = reader.ReadLine();
-                OnReceived(res);
+                try
+                {
+                    string res = reader.ReadLine();
+
+                    if (!isConnected) break;
+
+                    OnReceived(res);
+                }
+                catch
+                {
+                    Console.WriteLine("-- Recieve Message Exception --");
+                }
             }
+
+            Console.WriteLine("Client Receive Message thread is terminated");
         }
 
         public void SendMessage(string message)

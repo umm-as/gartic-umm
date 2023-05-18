@@ -19,7 +19,6 @@ namespace GarticUmm
 
         public bool isRunning = false;
         private TcpListener server;
-        private TcpClient client;
 
         private List<HandleClient> clients = new List<HandleClient>();
         public int connectionCount = 0;
@@ -29,12 +28,8 @@ namespace GarticUmm
             serverThread = new Thread(ServerStart);
             serverThread.IsBackground = true;
             serverThread.Start();
-        }
 
-        ~SocketServer()
-        {
-            serverThread.Abort();
-            ServerStop();
+            Console.WriteLine("Server is running");
         }
 
         // Run on thread
@@ -51,26 +46,40 @@ namespace GarticUmm
                 {
                     try
                     {
-                        client = server.AcceptTcpClient();
-                        Console.WriteLine("Connection accepted");
+                        TcpClient client = server.AcceptTcpClient();
                         connectionCount++;
 
                         HandleClient h_client = new HandleClient();
                         h_client.OnReceived += onReceiveHandler;
                         h_client.OnDisconnect += onDisconnectHandler;
-                        h_client.startClient(client, connectionCount);
+                        h_client.StartClient(client, connectionCount);
                         clients.Add(h_client);
+
+                        Console.WriteLine(h_client.ID + " Player had been joined.");
                     }
-                    catch (Exception ex)
+                    catch 
                     {
-                        Trace.WriteLine(ex);
+                        Console.WriteLine("-- TCP Accept Exception --");
                     }
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                Trace.WriteLine(ex);
+                Console.WriteLine("-- Server Start Exception --");
             }
+
+            Console.WriteLine("Server thread is terminated");
+        }
+
+        public void ServerStop()
+        {
+            foreach(var client in clients)
+            {
+                client.StopClient();
+            }
+
+            isRunning = false;
+            server.Stop();
         }
 
         private void onReceiveHandler(ResClass res)
@@ -82,9 +91,9 @@ namespace GarticUmm
                     client.StreamWriter.WriteLine(res.Message);
                     client.StreamWriter.Flush();
                 }
-                catch (Exception ex)
+                catch
                 {
-                    Trace.WriteLine(ex);
+                    Console.WriteLine("-- onReceive Handler Exception --");
                 }
             }
         }
@@ -92,40 +101,38 @@ namespace GarticUmm
         private void onDisconnectHandler(HandleClient target)
         {
             clients.Remove(target);
-        }
+            target.StopClient();
 
-        private void ServerStop()
-        {
-            if (server != null)
-            {
-                server.Stop();
-                server = null;
-            }
-
-            if (client != null)
-            {
-                client.Close();
-                client = null;
-            }
+            Console.WriteLine(target.ID + " Player had been left.");
+            target = null;
         }
     }
 
     class HandleClient
     {
+        private Thread clientThread;
         private TcpClient clientSocket;
         private int clientID;
+        private bool isConnected;
 
         private NetworkStream stream;
         private StreamReader reader;
         private StreamWriter writer;
 
-        public void startClient(TcpClient clientSocket, int clientID) { 
+        public void StartClient(TcpClient clientSocket, int clientID) { 
             this.clientSocket = clientSocket;
             this.clientID = clientID;
 
-            Thread t_handler = new Thread(clientThread);
-            t_handler.IsBackground = true;
-            t_handler.Start();
+            isConnected = true;
+            clientThread = new Thread(ClientThreadHandler);
+            clientThread.IsBackground = true;
+            clientThread.Start();
+        }
+
+        public void StopClient()
+        {
+            isConnected = false;
+            clientSocket?.Close();
         }
 
         public delegate void ReceivedHandler(ResClass res);
@@ -134,7 +141,7 @@ namespace GarticUmm
         public delegate void DisconnectHandler(HandleClient target);
         public event DisconnectHandler OnDisconnect;
 
-        private void clientThread()
+        private void ClientThreadHandler()
         {
             try
             {
@@ -146,10 +153,10 @@ namespace GarticUmm
                 while (true)
                 {
                     string str = reader.ReadLine();
-                    Console.WriteLine("[IN] {0}: {1}", clientID, str);
 
-                    //writer.WriteLine(str);
-                    //writer.Flush();
+                    if (!isConnected) break;
+
+                    Console.WriteLine("[IN] {0}: {1}", clientID, str);
 
                     if (OnReceived != null)
                     {
@@ -157,28 +164,23 @@ namespace GarticUmm
                     }
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                Trace.WriteLine(ex);
-
-                if (clientSocket != null)
-                {
-                    clientSocket.Close();
-                    reader.Close();
-                    writer.Close();
-                    stream.Close();
-                }
-
-                if (OnDisconnect != null)
-                {
-                    OnDisconnect(this);
-                }
+                Console.WriteLine("-- Client Thread Handler Exception --");
             }
+
+            OnDisconnect(this);
+            Console.WriteLine("Client handler thread is terminated");
         }
 
         public StreamWriter StreamWriter
         {
             get { return this.writer; }
+        }
+
+        public int ID
+        {
+            get { return this.clientID; }
         }
     }
 }

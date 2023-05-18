@@ -19,10 +19,11 @@ namespace GarticUmm
         SolidBrush brush;
         private DrawLineHistroy history = new DrawLineHistroy();
 
+        bool isServer;
         SocketServer socketServer;
         SocketClient socketClient;
 
-        public GUGameForm()
+        public GUGameForm(bool isServer)
         {
             InitializeComponent();
             g = panel.CreateGraphics();
@@ -42,7 +43,12 @@ namespace GarticUmm
             saveFileDialog1.FileName = "*.txt";
 
             // For develop TCP - Woong
-            socketServer = new SocketServer();
+            this.isServer = isServer;
+
+            if (isServer)
+            {
+                socketServer = new SocketServer();
+            }
 
             socketClient = new SocketClient();
             socketClient.OnReceived += GetResponseHandler;
@@ -53,7 +59,13 @@ namespace GarticUmm
         {
             UpdateCountdown(); // 타이머설정 및 타이머 따라 상태 변화
         }
-        
+
+        private void GUGameForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            socketClient?.Disconnect();
+            socketServer?.ServerStop();
+        }
+
         private void UpdateCountdown()
         {
             int count = 10; // 최초 실행시 그림 확인 시간 10초로 초기화

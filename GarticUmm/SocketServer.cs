@@ -15,19 +15,30 @@ namespace GarticUmm
 {
     internal class SocketServer
     {
-        public NetworkStream stream;
-        public StreamReader reader;
-        public StreamWriter writer;
-        private Thread resThread;
+        private Thread serverThread;
 
         public bool isRunning = false;
         private TcpListener server;
         private TcpClient client;
 
+        private List<HandleClient> clients = new List<HandleClient>();
         public int connectionCount = 0;
 
+        public SocketServer()
+        {
+            serverThread = new Thread(ServerStart);
+            serverThread.IsBackground = true;
+            serverThread.Start();
+        }
+
+        ~SocketServer()
+        {
+            serverThread.Abort();
+            ServerStop();
+        }
+
         // Run on thread
-        public void ServerStart()
+        private void ServerStart()
         {
             try
             {
@@ -45,9 +56,10 @@ namespace GarticUmm
                         connectionCount++;
 
                         HandleClient h_client = new HandleClient();
-                        h_client.OnReceived += new HandleClient.ReceivedHandler(onReceiveHandler);
-                        h_client.OnDisconnect += new HandleClient.DisconnectHandler(onDisconnectHandler);
+                        h_client.OnReceived += onReceiveHandler;
+                        h_client.OnDisconnect += onDisconnectHandler;
                         h_client.startClient(client, connectionCount);
+                        clients.Add(h_client);
                     }
                     catch (Exception ex)
                     {
@@ -63,15 +75,26 @@ namespace GarticUmm
 
         private void onReceiveHandler(ResClass res)
         {
-            Console.WriteLine(res.Message);
+            foreach (var client in clients)
+            {
+                try
+                {
+                    client.StreamWriter.WriteLine(res.Message);
+                    client.StreamWriter.Flush();
+                }
+                catch (Exception ex)
+                {
+                    Trace.WriteLine(ex);
+                }
+            }
         }
 
-        private void onDisconnectHandler()
+        private void onDisconnectHandler(HandleClient target)
         {
-            connectionCount--;
+            clients.Remove(target);
         }
 
-        public void ServerStop()
+        private void ServerStop()
         {
             if (server != null)
             {
@@ -89,12 +112,12 @@ namespace GarticUmm
 
     class HandleClient
     {
-        TcpClient clientSocket;
-        int clientID;
+        private TcpClient clientSocket;
+        private int clientID;
 
-        NetworkStream stream;
-        StreamReader reader;
-        StreamWriter writer;
+        private NetworkStream stream;
+        private StreamReader reader;
+        private StreamWriter writer;
 
         public void startClient(TcpClient clientSocket, int clientID) { 
             this.clientSocket = clientSocket;
@@ -108,7 +131,7 @@ namespace GarticUmm
         public delegate void ReceivedHandler(ResClass res);
         public event ReceivedHandler OnReceived;
 
-        public delegate void DisconnectHandler();
+        public delegate void DisconnectHandler(HandleClient target);
         public event DisconnectHandler OnDisconnect;
 
         private void clientThread()
@@ -122,14 +145,11 @@ namespace GarticUmm
 
                 while (true)
                 {
-                    Console.WriteLine("1");
                     string str = reader.ReadLine();
                     Console.WriteLine("[IN] {0}: {1}", clientID, str);
 
-                    Console.WriteLine("2");
-
-                    writer.WriteLine(str);
-                    writer.Flush();
+                    //writer.WriteLine(str);
+                    //writer.Flush();
 
                     if (OnReceived != null)
                     {
@@ -151,9 +171,14 @@ namespace GarticUmm
 
                 if (OnDisconnect != null)
                 {
-                    OnDisconnect();
+                    OnDisconnect(this);
                 }
             }
+        }
+
+        public StreamWriter StreamWriter
+        {
+            get { return this.writer; }
         }
     }
 }

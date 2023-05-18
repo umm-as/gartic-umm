@@ -336,6 +336,7 @@ namespace GarticUmm
             this.Padding = new System.Windows.Forms.Padding(20, 63, 20, 21);
             this.Resizable = false;
             this.Text = "Gartic Umm";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.GUGameForm_FormClosed);
             this.Load += new System.EventHandler(this.GUGameForm_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();

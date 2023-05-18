@@ -220,6 +220,7 @@ namespace GarticUmm
             this.SendButton.TabIndex = 2;
             this.SendButton.Text = "Send";
             this.SendButton.UseSelectable = true;
+            this.SendButton.Click += new System.EventHandler(this.SendButton_Click);
             // 
             // MessageLog
             // 
@@ -304,19 +305,19 @@ namespace GarticUmm
             this.menuOpen,
             this.menuSave});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(127, 68);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(102, 48);
             // 
             // menuOpen
             // 
             this.menuOpen.Name = "menuOpen";
-            this.menuOpen.Size = new System.Drawing.Size(126, 32);
+            this.menuOpen.Size = new System.Drawing.Size(101, 22);
             this.menuOpen.Text = "open";
             this.menuOpen.Click += new System.EventHandler(this.menuOpen_Click);
             // 
             // menuSave
             // 
             this.menuSave.Name = "menuSave";
-            this.menuSave.Size = new System.Drawing.Size(126, 32);
+            this.menuSave.Size = new System.Drawing.Size(101, 22);
             this.menuSave.Text = "save";
             this.menuSave.Click += new System.EventHandler(this.menuSave_Click);
             // 

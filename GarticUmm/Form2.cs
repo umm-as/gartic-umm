@@ -3,7 +3,8 @@ using System.Drawing;
 using System.Windows.Forms;
 using MetroFramework.Forms;
 using System.IO;
-
+using SharedObject;
+using System.Threading;
 
 namespace GarticUmm
 {
@@ -17,6 +18,9 @@ namespace GarticUmm
         Pen pen;
         SolidBrush brush;
         private DrawLineHistroy history = new DrawLineHistroy();
+
+        SocketServer socketServer;
+        SocketClient socketClient;
 
         public GUGameForm()
         {
@@ -36,6 +40,15 @@ namespace GarticUmm
             openFileDialog1.Filter = "Text (*.txt)|*.txt";
             saveFileDialog1.Filter = "Text (*.txt)|*.txt";
             saveFileDialog1.FileName = "*.txt";
+
+            // For develop TCP - Woong
+            socketServer = new SocketServer();
+            Thread serverThread = new Thread(socketServer.ServerStart);
+            serverThread.IsBackground = true;
+            serverThread.Start();
+
+            socketClient = new SocketClient();
+            socketClient.Connect();
         }
 
         private void GUGameForm_Load(object sender, EventArgs e)
@@ -48,7 +61,7 @@ namespace GarticUmm
             int count = 10; // 최초 실행시 그림 확인 시간 10초로 초기화
             int[] times = { 10, 3, 30 }; // 한 천에 사용되는 시간들, 최초 확인시간 10초, 그릴 준비 3초, 그리는 시간 30초
             int index = 0;
-            Timer timer = new Timer();
+            System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
             timer.Interval = 1000; // 1초마다 실행
             timer.Tick += (s, e) =>
             {
@@ -320,6 +333,11 @@ namespace GarticUmm
             };
 
             drawFromHistory();
+        }
+
+        private void SendButton_Click(object sender, EventArgs e)
+        {
+            socketClient.SendMessage(MessageSend.Text);
         }
     }
 }

@@ -43,11 +43,9 @@ namespace GarticUmm
 
             // For develop TCP - Woong
             socketServer = new SocketServer();
-            Thread serverThread = new Thread(socketServer.ServerStart);
-            serverThread.IsBackground = true;
-            serverThread.Start();
 
             socketClient = new SocketClient();
+            socketClient.OnReceived += GetResponseHandler;
             socketClient.Connect();
         }
 
@@ -338,6 +336,21 @@ namespace GarticUmm
         private void SendButton_Click(object sender, EventArgs e)
         {
             socketClient.SendMessage(MessageSend.Text);
+        }
+
+        private void GetResponseHandler(string msg)
+        {
+            if (MessageLog.InvokeRequired)
+            {
+                MessageLog.BeginInvoke(new MethodInvoker(() =>
+                {
+                    MessageLog.Text = msg;
+                }));
+            }
+            else
+            {
+                MessageLog.Text = msg;
+            }
         }
     }
 }

@@ -18,7 +18,7 @@ namespace GarticUmm
         public NetworkStream stream;
         public StreamReader reader;
         public StreamWriter writer;
-        private Thread resThread;
+        private Thread serverThread;
 
         public bool isRunning = false;
         private TcpListener server;
@@ -26,8 +26,21 @@ namespace GarticUmm
 
         public int connectionCount = 0;
 
+        public SocketServer()
+        {
+            serverThread = new Thread(ServerStart);
+            serverThread.IsBackground = true;
+            serverThread.Start();
+        }
+
+        ~SocketServer()
+        {
+            serverThread.Abort();
+            ServerStop();
+        }
+
         // Run on thread
-        public void ServerStart()
+        private void ServerStart()
         {
             try
             {
@@ -45,8 +58,8 @@ namespace GarticUmm
                         connectionCount++;
 
                         HandleClient h_client = new HandleClient();
-                        h_client.OnReceived += new HandleClient.ReceivedHandler(onReceiveHandler);
-                        h_client.OnDisconnect += new HandleClient.DisconnectHandler(onDisconnectHandler);
+                        h_client.OnReceived += onReceiveHandler;
+                        h_client.OnDisconnect += onDisconnectHandler;
                         h_client.startClient(client, connectionCount);
                     }
                     catch (Exception ex)
@@ -71,7 +84,7 @@ namespace GarticUmm
             connectionCount--;
         }
 
-        public void ServerStop()
+        private void ServerStop()
         {
             if (server != null)
             {

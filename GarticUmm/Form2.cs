@@ -12,7 +12,6 @@ namespace GarticUmm
         Graphics g;
         int x = -1;
         int y = -1;
-        int flag = 0;
         bool moving = false;
         Pen pen;
         SolidBrush brush;
@@ -200,10 +199,8 @@ namespace GarticUmm
             else if(e.Button == eraserbtn)
             {
                 Set_initial();
-                flag = 1;
-                panel.Refresh();
                 ClearDrawingHistory();
-                
+                panel.Refresh();  
             }
             
             else if (e.Button == redbtn)
@@ -314,12 +311,6 @@ namespace GarticUmm
 
         private void panel_Paint(object sender, PaintEventArgs e)
         {
-            if (flag != 0)
-            {
-                flag = 0;
-                return;
-            };
-
             drawFromHistory();
         }
 

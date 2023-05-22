@@ -55,6 +55,7 @@ namespace GarticUmm
                         h_client.StartClient(client, connectionCount);
                         clients.Add(h_client);
 
+                        onReceiveHandler(new ResClass(1000, h_client.ID + " Player had been joined."));
                         Console.WriteLine(h_client.ID + " Player had been joined.");
                     }
                     catch 
@@ -103,6 +104,7 @@ namespace GarticUmm
             clients.Remove(target);
             target.StopClient();
 
+            onReceiveHandler(new ResClass(1000, target.ID+ "Player had been left."));
             Console.WriteLine(target.ID + " Player had been left.");
             target = null;
         }
@@ -160,7 +162,7 @@ namespace GarticUmm
 
                     if (OnReceived != null)
                     {
-                        OnReceived(new ResClass(1000, str));
+                        OnReceived(new ResClass(1000, clientID + " > "+ str));
                     }
                 }
             }

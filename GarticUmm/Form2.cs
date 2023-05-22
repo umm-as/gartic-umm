@@ -348,21 +348,34 @@ namespace GarticUmm
         private void SendButton_Click(object sender, EventArgs e)
         {
             socketClient.SendMessage(MessageSend.Text);
+            MessageSend.Clear();
+        }
+        private void MessageSend_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                socketClient.SendMessage(MessageSend.Text);
+                MessageSend.Clear();
+            }
         }
 
         private void GetResponseHandler(string msg)
         {
             if (MessageLog.InvokeRequired)
             {
-                MessageLog.BeginInvoke(new MethodInvoker(() =>
+                MessageLog.BeginInvoke(new MethodInvoker(delegate
                 {
-                    MessageLog.Text = msg;
+                    MessageLog.AppendText(Environment.NewLine + msg);
+                    MessageLog.ScrollToCaret();
                 }));
             }
             else
             {
-                MessageLog.Text = msg;
+                MessageLog.AppendText(Environment.NewLine  + msg);
+                MessageLog.ScrollToCaret();
             }
         }
+
+      
     }
 }

@@ -79,10 +79,9 @@ namespace GarticUmm
             if (!isConnected) return;
 
             NetworkStream stream = clientSocket.GetStream();
-            StreamWriter writer = new StreamWriter(stream, Constant.UTF8);
+            StreamWriter writer = new StreamWriter(stream, Constant.UTF8) { AutoFlush = true };
             
             writer.WriteLine(message);
-            writer.Flush();
         }
     }
 }

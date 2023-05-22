@@ -55,7 +55,7 @@ namespace GarticUmm
                         h_client.StartClient(client, connectionCount);
                         clients.Add(h_client);
 
-                        onReceiveHandler(new ResClass(1000, h_client.ID + " Player had been joined."));
+                        // Send message at HandleClient.ClientThreadHandler
                         Console.WriteLine(h_client.ID + " Player had been joined.");
                     }
                     catch 
@@ -74,9 +74,9 @@ namespace GarticUmm
 
         public void ServerStop()
         {
-            foreach(var client in clients)
+            for (int i = 0; i < clients.Count; i++)
             {
-                client.StopClient();
+                clients[i]?.StopClient();
             }
 
             isRunning = false;
@@ -90,7 +90,6 @@ namespace GarticUmm
                 try
                 {
                     client.StreamWriter.WriteLine(res.Message);
-                    client.StreamWriter.Flush();
                 }
                 catch
                 {
@@ -150,19 +149,22 @@ namespace GarticUmm
                 stream = clientSocket.GetStream();
 
                 reader = new StreamReader(stream, Constant.UTF8);
-                writer = new StreamWriter(stream, Constant.UTF8);
+                writer = new StreamWriter(stream, Constant.UTF8) { AutoFlush = true };
 
-                while (true)
+                OnReceived(new ResClass(1000, clientID + " Player had been joined."));
+
+                while (isConnected)
                 {
                     string str = reader.ReadLine();
-
-                    if (!isConnected) break;
-
                     Console.WriteLine("[IN] {0}: {1}", clientID, str);
+
+                    // 연결이 끊긴 경우에만 null값이 들어옴
+                    if (str == null) break;
 
                     if (OnReceived != null)
                     {
                         OnReceived(new ResClass(1000, clientID + " > "+ str));
+                        Console.WriteLine("[OUT] {0}: {1}", clientID, str);
                     }
                 }
             }

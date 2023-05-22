@@ -80,7 +80,7 @@ namespace GarticUmm
 
             NetworkStream stream = clientSocket.GetStream();
             StreamWriter writer = new StreamWriter(stream, Constant.UTF8);
-
+            
             writer.WriteLine(message);
             writer.Flush();
         }

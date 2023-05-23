@@ -3,75 +3,99 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UmmQueue;
 
 namespace UmmQueue
 {
-    internal class UmmQueue
+    class Node<T>
     {
-        class Node<T>
+        public T value;
+        public Node<T> next;
+        public Node(T value)
         {
-            public T value;
-            public Node<T> next;
-            public Node(T value)
-            {
-                this.value = value;
-                this.next = null;
-            }
+            this.value = value;
+            this.next = null;
+        }
+    }
+
+    class PersonQueue<T>
+    {
+        public Node<T> first;
+        public Node<T> last;
+
+        public PersonQueue()
+        {
+            this.first = null;
+            this.last = null;
         }
 
-        class personQueue<T>
+        public void enQueue(T person)
         {
-            public Node<T> first;
-            public Node<T> last;
-
-            public personQueue()
+            Node<T> newnode = new Node<T>(person);
+            if (last == null)
             {
-                this.first = null;
-                this.last = null;
+                first = newnode;
+                last = newnode;
             }
-
-            public void enQueue(T person)
+            else
             {
-                Node<T> newnode = new Node<T>(person);
-                if (last == null)
-                {
-                    first = newnode;
-                    last = newnode;
-                }
-                else
-                {
-                    last.next = newnode;
-                    last = newnode;
-                }
+                last.next = newnode;
+                last = newnode;
             }
+        }
+        public void deQueue()
+        {
+            if (first == null)
+                return;
+            first = first.next;
+            if (first == null)
+                last = null;
+            return;
+        }
+        public void pop(T index)
+        {
+            if (first == null)
+                return;
+            Node<T> previous = null;
+            Node<T> current = first;
 
-            public void deQueue(T index)
+            while (current != null)
             {
-                if (first == null)
-                    return;
-                Node<T> previous = null;
-                Node<T> current = first;
-                
-                while(current != null)
+                if (current.value.Equals(index))
                 {
-                    if (current.value.Equals(index))
+                    if (previous == null)
                     {
-                        if(previous == null)
-                        {
-                            first = current.next;
-                            if (first == null)
-                                last = null;
-                        }
-                        previous.next = current.next;
-                        if (current.next == null)
-                            last = previous;
-                        
+                        first = current.next;
+                        if (first == null)
+                            last = null;
                     }
-                    previous = current;
-                    current = current.next;
+                    previous.next = current.next;
+                    if (current.next == null)
+                        last = previous;
+
                 }
-                
+                previous = current;
+                current = current.next;
             }
+
         }
+
+        public T search(int idx)
+        {
+            idx--;
+            Node<T> current = first;
+            int currentIndex = 0;
+            while (current != null)
+            {
+                if (currentIndex == idx)
+                {
+                    return current.value;
+                }
+                current = current.next;
+                currentIndex++;
+            }
+            throw new IndexOutOfRangeException("Index is out of range");
+        }
+
     }
 }

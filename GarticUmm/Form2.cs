@@ -48,9 +48,24 @@ namespace GarticUmm
             if (isServer)
             {
                 socketServer = new SocketServer();
+                socketServer.OnRunFail += (string msg) =>
+                {
+                    GUGameForm_FormClosed(null, null);
+                    MessageBox.Show(msg);
+                    this.Invoke((MethodInvoker)(delegate ()
+                    {
+                        this.Close();
+                    }));
+                };
             }
 
             socketClient = new SocketClient();
+            socketClient.OnRunFail += (string msg) =>
+            {
+                GUGameForm_FormClosed(null, null);
+                MessageBox.Show(msg);
+                return;
+            };
             socketClient.OnReceived += GetResponseHandler;
             socketClient.Connect();
         }
@@ -63,7 +78,8 @@ namespace GarticUmm
         private void GUGameForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             socketClient?.Disconnect();
-            socketServer?.ServerStop();
+            if (isServer)
+                socketServer?.ServerStop();
         }
 
         private void UpdateCountdown()
@@ -359,23 +375,32 @@ namespace GarticUmm
             }
         }
 
-        private void GetResponseHandler(string msg)
+        private void GetResponseHandler(ResClass res)
         {
+            if (res.Code == 1001)
+            {
+                GUGameForm_FormClosed(null, null);
+                MessageBox.Show(res.Message);
+                this?.Invoke((MethodInvoker)(delegate ()
+                {
+                    this?.Close();
+                }));
+                return;
+            }
+
             if (MessageLog.InvokeRequired)
             {
                 MessageLog.BeginInvoke(new MethodInvoker(delegate
                 {
-                    MessageLog.AppendText(Environment.NewLine + msg);
+                    MessageLog.AppendText(Environment.NewLine + res.Message);
                     MessageLog.ScrollToCaret();
                 }));
             }
             else
             {
-                MessageLog.AppendText(Environment.NewLine  + msg);
+                MessageLog.AppendText(Environment.NewLine  + res.Message);
                 MessageLog.ScrollToCaret();
             }
         }
-
-      
     }
 }

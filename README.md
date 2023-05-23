@@ -65,3 +65,50 @@ window form에서 소켓 통신을 이용해 Galtic 멀티플레이 게임을 �
 `정*준 - hoijun` 레이아웃 디자인, 기능 구현
 
 소켓 통신 및 발표 자료 작성은 분할하여 작업
+
+## 코드표
+
+`Base code`
+
+| 코드 번호 | 코드 내용 |
+|---|---|
+| 1000 | Success |
+| 1001 | Critical Error |
+| 1002 | Timeout |
+
+`Server code`
+
+| 코드 번호 | 코드 내용 |
+|---|---|
+| 2000 | Server created |
+| 2001 | Server stoped |
+| 2002 | Server listened |
+| 2003 | Server connected with Client |
+| 2004 | Server disconnected with Client |
+| 2005 | Client list update |
+
+`Client code`
+
+| 코드 번호 | 코드 내용 |
+|---|---|
+| 3000 | Client connected in Server |
+| 3001 | Client disconnected from Server |
+| 3002 | Client connected Error because Server is not running |
+| 3003 | Client disconnected Error for incomplete termination |
+
+`Chat code`
+
+| 코드 번호 | 코드 내용 |
+|---|---|
+| 4000 | Message sended |
+| 4001 | Message recieved |
+| 4002 | Message Error for Message Size Exceeded |
+| 4003 | Message Error for Client connected Error |
+
+`Image code`
+
+| 코드 번호 | 코드 내용 |
+|---|---|
+| 5000 ||
+| 5001 ||
+

@@ -36,10 +36,10 @@
             // 
             // btnCreateServer
             // 
-            this.btnCreateServer.Location = new System.Drawing.Point(148, 180);
-            this.btnCreateServer.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnCreateServer.Location = new System.Drawing.Point(111, 156);
+            this.btnCreateServer.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnCreateServer.Name = "btnCreateServer";
-            this.btnCreateServer.Size = new System.Drawing.Size(172, 52);
+            this.btnCreateServer.Size = new System.Drawing.Size(129, 45);
             this.btnCreateServer.TabIndex = 0;
             this.btnCreateServer.Text = "Create Server";
             this.btnCreateServer.UseSelectable = true;
@@ -47,34 +47,36 @@
             // 
             // btnJoinServer
             // 
-            this.btnJoinServer.Location = new System.Drawing.Point(412, 180);
-            this.btnJoinServer.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnJoinServer.Location = new System.Drawing.Point(309, 156);
+            this.btnJoinServer.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnJoinServer.Name = "btnJoinServer";
-            this.btnJoinServer.Size = new System.Drawing.Size(172, 52);
+            this.btnJoinServer.Size = new System.Drawing.Size(129, 45);
             this.btnJoinServer.TabIndex = 1;
             this.btnJoinServer.Text = "Join Server";
             this.btnJoinServer.UseSelectable = true;
+            this.btnJoinServer.Click += new System.EventHandler(this.btnJoinServer_Click);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Font = new System.Drawing.Font("MV Boli", 40F, System.Drawing.FontStyle.Bold);
-            this.label1.Location = new System.Drawing.Point(132, 75);
+            this.label1.Location = new System.Drawing.Point(99, 65);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(425, 87);
+            this.label1.Size = new System.Drawing.Size(344, 70);
             this.label1.TabIndex = 2;
             this.label1.Text = "Gartic Umm";
             // 
             // GULoginForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(711, 338);
+            this.ClientSize = new System.Drawing.Size(533, 293);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnJoinServer);
             this.Controls.Add(this.btnCreateServer);
-            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "GULoginForm";
             this.Padding = new System.Windows.Forms.Padding(18, 60, 18, 15);
             this.Resizable = false;

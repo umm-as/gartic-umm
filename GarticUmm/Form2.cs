@@ -3,6 +3,8 @@ using System.Drawing;
 using System.Windows.Forms;
 using MetroFramework.Forms;
 using System.IO;
+using SharedObject;
+using System.Threading;
 using System.Collections.Generic;
 
 namespace GarticUmm
@@ -17,7 +19,11 @@ namespace GarticUmm
         SolidBrush brush;
         private DrawLineHistroy history = new DrawLineHistroy();
 
-        public GUGameForm()
+        bool isServer;
+        SocketServer socketServer;
+        SocketClient socketClient;
+
+        public GUGameForm(bool isServer)
         {
             InitializeComponent();
             g = panel.CreateGraphics();
@@ -35,6 +41,33 @@ namespace GarticUmm
             openFileDialog1.Filter = "Text (*.txt)|*.txt";
             saveFileDialog1.Filter = "Text (*.txt)|*.txt";
             saveFileDialog1.FileName = "*.txt";
+
+            // For develop TCP - Woong
+            this.isServer = isServer;
+
+            if (isServer)
+            {
+                socketServer = new SocketServer();
+                socketServer.OnRunFail += (string msg) =>
+                {
+                    GUGameForm_FormClosed(null, null);
+                    MessageBox.Show(msg);
+                    this.Invoke((MethodInvoker)(delegate ()
+                    {
+                        this.Close();
+                    }));
+                };
+            }
+
+            socketClient = new SocketClient();
+            socketClient.OnRunFail += (string msg) =>
+            {
+                GUGameForm_FormClosed(null, null);
+                MessageBox.Show(msg);
+                return;
+            };
+            socketClient.OnReceived += GetResponseHandler;
+            socketClient.Connect();
         }
         
 
@@ -42,13 +75,20 @@ namespace GarticUmm
         {
             UpdateCountdown(); // 타이머설정 및 타이머 따라 상태 변화
         }
-        
+
+        private void GUGameForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            socketClient?.Disconnect();
+            if (isServer)
+                socketServer?.ServerStop();
+        }
+
         private void UpdateCountdown()
         {
             int count = 10; // 최초 실행시 그림 확인 시간 10초로 초기화
             int[] times = { 10, 3, 30 }; // 한 천에 사용되는 시간들, 최초 확인시간 10초, 그릴 준비 3초, 그리는 시간 30초
             int index = 0;
-            Timer timer = new Timer();
+            System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
             timer.Interval = 1000; // 1초마다 실행
             timer.Tick += (s, e) =>
             {
@@ -314,6 +354,48 @@ namespace GarticUmm
             drawFromHistory();
         }
 
+        private void SendButton_Click(object sender, EventArgs e)
+        {
+            socketClient.SendMessage(MessageSend.Text);
+            MessageSend.Clear();
+        }
+        private void MessageSend_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                socketClient.SendMessage(MessageSend.Text);
+                MessageSend.Clear();
+            }
+        }
+
+        private void GetResponseHandler(ResClass res)
+        {
+            if (res.Code == 1001)
+            {
+                GUGameForm_FormClosed(null, null);
+                MessageBox.Show(res.Message);
+                this?.Invoke((MethodInvoker)(delegate ()
+                {
+                    this?.Close();
+                }));
+                return;
+            }
+
+            if (MessageLog.InvokeRequired)
+            {
+                MessageLog.BeginInvoke(new MethodInvoker(delegate
+                {
+                    MessageLog.AppendText(Environment.NewLine + res.Message);
+                    MessageLog.ScrollToCaret();
+                }));
+            }
+            else
+            {
+                MessageLog.AppendText(Environment.NewLine  + res.Message);
+                MessageLog.ScrollToCaret();
+            }
+        }
+        
         //제시어 입력창 생성 및 저장(임시)
         private List<string> words;//WordForm에서 입력받은 제시어 저장할 리스트
         private void btnWord_Click(object sender, EventArgs e)
@@ -328,7 +410,5 @@ namespace GarticUmm
             words.Add(data);
             Testlabel.Text = data;
         }
-
-       
     }
 }

@@ -45,10 +45,10 @@ namespace GarticUmm
             this.whitebtn = new System.Windows.Forms.ToolBarButton();
             this.eraserbtn = new System.Windows.Forms.ToolBarButton();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.MessageLog = new System.Windows.Forms.RichTextBox();
             this.LabelStatus = new MetroFramework.Controls.MetroLabel();
             this.LabelTimer = new MetroFramework.Controls.MetroLabel();
             this.SendButton = new MetroFramework.Controls.MetroButton();
-            this.MessageLog = new MetroFramework.Controls.MetroTextBox();
             this.MessageSend = new MetroFramework.Controls.MetroTextBox();
             this.toolBar1 = new System.Windows.Forms.ToolBar();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
@@ -80,10 +80,10 @@ namespace GarticUmm
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.MessageLog);
             this.splitContainer1.Panel2.Controls.Add(this.LabelStatus);
             this.splitContainer1.Panel2.Controls.Add(this.LabelTimer);
             this.splitContainer1.Panel2.Controls.Add(this.SendButton);
-            this.splitContainer1.Panel2.Controls.Add(this.MessageLog);
             this.splitContainer1.Panel2.Controls.Add(this.MessageSend);
             this.splitContainer1.Size = new System.Drawing.Size(1058, 582);
             this.splitContainer1.SplitterDistance = 696;
@@ -196,6 +196,17 @@ namespace GarticUmm
             this.imageList1.Images.SetKeyName(9, "btn_eraser.png");
             this.imageList1.Images.SetKeyName(10, "btn_white.png");
             // 
+            // MessageLog
+            // 
+            this.MessageLog.Font = new System.Drawing.Font("MV Boli", 10F);
+            this.MessageLog.Location = new System.Drawing.Point(2, 55);
+            this.MessageLog.Name = "MessageLog";
+            this.MessageLog.ReadOnly = true;
+            this.MessageLog.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
+            this.MessageLog.Size = new System.Drawing.Size(353, 495);
+            this.MessageLog.TabIndex = 4;
+            this.MessageLog.Text = "";
+            // 
             // LabelStatus
             // 
             this.LabelStatus.AutoSize = true;
@@ -222,38 +233,7 @@ namespace GarticUmm
             this.SendButton.TabIndex = 2;
             this.SendButton.Text = "Send";
             this.SendButton.UseSelectable = true;
-            // 
-            // MessageLog
-            // 
-            // 
-            // 
-            // 
-            this.MessageLog.CustomButton.Image = null;
-            this.MessageLog.CustomButton.Location = new System.Drawing.Point(-113, 1);
-            this.MessageLog.CustomButton.Name = "";
-            this.MessageLog.CustomButton.Size = new System.Drawing.Size(465, 465);
-            this.MessageLog.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
-            this.MessageLog.CustomButton.TabIndex = 1;
-            this.MessageLog.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
-            this.MessageLog.CustomButton.UseSelectable = true;
-            this.MessageLog.CustomButton.Visible = false;
-            this.MessageLog.FontSize = MetroFramework.MetroTextBoxSize.Medium;
-            this.MessageLog.Lines = new string[0];
-            this.MessageLog.Location = new System.Drawing.Point(2, 83);
-            this.MessageLog.MaxLength = 32767;
-            this.MessageLog.Multiline = true;
-            this.MessageLog.Name = "MessageLog";
-            this.MessageLog.PasswordChar = '\0';
-            this.MessageLog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.MessageLog.SelectedText = "";
-            this.MessageLog.SelectionLength = 0;
-            this.MessageLog.SelectionStart = 0;
-            this.MessageLog.ShortcutsEnabled = true;
-            this.MessageLog.Size = new System.Drawing.Size(353, 467);
-            this.MessageLog.TabIndex = 1;
-            this.MessageLog.UseSelectable = true;
-            this.MessageLog.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
-            this.MessageLog.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            this.SendButton.Click += new System.EventHandler(this.SendButton_Click);
             // 
             // MessageSend
             // 
@@ -284,6 +264,7 @@ namespace GarticUmm
             this.MessageSend.UseSelectable = true;
             this.MessageSend.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.MessageSend.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            this.MessageSend.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MessageSend_KeyDown);
             // 
             // toolBar1
             // 
@@ -358,6 +339,7 @@ namespace GarticUmm
             this.Padding = new System.Windows.Forms.Padding(20, 63, 20, 21);
             this.Resizable = false;
             this.Text = "Gartic Umm";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.GUGameForm_FormClosed);
             this.Load += new System.EventHandler(this.GUGameForm_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
@@ -375,7 +357,6 @@ namespace GarticUmm
 
         private System.Windows.Forms.SplitContainer splitContainer1;
         private MetroFramework.Controls.MetroButton SendButton;
-        private MetroFramework.Controls.MetroTextBox MessageLog;
         private MetroFramework.Controls.MetroTextBox MessageSend;
         private MetroFramework.Controls.MetroLabel LabelStatus;
         private MetroFramework.Controls.MetroLabel LabelTimer;
@@ -400,6 +381,7 @@ namespace GarticUmm
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.ToolBarButton whitebtn;
+        private System.Windows.Forms.RichTextBox MessageLog;
         private MetroFramework.Controls.MetroLabel Testlabel;
         private MetroFramework.Controls.MetroButton btnWord;
     }

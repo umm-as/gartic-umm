@@ -66,49 +66,46 @@ window form에서 소켓 통신을 이용해 Galtic 멀티플레이 게임을 �
 
 소켓 통신 및 발표 자료 작성은 분할하여 작업
 
-## 코드표
+</br>
+
+## 코드표 for Developer
 
 `Base code`
 
-| 코드 번호 | 코드 내용 |
-|---|---|
-| 1000 | Success |
-| 1001 | Critical Error |
-| 1002 | Timeout |
+| 코드 번호 | 코드 내용 | 사용 |
+|---|---|---|
+| 1000 | Success | 성공시(거의 안 씀) |
+| 1001 | Critical Error | 치명적 오류로 프로그램을 종료해야 할 때 |
 
 `Server code`
 
-| 코드 번호 | 코드 내용 |
-|---|---|
-| 2000 | Server created |
-| 2001 | Server stoped |
-| 2002 | Server listened |
-| 2003 | Server connected with Client |
-| 2004 | Server disconnected with Client |
-| 2005 | Client list update |
+| 코드 번호 | 코드 내용 | 사용 |
+|---|---|---|
+| 2000 | Server created | 서버가 시작했을 때 |
+| 2001 | Server stoped | 서버가 중단됬을 때 |
+| 2002 | Server run error | 서버 동작에서 에러가 있을 때 |
+| 2003 | Client list update | 클라이언트의 변화가 있을 때 (입장/퇴장) |
+| 2004 | Change stage | 게임 단계가 변경될 때 (대기 - (게임시작) 제시어 지정 - 그림 - 그림 확인...) |
 
 `Client code`
 
-| 코드 번호 | 코드 내용 |
-|---|---|
-| 3000 | Client connected in Server |
-| 3001 | Client disconnected from Server |
-| 3002 | Client connected Error because Server is not running |
-| 3003 | Client disconnected Error for incomplete termination |
+| 코드 번호 | 코드 내용 | 사용 |
+|---|---|---|
+| 3000 | Client connected in Server | 클라이언트가 서버에 접속했을 때 |
+| 3001 | Client disconnected from Server | 클라이언트가 서버에 접속을 해제했을 때 |
+| 3002 | Client connection error | 클라이언트의 연결에 에러가 있을 때 |
+| 3003 | Client is ready to go to next stage | 클라이언트가 다음 단계로 넘어갈 준비를 마쳤을 때 (동기화 용) |
 
 `Chat code`
 
-| 코드 번호 | 코드 내용 |
-|---|---|
-| 4000 | Message sended |
-| 4001 | Message recieved |
-| 4002 | Message Error for Message Size Exceeded |
-| 4003 | Message Error for Client connected Error |
+| 코드 번호 | 코드 내용 | 사용 |
+|---|---|---|
+| 4000 | Message sended | 채팅을 보냈을 때 |
+| 4001 | Message error | 채팅 에러 |
 
 `Image code`
 
-| 코드 번호 | 코드 내용 |
-|---|---|
-| 5000 ||
-| 5001 ||
-
+| 코드 번호 | 코드 내용 | 사용 |
+|---|---|---|
+| 5000 | Image sended | 그림을 보냈을 때 |
+| 5001 | Image error | 그림 에러 |

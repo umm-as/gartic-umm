@@ -7,9 +7,11 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using SharedObject;
+using UmmQueue;
 
 namespace GarticUmm
 {
@@ -162,14 +164,19 @@ namespace GarticUmm
                 {
                     string str = reader.ReadLine();
                     Console.WriteLine("[IN] {0}: {1}", clientID, str);
-
                     // 연결이 끊긴 경우에만 null값이 들어옴
                     if (str == null) break;
 
+                    string Code = str.Substring(0, str.IndexOf(','));
+                    string Data = str.Substring(str.IndexOf(',') + 1).Trim();
+               
                     if (OnReceived != null)
                     {
-                        OnReceived(new ResClass(1000, clientID + " > "+ str));
-                        Console.WriteLine("[OUT] {0}: {1}", clientID, str);
+                        if (Regex.IsMatch(Code, "4000"))
+                         {
+                            OnReceived(new ResClass(1000, clientID + " > " + Data));
+                            Console.WriteLine("[OUT] {0}: {1}", clientID, Data);
+                        }
                     }
                 }
             }

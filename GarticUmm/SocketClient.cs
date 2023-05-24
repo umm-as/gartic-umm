@@ -22,7 +22,9 @@ namespace GarticUmm
             clientSocket = new TcpClient();
         }
 
-        public delegate void ReceivedHandler(string res);
+        public delegate void RunFailHandler(string msg);
+        public event RunFailHandler OnRunFail;
+        public delegate void ReceivedHandler(ResClass res);
         public event ReceivedHandler OnReceived;
 
         public void Connect()
@@ -41,18 +43,22 @@ namespace GarticUmm
             {
                 // 서버가 개방되지 않았는데 접속할 경우
                 Console.WriteLine("-- Connect Exception --");
+                OnRunFail("Server is not opened.");
+                Disconnect();
             }
         }
 
         public void Disconnect()
         {
             isConnected = false;
-            clientSocket.Close();
+            clientSocket?.Close();
         }
 
         private void RecieveMessage()
         {
-            NetworkStream stream = clientSocket.GetStream();
+            NetworkStream stream = clientSocket?.GetStream();
+            if (stream == null) return;
+
             StreamReader reader = new StreamReader(stream);
 
             while(isConnected)
@@ -61,9 +67,16 @@ namespace GarticUmm
                 {
                     string res = reader.ReadLine();
 
+                    // 연결이 끊긴 경우에만 null값이 들어옴
+                    if (res == null) {
+                        OnReceived(new ResClass(1001, "Disconnected from Server."));
+                        Disconnect();
+                        break;
+                    }
+
                     if (!isConnected) break;
 
-                    OnReceived(res);
+                    OnReceived(new ResClass(1000, res));
                 }
                 catch
                 {

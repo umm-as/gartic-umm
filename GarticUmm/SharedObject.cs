@@ -10,7 +10,7 @@ namespace SharedObject
     class Constant
     {
         public static readonly IPAddress LOCALHOST = IPAddress.Parse("127.0.0.1");
-       // public static readonly IPAddress LOCALHOST = IPAddress.Parse("192.168.182.194");
+        // public static readonly IPAddress LOCALHOST = IPAddress.Parse("192.168.182.194");
         public static readonly int PORT = 43673;
         public static readonly Encoding UTF8 = Encoding.GetEncoding("UTF-8");
     }
@@ -55,6 +55,11 @@ namespace SharedObject
         public ResClass Res
         {
             get { return this; }
+        }
+
+        public int Code
+        {
+            get { return code; }
         }
 
         public string Message

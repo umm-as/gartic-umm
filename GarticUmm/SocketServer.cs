@@ -32,6 +32,9 @@ namespace GarticUmm
             Console.WriteLine("Server is running");
         }
 
+        public delegate void RunFailHandler(string msg);
+        public event RunFailHandler OnRunFail;
+
         // Run on thread
         private void ServerStart()
         {
@@ -66,7 +69,9 @@ namespace GarticUmm
             }
             catch
             {
+                // 이미 서버가 실행중일 경우
                 Console.WriteLine("-- Server Start Exception --");
+                OnRunFail("Server already running.");
             }
 
             Console.WriteLine("Server thread is terminated");
@@ -103,7 +108,7 @@ namespace GarticUmm
             clients.Remove(target);
             target.StopClient();
 
-            onReceiveHandler(new ResClass(1000, target.ID+ "Player had been left."));
+            onReceiveHandler(new ResClass(1000, target.ID+ " Player had been left."));
             Console.WriteLine(target.ID + " Player had been left.");
             target = null;
         }

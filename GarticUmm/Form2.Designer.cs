@@ -57,6 +57,8 @@ namespace GarticUmm
             this.menuSave = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.Testlabel = new MetroFramework.Controls.MetroLabel();
+            this.btnWord = new MetroFramework.Controls.MetroButton();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -210,7 +212,7 @@ namespace GarticUmm
             this.LabelStatus.AutoSize = true;
             this.LabelStatus.Location = new System.Drawing.Point(17, 33);
             this.LabelStatus.Name = "LabelStatus";
-            this.LabelStatus.Size = new System.Drawing.Size(110, 19);
+            this.LabelStatus.Size = new System.Drawing.Size(119, 20);
             this.LabelStatus.TabIndex = 3;
             this.LabelStatus.Text = "Check the picture";
             // 
@@ -219,7 +221,7 @@ namespace GarticUmm
             this.LabelTimer.AutoSize = true;
             this.LabelTimer.Location = new System.Drawing.Point(231, 33);
             this.LabelTimer.Name = "LabelTimer";
-            this.LabelTimer.Size = new System.Drawing.Size(21, 19);
+            this.LabelTimer.Size = new System.Drawing.Size(22, 20);
             this.LabelTimer.TabIndex = 0;
             this.LabelTimer.Text = "10";
             // 
@@ -285,19 +287,19 @@ namespace GarticUmm
             this.menuOpen,
             this.menuSave});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(127, 68);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(114, 52);
             // 
             // menuOpen
             // 
             this.menuOpen.Name = "menuOpen";
-            this.menuOpen.Size = new System.Drawing.Size(126, 32);
+            this.menuOpen.Size = new System.Drawing.Size(113, 24);
             this.menuOpen.Text = "open";
             this.menuOpen.Click += new System.EventHandler(this.menuOpen_Click);
             // 
             // menuSave
             // 
             this.menuSave.Name = "menuSave";
-            this.menuSave.Size = new System.Drawing.Size(126, 32);
+            this.menuSave.Size = new System.Drawing.Size(113, 24);
             this.menuSave.Text = "save";
             this.menuSave.Click += new System.EventHandler(this.menuSave_Click);
             // 
@@ -305,11 +307,32 @@ namespace GarticUmm
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
+            // Testlabel
+            // 
+            this.Testlabel.AutoSize = true;
+            this.Testlabel.Location = new System.Drawing.Point(868, 26);
+            this.Testlabel.Name = "Testlabel";
+            this.Testlabel.Size = new System.Drawing.Size(42, 20);
+            this.Testlabel.TabIndex = 4;
+            this.Testlabel.Text = "Word";
+            // 
+            // btnWord
+            // 
+            this.btnWord.Location = new System.Drawing.Point(737, 23);
+            this.btnWord.Name = "btnWord";
+            this.btnWord.Size = new System.Drawing.Size(75, 23);
+            this.btnWord.TabIndex = 5;
+            this.btnWord.Text = "Word";
+            this.btnWord.UseSelectable = true;
+            this.btnWord.Click += new System.EventHandler(this.btnWord_Click);
+            // 
             // GUGameForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(1098, 666);
             this.ContextMenuStrip = this.contextMenuStrip1;
+            this.Controls.Add(this.btnWord);
+            this.Controls.Add(this.Testlabel);
             this.Controls.Add(this.splitContainer1);
             this.Font = new System.Drawing.Font("MV Boli", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "GUGameForm";
@@ -326,6 +349,7 @@ namespace GarticUmm
             this.splitContainer1.ResumeLayout(false);
             this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -358,5 +382,7 @@ namespace GarticUmm
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.ToolBarButton whitebtn;
         private System.Windows.Forms.RichTextBox MessageLog;
+        private MetroFramework.Controls.MetroLabel Testlabel;
+        private MetroFramework.Controls.MetroButton btnWord;
     }
 }

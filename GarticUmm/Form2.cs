@@ -5,6 +5,7 @@ using MetroFramework.Forms;
 using System.IO;
 using SharedObject;
 using System.Threading;
+using System.Collections.Generic;
 
 namespace GarticUmm
 {
@@ -13,7 +14,6 @@ namespace GarticUmm
         Graphics g;
         int x = -1;
         int y = -1;
-        int flag = 0;
         bool moving = false;
         Pen pen;
         SolidBrush brush;
@@ -69,6 +69,7 @@ namespace GarticUmm
             socketClient.OnReceived += GetResponseHandler;
             socketClient.Connect();
         }
+        
 
         private void GUGameForm_Load(object sender, EventArgs e)
         {
@@ -238,10 +239,8 @@ namespace GarticUmm
             else if(e.Button == eraserbtn)
             {
                 Set_initial();
-                flag = 1;
-                panel.Refresh();
                 ClearDrawingHistory();
-                
+                panel.Refresh();  
             }
             
             else if (e.Button == redbtn)
@@ -352,12 +351,6 @@ namespace GarticUmm
 
         private void panel_Paint(object sender, PaintEventArgs e)
         {
-            if (flag != 0)
-            {
-                flag = 0;
-                return;
-            };
-
             drawFromHistory();
         }
 
@@ -401,6 +394,21 @@ namespace GarticUmm
                 MessageLog.AppendText(Environment.NewLine  + res.Message);
                 MessageLog.ScrollToCaret();
             }
+        }
+        
+        //제시어 입력창 생성 및 저장(임시)
+        private List<string> words;//WordForm에서 입력받은 제시어 저장할 리스트
+        private void btnWord_Click(object sender, EventArgs e)
+        {
+            GUWordForm wordForm = new GUWordForm();
+            wordForm.DataPass += new GUWordForm.DataPassEventHandler(ReciveWord);
+            wordForm.ShowDialog();
+        }
+        public void ReciveWord(string data)//WordForm에서 받아온 제시어 저장 및 출력
+        {
+            words = new List<string>();
+            words.Add(data);
+            Testlabel.Text = data;
         }
     }
 }

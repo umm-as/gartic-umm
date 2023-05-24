@@ -79,6 +79,8 @@
     <Compile Include="SharedObject.cs" />
     <Compile Include="SocketClient.cs" />
     <Compile Include="SocketServer.cs" />
+    <Compile Include="UmmQueue.cs" />
+    <Compile Include="UmmTimer.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

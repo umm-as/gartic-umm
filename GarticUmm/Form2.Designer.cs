@@ -51,7 +51,6 @@ namespace GarticUmm
             this.SendButton = new MetroFramework.Controls.MetroButton();
             this.MessageSend = new MetroFramework.Controls.MetroTextBox();
             this.toolBar1 = new System.Windows.Forms.ToolBar();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.menuOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.menuSave = new System.Windows.Forms.ToolStripMenuItem();
@@ -199,18 +198,18 @@ namespace GarticUmm
             // MessageLog
             // 
             this.MessageLog.Font = new System.Drawing.Font("MV Boli", 10F);
-            this.MessageLog.Location = new System.Drawing.Point(2, 55);
+            this.MessageLog.Location = new System.Drawing.Point(2, 44);
             this.MessageLog.Name = "MessageLog";
             this.MessageLog.ReadOnly = true;
             this.MessageLog.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
-            this.MessageLog.Size = new System.Drawing.Size(353, 495);
+            this.MessageLog.Size = new System.Drawing.Size(353, 506);
             this.MessageLog.TabIndex = 4;
             this.MessageLog.Text = "";
             // 
             // LabelStatus
             // 
             this.LabelStatus.AutoSize = true;
-            this.LabelStatus.Location = new System.Drawing.Point(17, 33);
+            this.LabelStatus.Location = new System.Drawing.Point(17, 14);
             this.LabelStatus.Name = "LabelStatus";
             this.LabelStatus.Size = new System.Drawing.Size(119, 20);
             this.LabelStatus.TabIndex = 3;
@@ -219,7 +218,7 @@ namespace GarticUmm
             // LabelTimer
             // 
             this.LabelTimer.AutoSize = true;
-            this.LabelTimer.Location = new System.Drawing.Point(231, 33);
+            this.LabelTimer.Location = new System.Drawing.Point(309, 14);
             this.LabelTimer.Name = "LabelTimer";
             this.LabelTimer.Size = new System.Drawing.Size(22, 20);
             this.LabelTimer.TabIndex = 0;
@@ -275,10 +274,6 @@ namespace GarticUmm
             this.toolBar1.ShowToolTips = true;
             this.toolBar1.Size = new System.Drawing.Size(737, 42);
             this.toolBar1.TabIndex = 0;
-            // 
-            // timer1
-            // 
-            this.timer1.Interval = 1000;
             // 
             // contextMenuStrip1
             // 
@@ -373,7 +368,6 @@ namespace GarticUmm
         private System.Windows.Forms.ToolBarButton purplebtn;
         private System.Windows.Forms.ToolBarButton blackbtn;
         private System.Windows.Forms.ToolBarButton eraserbtn;
-        private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Panel panel;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem menuOpen;

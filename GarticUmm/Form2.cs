@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using MetroFramework.Forms;
 using System.IO;
 using SharedObject;
+using UmmTimerNS;
 using System.Threading;
 using System.Collections.Generic;
 
@@ -18,6 +19,8 @@ namespace GarticUmm
         Pen pen;
         SolidBrush brush;
         private DrawLineHistroy history = new DrawLineHistroy();
+
+        UmmTimer timer;
 
         bool isServer;
         SocketServer socketServer;
@@ -73,55 +76,17 @@ namespace GarticUmm
 
         private void GUGameForm_Load(object sender, EventArgs e)
         {
-            UpdateCountdown(); // 타이머설정 및 타이머 따라 상태 변화
+            timer = new UmmTimer();
+            timer.EventHandler += TimerHandler;
+            timer.TimerStart();
         }
 
         private void GUGameForm_FormClosed(object sender, FormClosedEventArgs e)
         {
+            timer?.TimerStop();
             socketClient?.Disconnect();
             if (isServer)
                 socketServer?.ServerStop();
-        }
-
-        private void UpdateCountdown()
-        {
-            int count = 10; // 최초 실행시 그림 확인 시간 10초로 초기화
-            int[] times = { 10, 3, 30 }; // 한 천에 사용되는 시간들, 최초 확인시간 10초, 그릴 준비 3초, 그리는 시간 30초
-            int index = 0;
-            System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
-            timer.Interval = 1000; // 1초마다 실행
-            timer.Tick += (s, e) =>
-            {
-                count--; // 카운트 다운 시작
-                if (count < 0)
-                {
-                    index++; // 최초 10초가 다 지나면 배열 인덱스 증가
-                    if (index >= times.Length) // 턴이 모두 실행 됐을 때
-                    {
-                        timer.Stop(); // 타이머 동작 중지 후 턴 종료 메세지 박스
-                        MessageBox.Show("Turn End");
-                        return;
-                    }
-
-                    switch(index)
-                    {
-                        case 0: // 최초 상태
-                            LabelStatus.Text = " ";
-                            break;
-                        case 1: // 준비 단계
-                            LabelStatus.Text = "Ready...";
-                            break;
-                        case 2: // 그리는 단계
-                            LabelStatus.Text = "Drawing...";
-                            break;
-                    }
-
-                    count = times[index]; // 다음 시간 대입
-                }
-
-                LabelTimer.Text = count.ToString();
-            };
-            timer.Start();
         }
 
         private void AddDrawingHistory(Pen pen, Point pointFrom, Point pointDest)
@@ -352,6 +317,29 @@ namespace GarticUmm
         private void panel_Paint(object sender, PaintEventArgs e)
         {
             drawFromHistory();
+        }
+
+        private void TimerHandler(UmmTimer.TimerType type, int count) //타이머 호출
+        {
+            switch (type) //각각 상태에서 Label변경
+            {
+                case UmmTimer.TimerType.Check:
+                    LabelStatus.Text = "Check the picture...";
+                    break;
+                case UmmTimer.TimerType.Ready:
+                    LabelStatus.Text = "Ready...";
+                    break;
+                case UmmTimer.TimerType.Drawing:
+                    LabelStatus.Text = "Drawing...";
+                    break;
+            }
+            LabelTimer.Text = count.ToString();
+
+            if(type == UmmTimer.TimerType.TurnEnd) //턴이 끝났을 때
+            {
+                MessageBox.Show("Turn End");
+                timer?.TimerStop();
+            }
         }
 
         private void SendButton_Click(object sender, EventArgs e)

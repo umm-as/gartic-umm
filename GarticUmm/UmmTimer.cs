@@ -49,7 +49,7 @@ namespace UmmTimerNS
             }
             else if (state == TimerType.Drawing && count < 0) //Drawing상태가 끝났을 때
             {
-                TimerStop();
+                timer.Stop();
                 state = TimerType.TurnEnd;
             }
 

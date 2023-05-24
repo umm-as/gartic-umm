@@ -338,7 +338,6 @@ namespace GarticUmm
             if(type == UmmTimer.TimerType.TurnEnd) //턴이 끝났을 때
             {
                 MessageBox.Show("Turn End");
-                timer?.TimerStop();
             }
         }
 

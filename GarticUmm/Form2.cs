@@ -343,14 +343,14 @@ namespace GarticUmm
 
         private void SendButton_Click(object sender, EventArgs e)
         {
-            socketClient.SendMessage(MessageSend.Text);
+            socketClient.SendMessage("4000," + MessageSend.Text);
             MessageSend.Clear();
         }
         private void MessageSend_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
-                socketClient.SendMessage(MessageSend.Text);
+                socketClient.SendMessage("4000," + MessageSend.Text);
                 MessageSend.Clear();
             }
         }
@@ -396,6 +396,11 @@ namespace GarticUmm
             words = new List<string>();
             words.Add(data);
             Testlabel.Text = data;
+        }
+
+        private void sendPaint(DrawLineHistroy histroy)
+        {
+            socketClient.SendMessage("5000," + histroy.toCSVString());
         }
     }
 }

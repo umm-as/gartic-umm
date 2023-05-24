@@ -63,7 +63,7 @@ namespace GarticUmm
         {
             List<MyLine> result = new List<MyLine>();
 
-            var lines = csvString.Split('\n');
+            var lines = csvString.Split(';');
             foreach (var line in lines)
             {
                 string[] item = line.Split(',');
@@ -127,7 +127,7 @@ namespace GarticUmm
             csvString += destX.ToString() + ',';
             csvString += destY.ToString() + ',';
             csvString += color.ToString() + ',';
-            csvString += thick.ToString() + '\n';
+            csvString += thick.ToString() + ';';
 
             return csvString;
         }

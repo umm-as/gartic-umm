@@ -167,20 +167,18 @@ namespace GarticUmm
                     // 연결이 끊긴 경우에만 null값이 들어옴
                     if (str == null) break;
 
-                    string pat = "\\d+";
-                    Regex re = new Regex(pat);
+                    string pattern = "\\d+";
+                    Regex reg = new Regex(pattern);
 
                     string temp = str.Substring(0, str.IndexOf(','));
-                    string Code = re.Match(temp).Value;
-                    string Data = str.Substring(str.IndexOf(',') + 1).Trim();
+                    string code = reg.Match(temp).Value;
+                    string strData = str.Substring(str.IndexOf(',') + 1).Trim();
                
                     if (OnReceived != null)
-                    {
-                        if (Code == "4000")
-                         {
-                            OnReceived(new ResClass(1000, clientID + " > " + Data));
-                            Console.WriteLine("[OUT] {0}: {1}", clientID, Data);
-                        }
+                    {    
+                        OnReceived(new ResClass(int.Parse(code), clientID + " > " + strData));
+                         Console.WriteLine("[OUT] {0}: {1}", clientID, strData);
+ 
                     }
                 }
             }

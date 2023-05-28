@@ -90,13 +90,33 @@ namespace GarticUmm
             server.Stop();
         }
 
-        private void onReceiveHandler(ResClass res)
+        private void onReceiveHandler(ResClass res, HandleClient target) // 다음 참가자에게 그림을 보내기 위해 현재 client 값을 받게함.
         {
-            foreach (var client in clients)
+            if (res.Code == 4000 || res.Code == 1000)
+            {
+                foreach (var client in clients)
+                {
+                    try
+                    {
+                        client.StreamWriter.WriteLine(res.Code.ToString() + "," + res.Message); // 메시지의 종류를 구분하기 위해 앞에 이벤트코드를 붙임
+                    }
+                    catch
+                    {
+                        Console.WriteLine("-- onReceive Handler Exception --");
+                    }
+                }
+            }
+            else if (res.Code == 5000)
             {
                 try
                 {
-                    client.StreamWriter.WriteLine(res.Message);
+                    int index = clients.IndexOf(target);
+                    
+                    // 마지막 참가자면 첫번째 참가자에게 그림을 보냄
+                    if (index == clients.Count - 1)
+                        clients[0].StreamWriter.WriteLine(res.Code.ToString() + "," + res.Message);
+                    else
+                        clients[index + 1].StreamWriter.WriteLine(res.Code.ToString() + "," + res.Message);
                 }
                 catch
                 {
@@ -110,7 +130,7 @@ namespace GarticUmm
             clients.Remove(target);
             target.StopClient();
 
-            onReceiveHandler(new ResClass(1000, target.ID+ " Player had been left."));
+            onReceiveHandler(new ResClass(1000, target.ID+ " Player had been left."), target);
             Console.WriteLine(target.ID + " Player had been left.");
             target = null;
         }
@@ -143,7 +163,7 @@ namespace GarticUmm
             clientSocket?.Close();
         }
 
-        public delegate void ReceivedHandler(ResClass res);
+        public delegate void ReceivedHandler(ResClass res, HandleClient target);
         public event ReceivedHandler OnReceived;
 
         public delegate void DisconnectHandler(HandleClient target);
@@ -158,7 +178,7 @@ namespace GarticUmm
                 reader = new StreamReader(stream, Constant.UTF8);
                 writer = new StreamWriter(stream, Constant.UTF8) { AutoFlush = true };
 
-                OnReceived(new ResClass(1000, clientID + " Player had been joined."));
+                OnReceived(new ResClass(1000, clientID + " Player had been joined."), this);
 
                 while (isConnected)
                 {
@@ -176,9 +196,8 @@ namespace GarticUmm
                
                     if (OnReceived != null)
                     {    
-                        OnReceived(new ResClass(int.Parse(code), clientID + " > " + strData));
-                         Console.WriteLine("[OUT] {0}: {1}", clientID, strData);
- 
+                        OnReceived(new ResClass(int.Parse(code), clientID + " > " + strData), this); 
+                        Console.WriteLine("[OUT] {0}: {1}", clientID, strData);
                     }
                 }
             }

@@ -354,6 +354,12 @@ namespace GarticUmm
                 MessageSend.Clear();
             }
         }
+        
+        // 일단 시험형태로 메시지를 다음 참가자한테 보내는 버튼
+        private void Btnsendpicture_Click(object sender, EventArgs e)
+        {
+            sendPaint(history);
+        }
 
         private void GetResponseHandler(ResClass res)
         {
@@ -367,22 +373,35 @@ namespace GarticUmm
                 }));
                 return;
             }
-
-            if (MessageLog.InvokeRequired)
+            else if (res.Code == 1000 || res.Code == 4000)
             {
-                MessageLog.BeginInvoke(new MethodInvoker(delegate
+                if (MessageLog.InvokeRequired)
+                {
+                    MessageLog.BeginInvoke(new MethodInvoker(delegate
+                    {
+                        MessageLog.AppendText(Environment.NewLine + res.Message);
+                        MessageLog.ScrollToCaret();
+                    }));
+                }
+                else
                 {
                     MessageLog.AppendText(Environment.NewLine + res.Message);
                     MessageLog.ScrollToCaret();
-                }));
+                }
             }
-            else
+            else if (res.Code == 5000)
             {
-                MessageLog.AppendText(Environment.NewLine  + res.Message);
-                MessageLog.ScrollToCaret();
+                string historymsg = res.Message.Substring(4); // 서버에서 메시지를 받을 때 "1 > MSG" 이런 형태여서 4번째 문자 부터 읽어옴. 
+                history.loadHistory(DrawLineHistroy.toList(historymsg));
+                if (panel.InvokeRequired)
+                {
+                    panel.BeginInvoke(new MethodInvoker(delegate {
+                        panel.Refresh();
+                    }));
+                }
             }
+
         }
-        
         //제시어 입력창 생성 및 저장(임시)
         private List<string> words;//WordForm에서 입력받은 제시어 저장할 리스트
         private void btnWord_Click(object sender, EventArgs e)

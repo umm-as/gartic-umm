@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using SharedObject;
@@ -76,7 +77,15 @@ namespace GarticUmm
 
                     if (!isConnected) break;
 
-                    OnReceived(new ResClass(1000, res));
+                    // 서버에서 받은 데이터의 형태를 "code,strdata" 형태로 바꾸었기 때문에 잘라서 읽어야 됨.
+                    string pattern = "\\d+";
+                    Regex reg = new Regex(pattern);
+
+                    string temp = res.Substring(0, res.IndexOf(','));
+                    string code = reg.Match(temp).Value;
+                    string strData = res.Substring(res.IndexOf(',') + 1).Trim();
+
+                    OnReceived(new ResClass(int.Parse(code), strData));
                 }
                 catch
                 {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace SharedObject
@@ -13,6 +14,10 @@ namespace SharedObject
         // public static readonly IPAddress LOCALHOST = IPAddress.Parse("192.168.182.194");
         public static readonly int PORT = 43673;
         public static readonly Encoding UTF8 = Encoding.GetEncoding("UTF-8");
+
+        // Event state
+        public static readonly string START_GAEM = "STARTGAME";
+
     }
 
     class ResClass
@@ -50,6 +55,18 @@ namespace SharedObject
         {
             this.code = code;
             this.message = message;
+        }
+
+        public static ResClass Parse(string res)
+        {
+            string pattern = "\\d+";
+            Regex reg = new Regex(pattern);
+
+            string temp = res.Substring(0, res.IndexOf(','));
+            string code = reg.Match(temp).Value;
+            string strData = res.Substring(res.IndexOf(',') + 1).Trim();
+
+            return new ResClass(int.Parse(code), strData);
         }
 
         public ResClass Res

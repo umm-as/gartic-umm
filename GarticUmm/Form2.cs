@@ -62,7 +62,7 @@ namespace GarticUmm
                 };
             }
 
-            socketClient = new SocketClient();
+            socketClient = new SocketClient(isServer);
             socketClient.OnRunFail += (string msg) =>
             {
                 GUGameForm_FormClosed(null, null);
@@ -345,14 +345,14 @@ namespace GarticUmm
 
         private void SendButton_Click(object sender, EventArgs e)
         {
-            socketClient.SendMessage("4000," + MessageSend.Text);
+            socketClient.SendMessage(MessageSend.Text);
             MessageSend.Clear();
         }
         private void MessageSend_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
-                socketClient.SendMessage("4000," + MessageSend.Text);
+                socketClient.SendMessage(MessageSend.Text);
                 MessageSend.Clear();
             }
         }
@@ -370,18 +370,21 @@ namespace GarticUmm
                 return;
             }
 
-            if (MessageLog.InvokeRequired)
+            if (res.Code == 4000 || res.Code == 3000 || res.Code == 3001)
             {
-                MessageLog.BeginInvoke(new MethodInvoker(delegate
+                if (MessageLog.InvokeRequired)
+                {
+                    MessageLog.BeginInvoke(new MethodInvoker(delegate
+                    {
+                        MessageLog.AppendText(Environment.NewLine + res.Message);
+                        MessageLog.ScrollToCaret();
+                    }));
+                }
+                else
                 {
                     MessageLog.AppendText(Environment.NewLine + res.Message);
                     MessageLog.ScrollToCaret();
-                }));
-            }
-            else
-            {
-                MessageLog.AppendText(Environment.NewLine  + res.Message);
-                MessageLog.ScrollToCaret();
+                }
             }
         }
         

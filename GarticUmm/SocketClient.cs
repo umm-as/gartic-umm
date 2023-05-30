@@ -16,10 +16,12 @@ namespace GarticUmm
         TcpClient clientSocket;
         Thread recieveThread;
         private bool isConnected = false;
+        private bool isServer;
 
-        public SocketClient()
+        public SocketClient(bool isServer)
         {
             clientSocket = new TcpClient();
+            this.isServer = isServer;
         }
 
         public delegate void RunFailHandler(string msg);
@@ -76,7 +78,9 @@ namespace GarticUmm
 
                     if (!isConnected) break;
 
-                    OnReceived(new ResClass(1000, res));
+                    ResClass resData = ResClass.Parse(res);
+
+                    OnReceived(resData);
                 }
                 catch
                 {
@@ -90,13 +94,35 @@ namespace GarticUmm
         public void SendMessage(string message)
         {
             if (!isConnected) return;
-            // message를 ,를 기준으로 code와 msg로 나누어 msg를 보낼수 있게 함
-            //string splitmsg = message.Substring(message.IndexOf(',') + 1).Trim();
-            //string splitcode = message.Substring(0, message.IndexOf(','));
 
             NetworkStream stream = clientSocket.GetStream();
             StreamWriter writer = new StreamWriter(stream, Constant.UTF8) { AutoFlush = true };
-            writer.WriteLine(message);
+            if (message.StartsWith("/"))
+            {
+                if (!isServer)
+                {
+                    OnReceived(new ResClass(4000, "[System]\nYou don't have permission to use '/' command."));
+                    return;
+                }
+
+                if (message == "/start")
+                {
+                    writer.WriteLine("2004," + Constant.START_GAEM);
+                    return;
+                }
+                
+                if (message == "/?")
+                {
+                    OnReceived(new ResClass(4000, "[System]\n- /start : Start game."));
+                    return;
+                }
+
+                // 해당하는 명령어가 존재하지 않을 때
+                OnReceived(new ResClass(4000, "[System]\nType '/?' to learn the command."));
+                return;
+            }
+
+            writer.WriteLine("4000," + message);
         }
     }
 }

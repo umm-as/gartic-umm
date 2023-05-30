@@ -3,6 +3,8 @@
 ♥️ Team. Umm 프로젝트 제안서 ☠️\
 🌸 Umm.. 고민하며 Umm.. 생각하며 개발하는 Umm team 입니다! 🌼
 
+_**QA 리포트는 [QA_Report.md](https://github.com/umm-as/gartic-umm/blob/master/QA_Report.md)에서 확인하실 수 있습니다.**_
+
 </br>
 
 ## 프로젝트 주제명
@@ -43,6 +45,8 @@ window form에서 소켓 통신을 이용해 Galtic 멀티플레이 게임을 �
 
 ## 프로젝트 일정
 
+_**실제 개발일정은 [QA_Report.md](https://github.com/umm-as/gartic-umm/blob/master/QA_Report.md)에서 확인하실 수 있습니다.**_
+
 | 기간 | 세부계획 |
 |---|---|
 | 4/13 ~ 4/19 |	레이아웃(UI) 디자인 |
@@ -59,12 +63,14 @@ window form에서 소켓 통신을 이용해 Galtic 멀티플레이 게임을 �
 
 ## 프로젝트 역할 분담
 
-`이*재 (Chef) - wjlee611` (총괄 개발 관리) 이미지 직렬화, 디버깅 및 QA\
-`김*석 - dsundert` 레이아웃 디자인, 기능 구현\
-`문*현 - moonjh000` 게임 시작/종료/재시작 구현\
-`정*준 - hoijun` 레이아웃 디자인, 기능 구현
+_**변경된 역할분담은 [QA_Report.md](https://github.com/umm-as/gartic-umm/blob/master/QA_Report.md)에서 확인하실 수 있습니다.**_
 
-소켓 통신 및 발표 자료 작성은 분할하여 작업
+~~`이*재 (Chef) - wjlee611`~~ ~~(총괄 개발 관리) 이미지 직렬화, 디버깅 및 QA~~\
+~~`김*석 - dsundert`~~ ~~레이아웃 디자인, 기능 구현~~\
+~~`문*현 - moonjh000`~~ ~~게임 시작/종료/재시작 구현~~\
+~~`정*준 - hoijun`~~ ~~레이아웃 디자인, 기능 구현~~
+
+~~소켓 통신 및 발표 자료 작성은 분할하여 작업~~
 
 </br>
 

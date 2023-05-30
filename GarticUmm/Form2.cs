@@ -76,6 +76,7 @@ namespace GarticUmm
 
         private void GUGameForm_Load(object sender, EventArgs e)
         {
+            panel.Enabled = false; //그림 그릴 때가 아니면 panel을 잠금
             timer = new UmmTimer();
             timer.EventHandler += TimerHandler;
             timer.TimerStart();
@@ -321,7 +322,7 @@ namespace GarticUmm
 
         private void TimerHandler(UmmTimer.TimerType type, int count) //타이머 호출
         {
-            switch (type) //각각 상태에서 Label변경
+            switch (type) //각각 상태에서 Label 및 상태 변경
             {
                 case UmmTimer.TimerType.Check:
                     LabelStatus.Text = "Check the picture...";
@@ -331,6 +332,7 @@ namespace GarticUmm
                     break;
                 case UmmTimer.TimerType.Drawing:
                     LabelStatus.Text = "Drawing...";
+                    panel.Enabled = true; //그림 그릴 때 만 panel을 열어둠
                     break;
             }
             LabelTimer.Text = count.ToString();

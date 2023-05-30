@@ -58,7 +58,6 @@ namespace GarticUmm
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.Testlabel = new MetroFramework.Controls.MetroLabel();
             this.btnWord = new MetroFramework.Controls.MetroButton();
-            this.Btnsendpicture = new MetroFramework.Controls.MetroButton();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -322,22 +321,11 @@ namespace GarticUmm
             this.btnWord.UseSelectable = true;
             this.btnWord.Click += new System.EventHandler(this.btnWord_Click);
             // 
-            // Btnsendpicture
-            // 
-            this.Btnsendpicture.Location = new System.Drawing.Point(601, 23);
-            this.Btnsendpicture.Name = "Btnsendpicture";
-            this.Btnsendpicture.Size = new System.Drawing.Size(115, 23);
-            this.Btnsendpicture.TabIndex = 6;
-            this.Btnsendpicture.Text = "그림 보내기(확인용)";
-            this.Btnsendpicture.UseSelectable = true;
-            this.Btnsendpicture.Click += new System.EventHandler(this.Btnsendpicture_Click);
-            // 
             // GUGameForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(1098, 666);
             this.ContextMenuStrip = this.contextMenuStrip1;
-            this.Controls.Add(this.Btnsendpicture);
             this.Controls.Add(this.btnWord);
             this.Controls.Add(this.Testlabel);
             this.Controls.Add(this.splitContainer1);
@@ -390,6 +378,5 @@ namespace GarticUmm
         private System.Windows.Forms.RichTextBox MessageLog;
         private MetroFramework.Controls.MetroLabel Testlabel;
         private MetroFramework.Controls.MetroButton btnWord;
-        private MetroFramework.Controls.MetroButton Btnsendpicture;
     }
 }

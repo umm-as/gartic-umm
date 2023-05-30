@@ -96,7 +96,7 @@ namespace GarticUmm
             {
                 try
                 {
-                    client.StreamWriter.WriteLine(res.Message);
+                    client.StreamWriter.WriteLine(res.Code + "," + res.Message);
                 }
                 catch
                 {
@@ -110,7 +110,7 @@ namespace GarticUmm
             clients.Remove(target);
             target.StopClient();
 
-            onReceiveHandler(new ResClass(1000, target.ID+ " Player had been left."));
+            onReceiveHandler(new ResClass(3001, target.ID+ " Player had been left."));
             Console.WriteLine(target.ID + " Player had been left.");
             target = null;
         }
@@ -158,7 +158,7 @@ namespace GarticUmm
                 reader = new StreamReader(stream, Constant.UTF8);
                 writer = new StreamWriter(stream, Constant.UTF8) { AutoFlush = true };
 
-                OnReceived(new ResClass(1000, clientID + " Player had been joined."));
+                OnReceived(new ResClass(3000, clientID + " Player had been joined."));
 
                 while (isConnected)
                 {
@@ -167,18 +167,19 @@ namespace GarticUmm
                     // 연결이 끊긴 경우에만 null값이 들어옴
                     if (str == null) break;
 
-                    string pattern = "\\d+";
-                    Regex reg = new Regex(pattern);
+                    ResClass res = ResClass.Parse(str);
 
-                    string temp = str.Substring(0, str.IndexOf(','));
-                    string code = reg.Match(temp).Value;
-                    string strData = str.Substring(str.IndexOf(',') + 1).Trim();
-               
-                    if (OnReceived != null)
-                    {    
-                        OnReceived(new ResClass(int.Parse(code), clientID + " > " + strData));
-                         Console.WriteLine("[OUT] {0}: {1}", clientID, strData);
- 
+                    if (OnReceived == null) continue;
+
+                    if (res.Code == 4000)
+                    {
+                        OnReceived(new ResClass(res.Code, clientID + " > " + res.Message));
+                        Console.WriteLine("[OUT] {0}: {1}", clientID, res.Message);
+                    }
+
+                    if (res.Code == 2004)
+                    {
+                        Console.WriteLine("Game start event");
                     }
                 }
             }

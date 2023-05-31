@@ -21,9 +21,10 @@ namespace UmmQueue
 
     class PersonQueue<T> : IEnumerable<T>
     {
-        public Node<T> first;
-        public Node<T> last;
-        int size;
+        private Node<T> first;
+        private Node<T> last;
+        private int size;
+
         public PersonQueue()
         {
             this.first = null;
@@ -31,9 +32,17 @@ namespace UmmQueue
             size = 0;
         }
 
-        public void enQueue(T person)
+        public T Peek()
         {
-            Node<T> newnode = new Node<T>(person);
+            if (first == null)
+                return default(T);
+
+            return first.value;
+        }
+
+        public void Enqueue(T item)
+        {
+            Node<T> newnode = new Node<T>(item);
             if (first == null)
             {
                 first = newnode;
@@ -47,7 +56,7 @@ namespace UmmQueue
             size++;
         }
 
-        public T deQueue()
+        public T Dequeue()
         {
             if (first == null)
                 return default(T);
@@ -62,19 +71,18 @@ namespace UmmQueue
             return result.value;
         }
 
-        public T pop(T index)
+        public T Pop(T target)
         {
             if (first == null)
                 return default(T);
 
             Node<T> previous = null;
             Node<T> current = first;
-
             Node<T> result = null;
 
             while (current != null)
             {
-                if (current.value.Equals(index))
+                if (current.value.Equals(target))
                 {
                     result = current;
 
@@ -82,42 +90,73 @@ namespace UmmQueue
                     {
                         first = current.next;
                         if (first == null)
+                        {
                             last = null;
+                        }
                     }
 
                     if (previous != null)
+                    {
                         previous.next = current.next;
+                    }
 
                     if (current.next == null)
+                    {
                         last = previous;
+                    }
 
                 }
                 previous = current;
                 current = current.next;
             }
-            size--;
 
             if (result == null)
                 return default(T);
 
+            size--;
             return result.value;
         }
 
-        public T search(int idx)
+        public int GetIndexOf(T target)
         {
-            idx--;
-            Node<T> current = first;
-            int currentIndex = 0;
-            while (current != null)
+            Node<T> cursor = first;
+            int idx = 0;
+
+            while (cursor != null)
             {
-                if (currentIndex == idx)
+                if (cursor.value.Equals(target))
                 {
-                    return current.value;
+                    return idx;
                 }
-                current = current.next;
-                currentIndex++;
+                cursor = cursor.next;
+                idx++;
             }
-            throw new IndexOutOfRangeException("Index is out of range");
+
+            return -1;
+        }
+
+        public T GetNextItemOf(T target)
+        {
+            Node<T> cursor = first;
+
+            if (first == null)
+                return default(T);
+
+            while (cursor != null)
+            {
+                if (cursor.value.Equals(target))
+                {
+                    // 끝까지 도달했으면 맨 앞의 값 반환 (Circular queue)
+                    if (cursor.next == null)
+                    {
+                        return first.value;
+                    }
+                    return cursor.next.value;
+                }
+                cursor = cursor.next;
+            }
+
+            return default(T);
         }
 
 

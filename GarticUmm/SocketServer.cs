@@ -18,20 +18,24 @@ namespace GarticUmm
     internal class SocketServer
     {
         private Thread serverThread;
-
-        public bool isRunning = false;
+        private bool isRunning = false;
         private TcpListener server;
+        private int connectionCount = 0;
 
-        private List<HandleClient> clients = new List<HandleClient>();
-        public int connectionCount = 0;
-        public static PersonQueue<int> readyQueue;
-        public static PersonQueue<int> playQueue;
-        public static PersonQueue<int> syncQueue;
+        private HandleClient serverOwner;
+
+        private static PersonQueue<HandleClient> readyQueue;
+        private static PersonQueue<HandleClient> playQueue;
+        private int readyPlayers;
+        private bool isOnGame;
+
+
         public SocketServer()
         {
-            readyQueue = new PersonQueue<int>();
-            playQueue = new PersonQueue<int>();
-            syncQueue = new PersonQueue<int>();
+            readyQueue = new PersonQueue<HandleClient>();
+            playQueue = new PersonQueue<HandleClient>();
+            readyPlayers = 0;
+            isOnGame = false;
 
             serverThread = new Thread(ServerStart);
             serverThread.IsBackground = true;
@@ -59,11 +63,17 @@ namespace GarticUmm
                     {
                         TcpClient client = server.AcceptTcpClient();
                         connectionCount++;
+
                         HandleClient h_client = new HandleClient();
                         h_client.OnReceived += onReceiveHandler;
                         h_client.OnDisconnect += onDisconnectHandler;
                         h_client.StartClient(client, connectionCount);
-                        clients.Add(h_client);
+                        readyQueue.Enqueue(h_client);
+
+                        if (serverOwner == null)
+                        {
+                            serverOwner = h_client;
+                        }
 
                         // Send message at HandleClient.ClientThreadHandler
                         Console.WriteLine(h_client.ID + " Player had been joined.");
@@ -74,10 +84,11 @@ namespace GarticUmm
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
                 // 이미 서버가 실행중일 경우
                 Console.WriteLine("-- Server Start Exception --");
+                Console.WriteLine(ex.StackTrace);
                 OnRunFail("Server already running.");
             }
 
@@ -86,11 +97,17 @@ namespace GarticUmm
 
         public void ServerStop()
         {
-            for (int i = 0; i < clients.Count; i++)
+            while (playQueue.Size > 0)
             {
-                clients[i]?.StopClient();
+                playQueue.Dequeue().StopClient();
             }
 
+            while (readyQueue.Size > 0)
+            {
+                readyQueue.Dequeue().StopClient();
+            }
+
+            serverOwner = null;
             isRunning = false;
             server.Stop();
         }
@@ -99,7 +116,18 @@ namespace GarticUmm
         {
             if(res.Code == 1000 || res.Code == 4000 || res.Code == 3000 || res.Code == 3001)
             {
-                foreach (var client in clients)
+                foreach (var client in readyQueue)
+                {
+                    try
+                    {
+                        client.StreamWriter.WriteLine(res.Code.ToString() + "," + res.Message);
+                    }
+                    catch
+                    {
+                        Console.WriteLine("-- onReceive Handler Exception --");
+                    }
+                }
+                foreach (var client in playQueue)
                 {
                     try
                     {
@@ -118,14 +146,26 @@ namespace GarticUmm
             {
                 try
                 {
-                    if (playQueue.search(clients.IndexOf(target) + 1) == playQueue.Size)
-                    {
-                        clients[0].StreamWriter.WriteLine(res.Code.ToString() + "," + res.Message);
-                    }
-                    else
-                    {
-                        clients[clients.IndexOf(target) + 1].StreamWriter.WriteLine(res.Code.ToString() + "," + res.Message);
-                    }
+                    /**
+                     * TODO: 그림 받기
+                     * 그림은 HashMap을 이용해서 구현.
+                     * key는 제시어가 될 것.
+                     * value는 그림이 직렬화된 문자열의 배열 형태가 될 것.
+                     * 
+                     * imageList = {
+                     *   "제시어 1": [그림1_1, 그림1_2]
+                     *   "제시어 2": [그림2_1, 그림2_2]
+                     *   "제시어 3": [그림3_1, 그림3_2]
+                     * }
+                     * 
+                     * 그림을 받을 때 마다 readyPlayers의 값이 증가,
+                     * readyPlayers == playQueue.Size와 같아지면 모든 플레이어의 그림이 수집되었다는 뜻.
+                     * 
+                     * turn = 1 에 제시어를 정하고 그림을 그림 -> 제출
+                     * 모든 플레이어의 그림 수집이 완료된 후
+                     * imageList["제시어 1"][turn - 1] 그림을 다음 사람에게 전달
+                     * turn++
+                     */
                 }
                 catch
                 {
@@ -139,40 +179,37 @@ namespace GarticUmm
             {
                 if (res.Message == Constant.GAME_START)
                 {
-                    if(readyQueue.Size < 3)
+                    if (isOnGame)
                     {
-                        clients[0].StreamWriter.WriteLine("2002," + Constant.ERROR_NOT_ENOUGH_PLAYER);
+                        serverOwner.StreamWriter.WriteLine("2002," + Constant.ERROR_ALREADY_GAME_IS_RUNNING);
 
                         return;
                     }
 
-                    while(readyQueue.Size > 0)
+                    if(readyQueue.Size < 3)
                     {
-                        playQueue.enQueue(readyQueue.deQueue());
+                        serverOwner.StreamWriter.WriteLine("2002," + Constant.ERROR_NOT_ENOUGH_PLAYER);
+
+                        return;
                     }
 
-                    foreach(int id in playQueue)
+                    isOnGame = true;
+                    while(readyQueue.Size > 0)
                     {
-                        Console.WriteLine("send start signal to " + id);
-                        foreach (HandleClient client in clients)
-                        {
-                            if (client.ID == id)
-                            {
-                                client.StreamWriter.WriteLine("2004," + Constant.GAME_START);
-                            }
-                        }
+                        playQueue.Enqueue(readyQueue.Dequeue());
+                    }
+                    foreach(HandleClient client in playQueue)
+                    {
+                        client.StreamWriter.WriteLine("2004," + Constant.GAME_START);
                     }
                 }
             }
-            
         }
 
         private void onDisconnectHandler(HandleClient target)
         {
-            clients.Remove(target);
-            readyQueue.pop(target.ID);
-            playQueue.pop(target.ID);
-            syncQueue.pop(target.ID);
+            readyQueue.Pop(target);
+            playQueue.Pop(target);
             target.StopClient();
 
             Console.WriteLine(target.ID + " Player had been left.");
@@ -224,7 +261,6 @@ namespace GarticUmm
                 writer = new StreamWriter(stream, Constant.UTF8) { AutoFlush = true };
 
                 OnReceived(new ResClass(3000, clientID + " Player had been joined."), this);
-                SocketServer.readyQueue.enQueue(clientID);
 
                 while (isConnected)
                 {

@@ -393,33 +393,31 @@ namespace GarticUmm
                 if(res.Message == Constant.GAME_START)
                 {
                     GUWordForm wordForm = new GUWordForm();
-                    wordForm.DataPass += ReciveWord;
+                    wordForm.DataPass += (string data) =>
+                    {
+                        this.Invoke((MethodInvoker)(delegate ()
+                        {
+                            this.Testlabel.Text = data;
+                        }));
+                    }; ;
                     wordForm.ShowDialog();
                 }
             }
 
             if(res.Code == 2002)
             {
-                if(res.Message == Constant.ERROR_NOT_ENOUGH_PLAYER)
+                if (res.Message == Constant.ERROR_NOT_ENOUGH_PLAYER)
                 {
                     MessageBox.Show("You can't start a game until you have at least three players!");
+                    return;
+                }
+
+                if (res.Message == Constant.ERROR_ALREADY_GAME_IS_RUNNING)
+                {
+                    MessageBox.Show("Game is already running!");
+                    return;
                 }
             }
-        }
-        
-        //제시어 입력창 생성 및 저장(임시)
-        private List<string> words;//WordForm에서 입력받은 제시어 저장할 리스트
-        private void btnWord_Click(object sender, EventArgs e)
-        {
-            GUWordForm wordForm = new GUWordForm();
-            wordForm.DataPass += new GUWordForm.DataPassEventHandler(ReciveWord);
-            wordForm.ShowDialog();
-        }
-        public void ReciveWord(string data)//WordForm에서 받아온 제시어 저장 및 출력
-        {
-            words = new List<string>();
-            words.Add(data);
-            Testlabel.Text = data;
         }
 
         private void sendPaint(DrawLineHistroy histroy)

@@ -153,7 +153,14 @@ namespace GarticUmm
 
                     foreach(int id in playQueue)
                     {
-                        clients[id].StreamWriter.WriteLine("2004," + Constant.GAME_START);
+                        Console.WriteLine("send start signal to " + id);
+                        foreach (HandleClient client in clients)
+                        {
+                            if (client.ID == id)
+                            {
+                                client.StreamWriter.WriteLine("2004," + Constant.GAME_START);
+                            }
+                        }
                     }
                 }
             }
@@ -243,9 +250,10 @@ namespace GarticUmm
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
                 Console.WriteLine("-- Client Thread Handler Exception --");
+                Console.WriteLine(ex.StackTrace);
             }
 
             OnDisconnect(this);

@@ -34,7 +34,7 @@ namespace UmmQueue
         public void enQueue(T person)
         {
             Node<T> newnode = new Node<T>(person);
-            if (last == null)
+            if (first == null)
             {
                 first = newnode;
                 last = newnode;
@@ -42,7 +42,7 @@ namespace UmmQueue
             else
             {
                 last.next = newnode;
-                last = newnode;
+                last = last.next;
             }
             size++;
         }
@@ -54,8 +54,10 @@ namespace UmmQueue
 
             Node<T> result = first;
             first = first.next;
+
             if (first == null)
                 last = null;
+
             size--;
             return result.value;
         }

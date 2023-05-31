@@ -393,7 +393,7 @@ namespace GarticUmm
                 if(res.Message == Constant.GAME_START)
                 {
                     GUWordForm wordForm = new GUWordForm();
-                    wordForm.DataPass += new GUWordForm.DataPassEventHandler(ReciveWord);
+                    wordForm.DataPass += ReciveWord;
                     wordForm.ShowDialog();
                 }
             }

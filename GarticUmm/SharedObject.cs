@@ -16,7 +16,10 @@ namespace SharedObject
         public static readonly Encoding UTF8 = Encoding.GetEncoding("UTF-8");
 
         // Event state
-        public static readonly string START_GAEM = "STARTGAME";
+        public static readonly string GAME_START = "GAME_START";
+
+        // Error state
+        public static readonly string ERROR_NOT_ENOUGH_PLAYER = "ERROR_NOT_ENOUGH_PLAYER";
 
     }
 

@@ -24,9 +24,15 @@ namespace GarticUmm
 
         private List<HandleClient> clients = new List<HandleClient>();
         public int connectionCount = 0;
-
+        public static PersonQueue<int> readyQueue;
+        public static PersonQueue<int> playQueue;
+        public static PersonQueue<int> syncQueue;
         public SocketServer()
         {
+            readyQueue = new PersonQueue<int>();
+            playQueue = new PersonQueue<int>();
+            syncQueue = new PersonQueue<int>();
+
             serverThread = new Thread(ServerStart);
             serverThread.IsBackground = true;
             serverThread.Start();
@@ -53,7 +59,6 @@ namespace GarticUmm
                     {
                         TcpClient client = server.AcceptTcpClient();
                         connectionCount++;
-
                         HandleClient h_client = new HandleClient();
                         h_client.OnReceived += onReceiveHandler;
                         h_client.OnDisconnect += onDisconnectHandler;
@@ -90,28 +95,81 @@ namespace GarticUmm
             server.Stop();
         }
 
-        private void onReceiveHandler(ResClass res)
+        private void onReceiveHandler(ResClass res, HandleClient target)
         {
-            foreach (var client in clients)
+            if(res.Code == 1000 || res.Code == 4000 || res.Code == 3000 || res.Code == 3001)
+            {
+                foreach (var client in clients)
+                {
+                    try
+                    {
+                        client.StreamWriter.WriteLine(res.Code.ToString() + "," + res.Message);
+                    }
+                    catch
+                    {
+                        Console.WriteLine("-- onReceive Handler Exception --");
+                    }
+                }
+
+                return;
+            }
+            
+            if(res.Code == 5000)
             {
                 try
                 {
-                    client.StreamWriter.WriteLine(res.Code + "," + res.Message);
+                    if (playQueue.search(clients.IndexOf(target) + 1) == playQueue.Size)
+                    {
+                        clients[0].StreamWriter.WriteLine(res.Code.ToString() + "," + res.Message);
+                    }
+                    else
+                    {
+                        clients[clients.IndexOf(target) + 1].StreamWriter.WriteLine(res.Code.ToString() + "," + res.Message);
+                    }
                 }
                 catch
                 {
                     Console.WriteLine("-- onReceive Handler Exception --");
                 }
+
+                return;
             }
+
+            if (res.Code == 2004)
+            {
+                if (res.Message == Constant.GAME_START)
+                {
+                    if(readyQueue.Size < 3)
+                    {
+                        clients[0].StreamWriter.WriteLine("2002," + Constant.ERROR_NOT_ENOUGH_PLAYER);
+
+                        return;
+                    }
+
+                    while(readyQueue.Size > 0)
+                    {
+                        playQueue.enQueue(readyQueue.deQueue());
+                    }
+
+                    foreach(int id in playQueue)
+                    {
+                        clients[id].StreamWriter.WriteLine("2004," + Constant.GAME_START);
+                    }
+                }
+            }
+            
         }
 
         private void onDisconnectHandler(HandleClient target)
         {
             clients.Remove(target);
+            readyQueue.pop(target.ID);
+            playQueue.pop(target.ID);
+            syncQueue.pop(target.ID);
             target.StopClient();
 
-            onReceiveHandler(new ResClass(3001, target.ID+ " Player had been left."));
             Console.WriteLine(target.ID + " Player had been left.");
+            onReceiveHandler(new ResClass(3001, target.ID+ " Player had been left."), target);
             target = null;
         }
     }
@@ -143,7 +201,7 @@ namespace GarticUmm
             clientSocket?.Close();
         }
 
-        public delegate void ReceivedHandler(ResClass res);
+        public delegate void ReceivedHandler(ResClass res, HandleClient target);
         public event ReceivedHandler OnReceived;
 
         public delegate void DisconnectHandler(HandleClient target);
@@ -158,7 +216,8 @@ namespace GarticUmm
                 reader = new StreamReader(stream, Constant.UTF8);
                 writer = new StreamWriter(stream, Constant.UTF8) { AutoFlush = true };
 
-                OnReceived(new ResClass(3000, clientID + " Player had been joined."));
+                OnReceived(new ResClass(3000, clientID + " Player had been joined."), this);
+                SocketServer.readyQueue.enQueue(clientID);
 
                 while (isConnected)
                 {
@@ -173,12 +232,13 @@ namespace GarticUmm
 
                     if (res.Code == 4000)
                     {
-                        OnReceived(new ResClass(res.Code, clientID + " > " + res.Message));
+                        OnReceived(new ResClass(res.Code, clientID + " > " + res.Message), this);
                         Console.WriteLine("[OUT] {0}: {1}", clientID, res.Message);
                     }
 
                     if (res.Code == 2004)
                     {
+                        OnReceived(ResClass.Parse(str), this);
                         Console.WriteLine("Game start event");
                     }
                 }

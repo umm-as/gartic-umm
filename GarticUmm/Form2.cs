@@ -340,6 +340,7 @@ namespace GarticUmm
             if(type == UmmTimer.TimerType.TurnEnd) //턴이 끝났을 때
             {
                 MessageBox.Show("Turn End");
+                sendPaint(history);
             }
         }
 
@@ -384,6 +385,24 @@ namespace GarticUmm
                 {
                     MessageLog.AppendText(Environment.NewLine + res.Message);
                     MessageLog.ScrollToCaret();
+                }
+            }
+
+            if(res.Code == 2004)
+            {
+                if(res.Message == Constant.GAME_START)
+                {
+                    GUWordForm wordForm = new GUWordForm();
+                    wordForm.DataPass += new GUWordForm.DataPassEventHandler(ReciveWord);
+                    wordForm.ShowDialog();
+                }
+            }
+
+            if(res.Code == 2002)
+            {
+                if(res.Message == Constant.ERROR_NOT_ENOUGH_PLAYER)
+                {
+                    MessageBox.Show("You can't start a game until you have at least three players!");
                 }
             }
         }

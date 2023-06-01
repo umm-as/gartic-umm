@@ -174,11 +174,12 @@ namespace GarticUmm
                         foreach (var present in imageMap.Keys)
                         {
                             var presentor = playQueue.GetPresentor(present);
-                            var targetClient = playQueue.GetNthItem(presentor, turn);
+                            var targetClient = playQueue.GetNthItem(presentor, turn + 1);
                             targetClient.StreamWriter.WriteLine("5000," + imageMap[present][turn]);
+
+                            Console.WriteLine(present + ": " + imageMap[present][turn]);
                         }
 
-                        Console.WriteLine(imageMap);
                         turn++;
                         readyPlayers = 0;
                     }

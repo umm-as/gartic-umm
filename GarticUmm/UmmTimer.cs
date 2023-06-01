@@ -12,6 +12,7 @@ namespace UmmTimerNS
     {
         private Timer timer; //초기상태 초기화
         private int count;
+        private bool isOwnImage; // 제시어의 그림인지 확인
         private TimerType state;
 
         public enum TimerType //확인단계, 준비단계, 그리는단계, 턴 종료별 시간 선언
@@ -56,10 +57,20 @@ namespace UmmTimerNS
             EventHandler(state, count);
         }
 
-        public void TimerStart()
+        public void TimerStart(bool isOwnImage)
         {
-            count = (int)TimerType.Check;
-            state = TimerType.Check;
+            this.isOwnImage = isOwnImage;
+
+            if (isOwnImage) // 제시어 그림 그릴 때는 check단계 생략
+            {
+                count = (int)TimerType.Ready;
+                state = TimerType.Ready;
+            }
+            else
+            { 
+                count = (int)TimerType.Check;
+                state = TimerType.Check;
+            }
             timer.Start();
         }
 

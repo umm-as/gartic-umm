@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using UmmQueue;
 
 namespace UmmQueue
 {
@@ -34,14 +28,6 @@ namespace UmmQueue
             this.first = null;
             this.last = null;
             size = 0;
-        }
-
-        public T Peek()
-        {
-            if (first == null)
-                return default(T);
-
-            return first.value;
         }
 
         public void Enqueue(T item)
@@ -119,48 +105,6 @@ namespace UmmQueue
 
             size--;
             return result.value;
-        }
-
-        public int GetIndexOf(T target)
-        {
-            Node<T> cursor = first;
-            int idx = 0;
-
-            while (cursor != null)
-            {
-                if (cursor.value.Equals(target))
-                {
-                    return idx;
-                }
-                cursor = cursor.next;
-                idx++;
-            }
-
-            return -1;
-        }
-
-        public T GetNextItemOf(T target)
-        {
-            Node<T> cursor = first;
-
-            if (first == null)
-                return default(T);
-
-            while (cursor != null)
-            {
-                if (cursor.value.Equals(target))
-                {
-                    // 끝까지 도달했으면 맨 앞의 값 반환 (Circular queue)
-                    if (cursor.next == null)
-                    {
-                        return first.value;
-                    }
-                    return cursor.next.value;
-                }
-                cursor = cursor.next;
-            }
-
-            return default(T);
         }
 
         public void SetPresent(T target, string present)

@@ -1,31 +1,13 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing.Printing;
 using System.IO;
-using System.Linq;
-using System.Net;
 using System.Net.Sockets;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading;
-using System.Threading.Tasks;
 using SharedObject;
 using UmmQueue;
 
 namespace GarticUmm
 {
-    enum Stage
-    {
-        Pending,
-        SetPresent,
-        DrawOwnImage,
-        DrawImage,
-        CheckImage,
-    }
-
     internal class SocketServer
     {
         private Thread serverThread;
@@ -37,7 +19,6 @@ namespace GarticUmm
 
         private static PersonQueue<HandleClient> readyQueue;
         private static PersonQueue<HandleClient> playQueue;
-        private Stage stage;
         private int turn;
         private int readyPlayers;
         private bool isOnGame;
@@ -49,7 +30,6 @@ namespace GarticUmm
         {
             readyQueue = new PersonQueue<HandleClient>();
             playQueue = new PersonQueue<HandleClient>();
-            stage = Stage.Pending;
             turn = 0;
             readyPlayers = 0;
             isOnGame = false;
@@ -176,8 +156,6 @@ namespace GarticUmm
                             var presentor = playQueue.GetPresentor(present);
                             var targetClient = playQueue.GetNthItem(presentor, turn + 1);
                             targetClient.StreamWriter.WriteLine("5000," + imageMap[present][turn]);
-
-                            Console.WriteLine(present + ": " + imageMap[present][turn]);
                         }
 
                         turn++;
@@ -216,17 +194,11 @@ namespace GarticUmm
                 if (readyPlayers == playQueue.Size)
                 {
                     // 다음 스테이지로 전환
-                    stage = Stage.DrawOwnImage;
                     readyPlayers = 0;
 
                     foreach (var client in playQueue)
                     {
                         client.StreamWriter.WriteLine("2004," + Constant.START_DRAW_OWN_IMAGE_STAGE);
-                    }
-
-                    foreach (var present in imageMap.Keys)
-                    {
-                        Console.WriteLine(present);
                     }
                 }
             }

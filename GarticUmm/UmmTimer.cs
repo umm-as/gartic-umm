@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Drawing;
 using System.Windows.Forms;
-using MetroFramework.Forms;
-using System.IO;
-using SharedObject;
-using System.Collections.Generic;
 
 namespace UmmTimerNS
 {

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using UmmQueue;
@@ -198,6 +199,64 @@ namespace UmmQueue
             return default(T);
         }
 
+        private Node<T> GetReverseNthNode(Node<T> from, int idx)
+        {
+            Node<T> cursor = from;
+
+            for (int i=0; i<size-idx; i++)
+            {
+                cursor = cursor.next;
+                if (cursor == null)
+                {
+                    cursor = first;
+                }
+            }
+
+            return cursor;
+        }
+
+        public string GetPresentSavepointKey(T target, int turn)
+        {
+            Node<T> cursor = first;
+
+            while (cursor != null)
+            {
+                if (cursor.value.Equals(target))
+                {
+                    break;
+                }
+                cursor = cursor.next;
+            }
+
+            cursor = GetReverseNthNode(cursor, turn);
+
+            return cursor.present;
+        }
+
+        public T GetNthItem(T target, int idx)
+        {
+            Node<T> cursor = first;
+
+            while (cursor != null)
+            {
+                if (cursor.value.Equals(target))
+                {
+                    break;
+                }
+                cursor = cursor.next;
+            }
+
+            for (int i=0; i<idx; i++)
+            {
+                cursor = cursor.next;
+                if (cursor == null)
+                {
+                    cursor = first;
+                }
+            }
+
+            return cursor.value;
+        }
 
         public int Size
         {

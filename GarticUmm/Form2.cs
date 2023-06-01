@@ -339,7 +339,7 @@ namespace GarticUmm
             if(type == UmmTimer.TimerType.TurnEnd) //턴이 끝났을 때
             {
                 MessageBox.Show("Turn End");
-                sendPaint(history);
+                socketClient.SendPaint(history.toCSVString());
             }
         }
 
@@ -387,6 +387,12 @@ namespace GarticUmm
                 }
             }
 
+            if (res.Code == 5000)
+            {
+                history.loadHistory(DrawLineHistroy.toList(res.Message));
+                drawFromHistory();
+            }
+
             if(res.Code == 2004)
             {
                 if(res.Message == Constant.GAME_START)
@@ -432,11 +438,6 @@ namespace GarticUmm
                     return;
                 }
             }
-        }
-
-        private void sendPaint(DrawLineHistroy histroy)
-        {
-            socketClient.SendMessage("5000," + histroy.toCSVString());
         }
     }
 }

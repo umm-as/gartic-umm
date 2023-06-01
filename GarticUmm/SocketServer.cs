@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -37,6 +38,7 @@ namespace GarticUmm
         private static PersonQueue<HandleClient> readyQueue;
         private static PersonQueue<HandleClient> playQueue;
         private Stage stage;
+        private int turn;
         private int readyPlayers;
         private bool isOnGame;
 
@@ -48,6 +50,7 @@ namespace GarticUmm
             readyQueue = new PersonQueue<HandleClient>();
             playQueue = new PersonQueue<HandleClient>();
             stage = Stage.Pending;
+            turn = 0;
             readyPlayers = 0;
             isOnGame = false;
 
@@ -162,7 +165,23 @@ namespace GarticUmm
             {
                 try
                 {
+                    string saveKey = playQueue.GetPresentSavepointKey(target, turn);
+                    imageMap[saveKey].Add(res.Message);
+                    readyPlayers++;
 
+                    if (readyPlayers == playQueue.Size)
+                    {
+                        foreach (var present in imageMap.Keys)
+                        {
+                            var presentor = playQueue.GetPresentor(present);
+                            var targetClient = playQueue.GetNthItem(presentor, turn);
+                            targetClient.StreamWriter.WriteLine("5000," + imageMap[present][turn]);
+                        }
+
+                        Console.WriteLine(imageMap);
+                        turn++;
+                        readyPlayers = 0;
+                    }
                 }
                 catch
                 {

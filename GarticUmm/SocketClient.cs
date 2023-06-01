@@ -9,6 +9,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using SharedObject;
+using UmmQueue;
 
 namespace GarticUmm
 {
@@ -127,6 +128,15 @@ namespace GarticUmm
             }
 
             writer.WriteLine("4000," + message);
+        }
+
+        public void SendPaint(string message)
+        {
+            if (!isConnected) return;
+
+            NetworkStream stream = clientSocket.GetStream();
+            StreamWriter writer = new StreamWriter(stream, Constant.UTF8) { AutoFlush = true };
+            writer.WriteLine("5000," + message);
         }
 
         public void SendEvent(int code, string message)

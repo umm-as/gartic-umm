@@ -232,7 +232,7 @@ namespace GarticUmm
             this.LabelStatus.AutoSize = true;
             this.LabelStatus.Location = new System.Drawing.Point(17, 11);
             this.LabelStatus.Name = "LabelStatus";
-            this.LabelStatus.Size = new System.Drawing.Size(110, 19);
+            this.LabelStatus.Size = new System.Drawing.Size(119, 20);
             this.LabelStatus.TabIndex = 3;
             this.LabelStatus.Text = "Check the picture";
             // 
@@ -243,7 +243,7 @@ namespace GarticUmm
             this.LabelTimer.AutoSize = true;
             this.LabelTimer.Location = new System.Drawing.Point(321, 11);
             this.LabelTimer.Name = "LabelTimer";
-            this.LabelTimer.Size = new System.Drawing.Size(21, 19);
+            this.LabelTimer.Size = new System.Drawing.Size(22, 20);
             this.LabelTimer.TabIndex = 0;
             this.LabelTimer.Text = "10";
             // 
@@ -297,6 +297,9 @@ namespace GarticUmm
             this.splitContainer4.TabIndex = 0;
             // 
             // MessageSend
+            // 
+            // 
+            // 
             // 
             this.MessageSend.CustomButton.Image = null;
             this.MessageSend.CustomButton.Location = new System.Drawing.Point(272, 1);
@@ -353,19 +356,19 @@ namespace GarticUmm
             this.menuOpen,
             this.menuSave});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(102, 48);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(114, 52);
             // 
             // menuOpen
             // 
             this.menuOpen.Name = "menuOpen";
-            this.menuOpen.Size = new System.Drawing.Size(101, 22);
+            this.menuOpen.Size = new System.Drawing.Size(113, 24);
             this.menuOpen.Text = "open";
             this.menuOpen.Click += new System.EventHandler(this.menuOpen_Click);
             // 
             // menuSave
             // 
             this.menuSave.Name = "menuSave";
-            this.menuSave.Size = new System.Drawing.Size(101, 22);
+            this.menuSave.Size = new System.Drawing.Size(113, 24);
             this.menuSave.Text = "save";
             this.menuSave.Click += new System.EventHandler(this.menuSave_Click);
             // 

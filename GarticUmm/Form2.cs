@@ -79,7 +79,6 @@ namespace GarticUmm
             panel.Enabled = false; //그림 그릴 때가 아니면 panel을 잠금
             timer = new UmmTimer();
             timer.EventHandler += TimerHandler;
-            timer.TimerStart();
         }
 
         private void GUGameForm_FormClosed(object sender, FormClosedEventArgs e)
@@ -411,6 +410,10 @@ namespace GarticUmm
                 if (res.Message == Constant.START_DRAW_OWN_IMAGE_STAGE)
                 {
                     MessageBox.Show("Draw image for simply explane your present!");
+                    this.Invoke(new MethodInvoker(delegate ()
+                    {
+                        timer.TimerStart(true);
+                    })); // 제시어 그림 그릴 때 타이머 시작
                     return;
                 }
             }

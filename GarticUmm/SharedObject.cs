@@ -17,6 +17,11 @@ namespace SharedObject
 
         // Event state
         public static readonly string GAME_START = "GAME_START";
+        public static readonly string END_PRESENT_STAGE = "END_PRESENT_STAGE";
+        public static readonly string START_DRAW_OWN_IMAGE_STAGE = "START_DRAW_OWN_IMAGE_STAGE";
+        public static readonly string END_DRAW_OWN_IMAGE_STAGE = "END_DRAW_OWN_IMAGE_STAGE";
+        public static readonly string END_DRAW_IMAGE_STAGE = "END_DRAW_IMAGE_STAGE";
+        public static readonly string END_CHECK_IMAGE_STAGE = "END_CHECK_IMAGE_STAGE";
 
         // Error state
         public static readonly string ERROR_ALREADY_GAME_IS_RUNNING = "ERROR_ALREADY_GAME_IS_RUNNING";

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing.Printing;
@@ -15,6 +16,15 @@ using UmmQueue;
 
 namespace GarticUmm
 {
+    enum Stage
+    {
+        Pending,
+        SetPresent,
+        DrawOwnImage,
+        DrawImage,
+        CheckImage,
+    }
+
     internal class SocketServer
     {
         private Thread serverThread;
@@ -26,16 +36,22 @@ namespace GarticUmm
 
         private static PersonQueue<HandleClient> readyQueue;
         private static PersonQueue<HandleClient> playQueue;
+        private Stage stage;
         private int readyPlayers;
         private bool isOnGame;
+
+        private Dictionary<string, List<string>> imageMap;
 
 
         public SocketServer()
         {
             readyQueue = new PersonQueue<HandleClient>();
             playQueue = new PersonQueue<HandleClient>();
+            stage = Stage.Pending;
             readyPlayers = 0;
             isOnGame = false;
+
+            imageMap = new Dictionary<string, List<string>>();
 
             serverThread = new Thread(ServerStart);
             serverThread.IsBackground = true;
@@ -146,26 +162,7 @@ namespace GarticUmm
             {
                 try
                 {
-                    /**
-                     * TODO: 그림 받기
-                     * 그림은 HashMap을 이용해서 구현.
-                     * key는 제시어가 될 것.
-                     * value는 그림이 직렬화된 문자열의 배열 형태가 될 것.
-                     * 
-                     * imageList = {
-                     *   "제시어 1": [그림1_1, 그림1_2]
-                     *   "제시어 2": [그림2_1, 그림2_2]
-                     *   "제시어 3": [그림3_1, 그림3_2]
-                     * }
-                     * 
-                     * 그림을 받을 때 마다 readyPlayers의 값이 증가,
-                     * readyPlayers == playQueue.Size와 같아지면 모든 플레이어의 그림이 수집되었다는 뜻.
-                     * 
-                     * turn = 1 에 제시어를 정하고 그림을 그림 -> 제출
-                     * 모든 플레이어의 그림 수집이 완료된 후
-                     * imageList["제시어 1"][turn - 1] 그림을 다음 사람에게 전달
-                     * turn++
-                     */
+
                 }
                 catch
                 {
@@ -173,6 +170,45 @@ namespace GarticUmm
                 }
 
                 return;
+            }
+
+            if (res.Code == 3003)
+            {
+                if (res.Message == Constant.END_DRAW_IMAGE_STAGE)
+                {
+                    return;
+                }
+
+                if (res.Message == Constant.END_CHECK_IMAGE_STAGE)
+                {
+                    return;
+                }
+            }
+
+            // 제시어 입력이 들어왔을 때
+            if (res.Code == 3004)
+            {
+                playQueue.SetPresent(target, res.Message);
+                imageMap.Add(res.Message, new List<string>());
+                readyPlayers++;
+
+                // 전부 제시어 입력을 완료했을 때
+                if (readyPlayers == playQueue.Size)
+                {
+                    // 다음 스테이지로 전환
+                    stage = Stage.DrawOwnImage;
+                    readyPlayers = 0;
+
+                    foreach (var client in playQueue)
+                    {
+                        client.StreamWriter.WriteLine("2004," + Constant.START_DRAW_OWN_IMAGE_STAGE);
+                    }
+
+                    foreach (var present in imageMap.Keys)
+                    {
+                        Console.WriteLine(present);
+                    }
+                }
             }
 
             if (res.Code == 2004)
@@ -265,7 +301,7 @@ namespace GarticUmm
                 while (isConnected)
                 {
                     string str = reader.ReadLine();
-                    Console.WriteLine("[IN] {0}: {1}", clientID, str);
+
                     // 연결이 끊긴 경우에만 null값이 들어옴
                     if (str == null) break;
 
@@ -273,17 +309,14 @@ namespace GarticUmm
 
                     if (OnReceived == null) continue;
 
+                    // 채팅은 문자열을 가공을 해주고 넘김
                     if (res.Code == 4000)
                     {
                         OnReceived(new ResClass(res.Code, clientID + " > " + res.Message), this);
-                        Console.WriteLine("[OUT] {0}: {1}", clientID, res.Message);
+                        continue;
                     }
 
-                    if (res.Code == 2004)
-                    {
-                        OnReceived(ResClass.Parse(str), this);
-                        Console.WriteLine("Game start event");
-                    }
+                    OnReceived(res, this);
                 }
             }
             catch (Exception ex)

@@ -11,11 +11,14 @@ namespace UmmQueue
     class Node<T>
     {
         public T value;
+        public string present;
         public Node<T> next;
+
         public Node(T value)
         {
             this.value = value;
             this.next = null;
+            this.present = "";
         }
     }
 
@@ -152,6 +155,42 @@ namespace UmmQueue
                         return first.value;
                     }
                     return cursor.next.value;
+                }
+                cursor = cursor.next;
+            }
+
+            return default(T);
+        }
+
+        public void SetPresent(T target, string present)
+        {
+            Node<T> cursor = first;
+
+            if (first == null) return;
+
+            while (cursor != null)
+            {
+                if (cursor.value.Equals(target))
+                {
+                    cursor.present = present;
+                    return;
+                }
+                cursor = cursor.next;
+            }
+        }
+
+        public T GetPresentor(string present)
+        {
+            Node<T> cursor = first;
+
+            if (first == null)
+                return default(T);
+
+            while (cursor != null)
+            {
+                if (cursor.present == present)
+                {
+                    return cursor.value;
                 }
                 cursor = cursor.next;
             }

@@ -399,8 +399,19 @@ namespace GarticUmm
                         {
                             this.Testlabel.Text = data;
                         }));
+
+                        socketClient.SendEvent(3004, data);
+
+                        wordForm.Close();
                     }; ;
                     wordForm.ShowDialog();
+                    return;
+                }
+
+                if (res.Message == Constant.START_DRAW_OWN_IMAGE_STAGE)
+                {
+                    MessageBox.Show("Draw image for simply explane your present!");
+                    return;
                 }
             }
 

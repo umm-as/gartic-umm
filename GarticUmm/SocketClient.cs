@@ -128,5 +128,14 @@ namespace GarticUmm
 
             writer.WriteLine("4000," + message);
         }
+
+        public void SendEvent(int code, string message)
+        {
+            if (!isConnected) return;
+
+            NetworkStream stream = clientSocket.GetStream();
+            StreamWriter writer = new StreamWriter(stream, Constant.UTF8) { AutoFlush = true };
+            writer.WriteLine($"{code},{message}");
+        }
     }
 }

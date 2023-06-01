@@ -2,11 +2,8 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using MetroFramework.Forms;
-using System.IO;
 using SharedObject;
 using UmmTimerNS;
-using System.Threading;
-using System.Collections.Generic;
 
 namespace GarticUmm
 {
@@ -38,15 +35,15 @@ namespace GarticUmm
             this.thinbtn.Pushed = true;
             this.blackbtn.Pushed = true;
 
-            // For develop - Woong
-            openFileDialog1.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            saveFileDialog1.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            openFileDialog1.Filter = "Text (*.txt)|*.txt";
-            saveFileDialog1.Filter = "Text (*.txt)|*.txt";
-            saveFileDialog1.FileName = "*.txt";
-
-            // For develop TCP - Woong
             this.isServer = isServer;
+        }
+        
+
+        private void GUGameForm_Load(object sender, EventArgs e)
+        {
+            panel.Enabled = false; //그림 그릴 때가 아니면 panel을 잠금
+            timer = new UmmTimer();
+            timer.EventHandler += TimerHandler;
 
             if (isServer)
             {
@@ -72,14 +69,6 @@ namespace GarticUmm
             socketClient.OnReceived += GetResponseHandler;
             socketClient.Connect();
         }
-        
-
-        private void GUGameForm_Load(object sender, EventArgs e)
-        {
-            panel.Enabled = false; //그림 그릴 때가 아니면 panel을 잠금
-            timer = new UmmTimer();
-            timer.EventHandler += TimerHandler;
-        }
 
         private void GUGameForm_FormClosed(object sender, FormClosedEventArgs e)
         {
@@ -92,11 +81,6 @@ namespace GarticUmm
         private void AddDrawingHistory(Pen pen, Point pointFrom, Point pointDest)
         {
             history.addHistory(pen, pointFrom, pointDest);
-        }
-
-        private void ClearDrawingHistory()
-        {
-            history.clearHistory();
         }
 
         private void panel_MouseDown(object sender, MouseEventArgs e)
@@ -123,41 +107,6 @@ namespace GarticUmm
             moving = false;
             x = -1;
             y = -1;
-        }
-
-        // For develop - Woong
-        private void menuOpen_Click(object sender, EventArgs e)
-        {
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                ClearDrawingHistory();
-
-                // load
-                Stream stream = openFileDialog1.OpenFile();
-                StreamReader sr = new StreamReader(stream);
-                string csv = sr.ReadToEnd();
-                sr.Close();
-                stream.Close();
-                // deserialize drawing history
-                history.loadHistory(DrawLineHistroy.toList(csv));
-                // drawing
-                drawFromHistory();
-            }
-        }
-        // For develop - Woong
-        private void menuSave_Click(object sender, EventArgs e)
-        {
-            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                // serialize drawing history
-                string csv = history.toCSVString();
-                // save
-                Stream stream = saveFileDialog1.OpenFile();
-                StreamWriter sw = new StreamWriter(stream);
-                sw.Write(csv);
-                sw.Close();
-                stream.Close();
-            }
         }
 
         private void drawFromHistory()
@@ -204,7 +153,7 @@ namespace GarticUmm
             else if(e.Button == eraserbtn)
             {
                 Set_initial();
-                ClearDrawingHistory();
+                history.clearHistory();
                 panel.Refresh();  
             }
             
@@ -328,6 +277,11 @@ namespace GarticUmm
                     break;
                 case UmmTimer.TimerType.Ready:
                     LabelStatus.Text = "Ready...";
+                    this.Invoke((MethodInvoker)(delegate ()
+                    {
+                        history.clearHistory();
+                        panel.Refresh();
+                    }));
                     break;
                 case UmmTimer.TimerType.Drawing:
                     LabelStatus.Text = "Drawing...";
@@ -338,8 +292,8 @@ namespace GarticUmm
 
             if(type == UmmTimer.TimerType.TurnEnd) //턴이 끝났을 때
             {
-                MessageBox.Show("Turn End");
                 socketClient.SendPaint(history.toCSVString());
+                panel.Enabled = false;
             }
         }
 
@@ -372,19 +326,11 @@ namespace GarticUmm
 
             if (res.Code == 4000 || res.Code == 3000 || res.Code == 3001)
             {
-                if (MessageLog.InvokeRequired)
-                {
-                    MessageLog.BeginInvoke(new MethodInvoker(delegate
+                MessageLog.Invoke((MethodInvoker) delegate
                     {
-                        MessageLog.AppendText(Environment.NewLine + res.Message);
+                        MessageLog.AppendText(res.Message + Environment.NewLine);
                         MessageLog.ScrollToCaret();
-                    }));
-                }
-                else
-                {
-                    MessageLog.AppendText(Environment.NewLine + res.Message);
-                    MessageLog.ScrollToCaret();
-                }
+                    });
             }
 
             if (res.Code == 5000)
@@ -392,8 +338,11 @@ namespace GarticUmm
                 this.Invoke((MethodInvoker)(delegate ()
                 {
                     history.clearHistory();
+                    panel.Refresh();
                     history.loadHistory(DrawLineHistroy.toList(res.Message));
                     drawFromHistory();
+
+                    timer.TimerStart(false);
                 }));
             }
 
@@ -419,7 +368,7 @@ namespace GarticUmm
 
                 if (res.Message == Constant.START_DRAW_OWN_IMAGE_STAGE)
                 {
-                    MessageBox.Show("Draw image for simply explane your present!");
+                    MessageBox.Show("Draw image in 30 second\nfor simply explane your present!");
                     this.Invoke(new MethodInvoker(delegate ()
                     {
                         timer.TimerStart(true);
@@ -432,7 +381,7 @@ namespace GarticUmm
             {
                 if (res.Message == Constant.ERROR_NOT_ENOUGH_PLAYER)
                 {
-                    MessageBox.Show("You can't start a game until you have at least three players!");
+                    MessageBox.Show("You can't start a game until\nyou have at least three players!");
                     return;
                 }
 

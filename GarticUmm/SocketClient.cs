@@ -1,15 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Net.Sockets;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading;
-using System.Threading.Tasks;
 using SharedObject;
-using UmmQueue;
 
 namespace GarticUmm
 {
@@ -96,9 +89,6 @@ namespace GarticUmm
         public void SendMessage(string message)
         {
             if (!isConnected) return;
-            // message를 ,를 기준으로 code와 msg로 나누어 msg를 보낼수 있게 함
-            //string splitmsg = message.Substring(message.IndexOf(',') + 1).Trim();
-            //string splitcode = message.Substring(0, message.IndexOf(','));
 
             NetworkStream stream = clientSocket.GetStream();
             StreamWriter writer = new StreamWriter(stream, Constant.UTF8) { AutoFlush = true };

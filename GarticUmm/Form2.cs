@@ -389,8 +389,12 @@ namespace GarticUmm
 
             if (res.Code == 5000)
             {
-                history.loadHistory(DrawLineHistroy.toList(res.Message));
-                drawFromHistory();
+                this.Invoke((MethodInvoker)(delegate ()
+                {
+                    history.clearHistory();
+                    history.loadHistory(DrawLineHistroy.toList(res.Message));
+                    drawFromHistory();
+                }));
             }
 
             if(res.Code == 2004)

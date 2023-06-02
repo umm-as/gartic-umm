@@ -171,6 +171,7 @@ namespace GarticUmm
                                 readyQueue.Enqueue(playQueue.Dequeue());
                             }
                             imageMap.Clear();
+                            turn = 0;
                         }
                         readyPlayers = 0;
                     }

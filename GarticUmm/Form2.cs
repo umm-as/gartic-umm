@@ -23,6 +23,8 @@ namespace GarticUmm
         SocketServer socketServer;
         SocketClient socketClient;
 
+        bool refreshflag = true;
+
         public GUGameForm(bool isServer)
         {
             InitializeComponent();
@@ -281,6 +283,7 @@ namespace GarticUmm
                 case UmmTimer.TimerType.Drawing:
                     LabelStatus.Text = "Drawing...";
                     panel.Enabled = true; //그림 그릴 때 만 panel을 열어둠
+                    eraserbtn.Enabled = true;
                     break;
             }
             LabelTimer.Text = count.ToString();
@@ -288,7 +291,9 @@ namespace GarticUmm
             if(type == UmmTimer.TimerType.TurnEnd) //턴이 끝났을 때
             {
                 socketClient.SendPaint(history.toCSVString());
+                refreshflag = false;
                 panel.Enabled = false;
+                eraserbtn.Enabled = false;
             }
         }
 
@@ -332,9 +337,8 @@ namespace GarticUmm
             {
                 this.Invoke((MethodInvoker)(delegate ()
                 {
-                    panel.Refresh();
                     history.loadHistory(DrawLineHistroy.toList(res.Message));
-                    drawFromHistory();
+                    panel.Refresh();
 
                     timer.TimerStart(false);
                 }));
@@ -377,7 +381,7 @@ namespace GarticUmm
                         timer.TimerStop();
                     }));
                     GUWordForm wordForm = new GUWordForm();
-                    wordForm.label1.Text = "현재 그림을 보고 정답을 입력해주세요!";
+                    wordForm.label1.Text = "Look at the picture and enter the correct answer!";
                     wordForm.DataPass += (string data) =>
                     {
                         this.Invoke((MethodInvoker)(delegate ()
@@ -414,7 +418,13 @@ namespace GarticUmm
 
         private void panel_Paint(object sender, PaintEventArgs e)
         {
+            if (refreshflag == false)
+            {
+                refreshflag = true;
+                return;
+            }
             drawFromHistory();
+
         }
     }
 }

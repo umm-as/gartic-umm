@@ -18,6 +18,7 @@ namespace SharedObject
         public static readonly string END_DRAW_OWN_IMAGE_STAGE = "END_DRAW_OWN_IMAGE_STAGE";
         public static readonly string END_DRAW_IMAGE_STAGE = "END_DRAW_IMAGE_STAGE";
         public static readonly string END_CHECK_IMAGE_STAGE = "END_CHECK_IMAGE_STAGE";
+        public static readonly string GAME_END = "GAME_END";
 
         // Error state
         public static readonly string ERROR_ALREADY_GAME_IS_RUNNING = "ERROR_ALREADY_GAME_IS_RUNNING";

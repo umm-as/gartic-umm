@@ -226,7 +226,7 @@ namespace GarticUmm
             this.LabelStatus.AutoSize = true;
             this.LabelStatus.Location = new System.Drawing.Point(17, 11);
             this.LabelStatus.Name = "LabelStatus";
-            this.LabelStatus.Size = new System.Drawing.Size(110, 19);
+            this.LabelStatus.Size = new System.Drawing.Size(119, 20);
             this.LabelStatus.TabIndex = 3;
             this.LabelStatus.Text = "Check the picture";
             // 
@@ -237,7 +237,7 @@ namespace GarticUmm
             this.LabelTimer.AutoSize = true;
             this.LabelTimer.Location = new System.Drawing.Point(321, 11);
             this.LabelTimer.Name = "LabelTimer";
-            this.LabelTimer.Size = new System.Drawing.Size(21, 19);
+            this.LabelTimer.Size = new System.Drawing.Size(22, 20);
             this.LabelTimer.TabIndex = 0;
             this.LabelTimer.Text = "10";
             // 

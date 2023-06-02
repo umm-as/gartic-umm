@@ -263,11 +263,6 @@ namespace GarticUmm
             brush.Color = Color.Black;
         }
 
-        private void panel_Paint(object sender, PaintEventArgs e)
-        {
-            drawFromHistory();
-        }
-
         private void TimerHandler(UmmTimer.TimerType type, int count) //타이머 호출
         {
             switch (type) //각각 상태에서 Label 및 상태 변경
@@ -337,7 +332,6 @@ namespace GarticUmm
             {
                 this.Invoke((MethodInvoker)(delegate ()
                 {
-                    history.clearHistory();
                     panel.Refresh();
                     history.loadHistory(DrawLineHistroy.toList(res.Message));
                     drawFromHistory();
@@ -361,7 +355,7 @@ namespace GarticUmm
                         socketClient.SendEvent(3004, data);
 
                         wordForm.Close();
-                    }; ;
+                    };;
                     wordForm.ShowDialog();
                     return;
                 }
@@ -373,6 +367,31 @@ namespace GarticUmm
                     {
                         timer.TimerStart(true);
                     })); // 제시어 그림 그릴 때 타이머 시작
+                    return;
+                }
+
+                if (res.Message == Constant.GAME_END)
+                {
+                    this.Invoke((MethodInvoker)(delegate ()
+                    {
+                        timer.TimerStop();
+                    }));
+                    GUWordForm wordForm = new GUWordForm();
+                    wordForm.label1.Text = "현재 그림을 보고 정답을 입력해주세요!";
+                    wordForm.DataPass += (string data) =>
+                    {
+                        this.Invoke((MethodInvoker)(delegate ()
+                        {
+                            this.Testlabel.Text = data;
+                        }));
+                        wordForm.Close();
+                    };;
+                    wordForm.ShowDialog();
+                    this.Invoke((MethodInvoker)(delegate ()
+                    {
+                        history.clearHistory();
+                        panel.Refresh();
+                    }));
                     return;
                 }
             }
@@ -391,6 +410,11 @@ namespace GarticUmm
                     return;
                 }
             }
+        }
+
+        private void panel_Paint(object sender, PaintEventArgs e)
+        {
+            drawFromHistory();
         }
     }
 }

@@ -159,6 +159,19 @@ namespace GarticUmm
                         }
 
                         turn++;
+                        if (turn == playQueue.Size - 1)
+                        {
+                            isOnGame = false;
+                            foreach (var client in playQueue)
+                            { 
+                                client.StreamWriter.WriteLine("2004," + Constant.GAME_END);
+                            }
+                            while (playQueue.Size > 0)
+                            {
+                                readyQueue.Enqueue(playQueue.Dequeue());
+                            }
+                            imageMap.Clear();
+                        }
                         readyPlayers = 0;
                     }
                 }

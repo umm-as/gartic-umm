@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using System.Globalization;
 using System.Windows.Forms;
 using MetroFramework.Forms;
 using SharedObject;
@@ -374,7 +375,7 @@ namespace GarticUmm
                     return;
                 }
 
-                if (res.Message == Constant.GAME_END)
+                if (res.Message == Constant.ENTER_ANSWER)
                 {
                     this.Invoke((MethodInvoker)(delegate ()
                     {
@@ -388,6 +389,9 @@ namespace GarticUmm
                         {
                             this.Testlabel.Text = data;
                         }));
+
+                        socketClient.SendEvent(3005, data);
+
                         wordForm.Close();
                     };;
                     wordForm.ShowDialog();
@@ -397,6 +401,16 @@ namespace GarticUmm
                         panel.Refresh();
                     }));
                     return;
+                }
+                
+                if (res.Message == Constant.GAME_END_CORRECT)
+                {
+                    MessageBox.Show("Oh, Awesome! See you next time!");
+                }
+
+                if (res.Message == Constant.GAME_END_INCORRECT)
+                {
+                    MessageBox.Show("Umm... See you next time...");
                 }
             }
 

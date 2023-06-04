@@ -243,6 +243,20 @@ namespace GarticUmm
             Console.WriteLine(target.ID + " Player had been left.");
             onReceiveHandler(new ResClass(3001, target.ID+ " Player had been left."), target);
             target = null;
+
+            if (isOnGame)
+            {
+                turn = 0;
+                readyPlayers = 0;
+                isOnGame = false;
+                imageMap.Clear();
+                while (playQueue.Size >0)
+                {
+                    HandleClient client = playQueue.Dequeue();
+                    client.StreamWriter.WriteLine("2002," + Constant.ERROR_PLAYER_LEFT_WHILE_GAME_IS_RUNNING);
+                    readyQueue.Enqueue(client);
+                }
+            }
         }
     }
 

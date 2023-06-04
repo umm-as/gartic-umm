@@ -295,6 +295,11 @@ namespace GarticUmm
                 socketClient.SendPaint(history.toCSVString());
                 panel.Enabled = false;
             }
+
+            if(type == UmmTimer.TimerType.Terminate) //중단되었을 때
+            {
+                panel.Enabled = false;
+            }
         }
 
         private void SendButton_Click(object sender, EventArgs e)
@@ -361,14 +366,14 @@ namespace GarticUmm
                         socketClient.SendEvent(3004, data);
 
                         wordForm.Close();
-                    }; ;
+                    };
                     wordForm.ShowDialog();
                     return;
                 }
 
                 if (res.Message == Constant.START_DRAW_OWN_IMAGE_STAGE)
                 {
-                    MessageBox.Show("Draw image in 30 second\nfor simply explane your present!");
+                    MessageBox.Show("Draw image in 30 second\nfor simply explain your present!");
                     this.Invoke(new MethodInvoker(delegate ()
                     {
                         timer.TimerStart(true);
@@ -388,6 +393,18 @@ namespace GarticUmm
                 if (res.Message == Constant.ERROR_ALREADY_GAME_IS_RUNNING)
                 {
                     MessageBox.Show("Game is already running!");
+                    return;
+                }
+                
+                if (res.Message == Constant.ERROR_PLAYER_LEFT_WHILE_GAME_IS_RUNNING)
+                {
+                    this.Invoke((MethodInvoker)(delegate ()
+                    {
+                        timer.TimerStop();
+                        history.clearHistory();
+                        panel.Refresh();
+                    }));
+                    MessageBox.Show("The game stopped because someone left.");
                     return;
                 }
             }

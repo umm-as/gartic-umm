@@ -218,7 +218,7 @@ namespace GarticUmm
             if (res.Code == 3005)
             {
                 readyPlayers++;
-                var PointKey = playQueue.GetPresentSavepointKey(target, 1);
+                var PointKey = playQueue.GetPresentSavepointKey(target, playQueue.Size - 1);
                 ClientAnswer.Add(res.Message);
                 RealAnswer.Add(PointKey);
 
@@ -244,6 +244,8 @@ namespace GarticUmm
                         readyQueue.Enqueue(playQueue.Dequeue());
                     }
                     imageMap.Clear();
+                    ClientAnswer.Clear();
+                    RealAnswer.Clear();
                     turn = 0;
                 }
             }

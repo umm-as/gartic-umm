@@ -6,7 +6,7 @@ using SharedObject;
 
 namespace GarticUmm
 {
-    internal class SocketClient
+    public class SocketClient
     {
         TcpClient clientSocket;
         Thread recieveThread;

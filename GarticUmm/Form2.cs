@@ -295,6 +295,11 @@ namespace GarticUmm
                 socketClient.SendPaint(history.toCSVString());
                 panel.Enabled = false;
             }
+
+
+            GUFinishForm gameForm = new GUFinishForm(socketClient);
+            gameForm.Owner = this;
+            gameForm.ShowDialog();
         }
 
         private void SendButton_Click(object sender, EventArgs e)

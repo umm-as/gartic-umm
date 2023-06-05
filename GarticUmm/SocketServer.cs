@@ -244,6 +244,11 @@ namespace GarticUmm
             onReceiveHandler(new ResClass(3001, target.ID+ " Player had been left."), target);
             target = null;
         }
+
+        internal Dictionary<string, List<string>> GetDictionary()
+        {
+            return imageMap;
+        }
     }
 
     class HandleClient

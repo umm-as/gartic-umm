@@ -305,6 +305,11 @@ namespace GarticUmm
                 }
             }
         }
+
+        internal Dictionary<string, List<string>> GetDictionary()
+        {
+            return imageMap;
+        }
     }
 
     class HandleClient

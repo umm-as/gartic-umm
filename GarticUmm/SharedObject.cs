@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace SharedObject
 {
-    class Constant
+    public class Constant
     {
         public static readonly IPAddress LOCALHOST = IPAddress.Parse("127.0.0.1");
         //public static readonly IPAddress LOCALHOST = IPAddress.Parse("192.168.182.194");
@@ -29,7 +29,7 @@ namespace SharedObject
 
     }
 
-    class ResClass
+    public class ResClass
     {
         /**
          * Event code list

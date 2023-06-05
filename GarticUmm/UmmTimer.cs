@@ -73,7 +73,14 @@ namespace UmmTimerNS
         {
             timer.Stop();
             state = TimerType.Terminate;
+            EventHandler(state, (int)state);
         }
         
+        public void TimerReset()
+        {
+            timer.Stop();
+            count= 0;
+            state = TimerType.Check;
+        }
     }
 }

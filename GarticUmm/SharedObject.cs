@@ -25,6 +25,7 @@ namespace SharedObject
         // Error state
         public static readonly string ERROR_ALREADY_GAME_IS_RUNNING = "ERROR_ALREADY_GAME_IS_RUNNING";
         public static readonly string ERROR_NOT_ENOUGH_PLAYER = "ERROR_NOT_ENOUGH_PLAYER";
+        public static readonly string ERROR_PLAYER_LEFT_WHILE_GAME_IS_RUNNING = "ERROR_PLAYER_LEFT_WHILE_GAME_IS_RUNNING";
 
     }
 

@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using System.Globalization;
 using System.Windows.Forms;
 using MetroFramework.Forms;
 using SharedObject;
@@ -22,6 +23,8 @@ namespace GarticUmm
         bool isServer;
         SocketServer socketServer;
         SocketClient socketClient;
+
+        bool refreshflag = true;
 
         public GUGameForm(bool isServer)
         {
@@ -263,11 +266,6 @@ namespace GarticUmm
             brush.Color = Color.Black;
         }
 
-        private void panel_Paint(object sender, PaintEventArgs e)
-        {
-            drawFromHistory();
-        }
-
         private void TimerHandler(UmmTimer.TimerType type, int count) //타이머 호출
         {
             switch (type) //각각 상태에서 Label 및 상태 변경
@@ -286,6 +284,7 @@ namespace GarticUmm
                 case UmmTimer.TimerType.Drawing:
                     LabelStatus.Text = "Drawing...";
                     panel.Enabled = true; //그림 그릴 때 만 panel을 열어둠
+                    eraserbtn.Enabled = true;
                     break;
             }
             LabelTimer.Text = count.ToString();
@@ -293,7 +292,9 @@ namespace GarticUmm
             if(type == UmmTimer.TimerType.TurnEnd) //턴이 끝났을 때
             {
                 socketClient.SendPaint(history.toCSVString());
+                refreshflag = false;
                 panel.Enabled = false;
+                eraserbtn.Enabled = false;
             }
 
             if(type == UmmTimer.TimerType.Terminate) //중단되었을 때
@@ -342,10 +343,8 @@ namespace GarticUmm
             {
                 this.Invoke((MethodInvoker)(delegate ()
                 {
-                    history.clearHistory();
-                    panel.Refresh();
                     history.loadHistory(DrawLineHistroy.toList(res.Message));
-                    drawFromHistory();
+                    panel.Refresh();
 
                     timer.TimerStart(false);
                 }));
@@ -380,6 +379,44 @@ namespace GarticUmm
                     })); // 제시어 그림 그릴 때 타이머 시작
                     return;
                 }
+
+                if (res.Message == Constant.ENTER_ANSWER)
+                {
+                    this.Invoke((MethodInvoker)(delegate ()
+                    {
+                        timer.TimerStop();
+                    }));
+                    GUWordForm wordForm = new GUWordForm();
+                    wordForm.label1.Text = "Look at the picture and enter the correct answer!";
+                    wordForm.DataPass += (string data) =>
+                    {
+                        this.Invoke((MethodInvoker)(delegate ()
+                        {
+                            this.Testlabel.Text = data;
+                        }));
+
+                        socketClient.SendEvent(3005, data);
+
+                        wordForm.Close();
+                    };;
+                    wordForm.ShowDialog();
+                    this.Invoke((MethodInvoker)(delegate ()
+                    {
+                        history.clearHistory();
+                        panel.Refresh();
+                    }));
+                    return;
+                }
+                
+                if (res.Message == Constant.GAME_END_CORRECT)
+                {
+                    MessageBox.Show("Oh, Awesome! See you next time!");
+                }
+
+                if (res.Message == Constant.GAME_END_INCORRECT)
+                {
+                    MessageBox.Show("Umm... See you next time...");
+                }
             }
 
             if(res.Code == 2002)
@@ -408,6 +445,17 @@ namespace GarticUmm
                     return;
                 }
             }
+        }
+
+        private void panel_Paint(object sender, PaintEventArgs e)
+        {
+            if (refreshflag == false)
+            {
+                refreshflag = true;
+                return;
+            }
+            drawFromHistory();
+
         }
     }
 }

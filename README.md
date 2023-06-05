@@ -9,14 +9,14 @@ _**QA 리포트는 [QA_Report.md](https://github.com/umm-as/gartic-umm/blob/mast
 
 ## 프로젝트 주제명
 
-**Galtic-Umm**
+**Gartic-Umm**
 
 </br>
 
 ## 프로젝트 주제에 대한 설명
 
-Umm 팀에서 Galtic phone이라는 게임에 영향을 받아 그 게임을 참고하여\
-window form에서 소켓 통신을 이용해 Galtic 멀티플레이 게임을 만들고자 합니다.
+Umm 팀에서 Gartic phone이라는 게임에 영향을 받아 그 게임을 참고하여\
+window form에서 소켓 통신을 이용해 Gartic 멀티플레이 게임을 만들고자 합니다.
 
 ### 기본적인 게임의 진행방식은 다음과 같습니다.
 
@@ -88,7 +88,7 @@ _**변경된 역할분담은 [QA_Report.md](https://github.com/umm-as/gartic-umm
 | 코드 번호 | 코드 내용 | 사용 |
 |---|---|---|
 | 2000 | Server created | 서버가 시작했을 때 |
-| 2001 | Server stoped | 서버가 중단됬을 때 |
+| 2001 | Server stoped | 서버가 중단을 때 |
 | 2002 | Server run error | 서버 동작에서 에러가 있을 때 |
 | 2003 | Client list update | 클라이언트의 변화가 있을 때 (입장/퇴장) |
 | 2004 | Change stage | 게임 단계가 변경될 때 (대기 - (게임시작) 제시어 지정 - 그림 - 그림 확인...) |
@@ -107,11 +107,11 @@ _**변경된 역할분담은 [QA_Report.md](https://github.com/umm-as/gartic-umm
 | 코드 번호 | 코드 내용 | 사용 |
 |---|---|---|
 | 4000 | Message sended | 채팅을 보냈을 때 |
-| 4001 | Message error | 채팅 에러 |
+| ~~4001~~ | ~~Message error~~ | ~~채팅 에러~~ |
 
 `Image code`
 
 | 코드 번호 | 코드 내용 | 사용 |
 |---|---|---|
 | 5000 | Image sended | 그림을 보냈을 때 |
-| 5001 | Image error | 그림 에러 |
+| ~~5001~~ | ~~Image error~~ | ~~그림 에러~~ |

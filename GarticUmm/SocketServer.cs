@@ -24,7 +24,8 @@ namespace GarticUmm
         private bool isOnGame;
 
         private Dictionary<string, List<string>> imageMap;
-
+        private List<string> ClientAnswer;
+        private List<string> RealAnswer;
 
         public SocketServer()
         {
@@ -35,6 +36,8 @@ namespace GarticUmm
             isOnGame = false;
 
             imageMap = new Dictionary<string, List<string>>();
+            ClientAnswer = new List<string>();
+            RealAnswer = new List<string>();
 
             serverThread = new Thread(ServerStart);
             serverThread.IsBackground = true;
@@ -159,6 +162,14 @@ namespace GarticUmm
                         }
 
                         turn++;
+                        if (turn == playQueue.Size - 1)
+                        {
+                            isOnGame = false;
+                            foreach (var client in playQueue)
+                            { 
+                                client.StreamWriter.WriteLine("2004," + Constant.ENTER_ANSWER);
+                            }
+                        }
                         readyPlayers = 0;
                     }
                 }
@@ -200,6 +211,42 @@ namespace GarticUmm
                     {
                         client.StreamWriter.WriteLine("2004," + Constant.START_DRAW_OWN_IMAGE_STAGE);
                     }
+                }
+            }
+
+            // 정답 입력이 들어왔을 때
+            if (res.Code == 3005)
+            {
+                readyPlayers++;
+                var PointKey = playQueue.GetPresentSavepointKey(target, playQueue.Size - 1);
+                ClientAnswer.Add(res.Message);
+                RealAnswer.Add(PointKey);
+
+                // 전부 정답 입력을 완료했을 때
+                if (readyPlayers == playQueue.Size)
+                {
+                    readyPlayers = 0;
+
+                    for (int i = 0; i < playQueue.Size; i++)
+                    {
+                        if (ClientAnswer[i] == RealAnswer[i])
+                        {
+                            target.StreamWriter.WriteLine("2004," + Constant.GAME_END_CORRECT);
+                        }
+                        else
+                        {
+                            target.StreamWriter.WriteLine("2004," + Constant.GAME_END_INCORRECT);
+                        }
+                    }
+          
+                    while (playQueue.Size > 0)
+                    {
+                        readyQueue.Enqueue(playQueue.Dequeue());
+                    }
+                    imageMap.Clear();
+                    ClientAnswer.Clear();
+                    RealAnswer.Clear();
+                    turn = 0;
                 }
             }
 

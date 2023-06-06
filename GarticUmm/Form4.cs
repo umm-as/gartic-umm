@@ -92,5 +92,10 @@ namespace GarticUmm
                 OnChoosed(present, imageIdx);
             }
         }
+
+        private void GUFinishForm_FormClosed(object sender, System.Windows.Forms.FormClosedEventArgs e)
+        {
+            OnChoosed("", -1);
+        }
     }
 }

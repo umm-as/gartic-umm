@@ -116,7 +116,7 @@ namespace GarticUmm
 
         private void onReceiveHandler(ResClass res, HandleClient target)
         {
-            if(res.Code == 1000 || res.Code == 4000 || res.Code == 3000 || res.Code == 3001)
+            if(res.Code == 4000 || res.Code == 3000 || res.Code == 3001)
             {
                 foreach (var client in readyQueue)
                 {
@@ -179,19 +179,6 @@ namespace GarticUmm
                 }
 
                 return;
-            }
-
-            if (res.Code == 3003)
-            {
-                if (res.Message == Constant.END_DRAW_IMAGE_STAGE)
-                {
-                    return;
-                }
-
-                if (res.Message == Constant.END_CHECK_IMAGE_STAGE)
-                {
-                    return;
-                }
             }
 
             // 제시어 입력이 들어왔을 때

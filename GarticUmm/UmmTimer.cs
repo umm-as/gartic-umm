@@ -12,9 +12,9 @@ namespace UmmTimerNS
 
         public enum TimerType //확인단계, 준비단계, 그리는단계, 턴 종료별 시간 선언
         {
-            Check = 10,
+            Check = 5,
             Ready = 3,
-            Drawing = 30,
+            Drawing = 6,
             TurnEnd = -1,
             Terminate = -2,
         }

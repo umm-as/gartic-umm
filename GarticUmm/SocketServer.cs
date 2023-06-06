@@ -227,26 +227,29 @@ namespace GarticUmm
                 {
                     readyPlayers = 0;
 
-                    for (int i = 0; i < playQueue.Size; i++)
+                    // 게임에 참여한 사람들에게 리스트 보내기 말고 폼4를 띄우는 요청 보낸다.
+                    foreach (var client in playQueue)
                     {
-                        if (ClientAnswer[i] == RealAnswer[i])
+                        try
                         {
-                            target.StreamWriter.WriteLine("2004," + Constant.GAME_END_CORRECT);
+                            client.StreamWriter.WriteLine("2004," + Constant.GAME_END_FORM4_OPEN);
                         }
-                        else
+                        catch
                         {
-                            target.StreamWriter.WriteLine("2004," + Constant.GAME_END_INCORRECT);
+                            Console.WriteLine("-- onReceive Handler Exception --");
                         }
                     }
-          
+
                     while (playQueue.Size > 0)
                     {
                         readyQueue.Enqueue(playQueue.Dequeue());
                     }
-                    imageMap.Clear();
-                    ClientAnswer.Clear();
-                    RealAnswer.Clear();
-                    turn = 0;
+                    // TODO: 게임 시작 명령이 왔을 때 처리하는 걸로 변경
+                    //imageMap.Clear();
+                    //ClientAnswer.Clear();
+                    //RealAnswer.Clear();
+                    //turn = 0;
+
                 }
             }
 

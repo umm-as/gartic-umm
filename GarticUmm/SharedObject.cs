@@ -21,6 +21,7 @@ namespace SharedObject
         public static readonly string ENTER_ANSWER = "ENTER_ANSER";
         public static readonly string GAME_END_CORRECT = "GAME_END_CORRECT";
         public static readonly string GAME_END_INCORRECT = "GAME_END_INCORRECT";
+        public static readonly string GAME_END_FORM4_OPEN = "GAME_END_FORM4_OPEN";
 
         // Error state
         public static readonly string ERROR_ALREADY_GAME_IS_RUNNING = "ERROR_ALREADY_GAME_IS_RUNNING";

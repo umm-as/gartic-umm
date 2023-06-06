@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms;
@@ -301,11 +302,6 @@ namespace GarticUmm
             {
                 panel.Enabled = false;
             }
-
-
-            GUFinishForm gameForm = new GUFinishForm(socketClient);
-            gameForm.Owner = this;
-            gameForm.ShowDialog();
         }
 
         private void SendButton_Click(object sender, EventArgs e)
@@ -391,9 +387,9 @@ namespace GarticUmm
                     {
                         timer.TimerStop();
                     }));
-                    GUWordForm wordForm = new GUWordForm();
-                    wordForm.label1.Text = "Look at the picture and enter the correct answer!";
-                    wordForm.DataPass += (string data) =>
+                    GUWordForm wordForm2 = new GUWordForm();
+                    wordForm2.label1.Text = "Look at the picture and enter the correct answer!";
+                    wordForm2.DataPass += (string data) =>
                     {
                         this.Invoke((MethodInvoker)(delegate ()
                         {
@@ -402,9 +398,9 @@ namespace GarticUmm
 
                         socketClient.SendEvent(3005, data);
 
-                        wordForm.Close();
+                        wordForm2.Close();
                     };;
-                    wordForm.ShowDialog();
+                    wordForm2.ShowDialog();
                     this.Invoke((MethodInvoker)(delegate ()
                     {
                         history.clearHistory();
@@ -421,6 +417,41 @@ namespace GarticUmm
                 if (res.Message == Constant.GAME_END_INCORRECT)
                 {
                     MessageBox.Show("Umm... See you next time...");
+                }
+
+                if (res.Message == Constant.GAME_END_FORM4_OPEN)
+                {
+                    Dictionary<string, List<string>> image = socketServer.GetDictionary();
+
+                    string[] keys = new string[image.Count];
+                    image.Keys.CopyTo(keys, 0);
+
+                    GUFinishForm finishForm = new GUFinishForm(keys);
+
+                    string currentImage ="";
+                    int currnetindex = 0;
+
+                    finishForm.Finished += (string word, int picindex)  =>
+                     {
+                         this.Invoke((MethodInvoker)(delegate ()
+                         {
+                             foreach(var a in image.Keys)
+                             {
+                                 if(a == word)
+                                 {
+                                     currentImage = a;
+                                     currnetindex = picindex;
+                                 }
+
+                             }
+
+                         }));
+
+                         socketClient.SendEvent(5000, image[currentImage][currnetindex]);
+
+                     };
+                    finishForm.ShowDialog();
+                    return;
                 }
             }
 

@@ -15,12 +15,7 @@ namespace SharedObject
         public static readonly string GAME_START = "GAME_START";
         public static readonly string END_PRESENT_STAGE = "END_PRESENT_STAGE";
         public static readonly string START_DRAW_OWN_IMAGE_STAGE = "START_DRAW_OWN_IMAGE_STAGE";
-        public static readonly string END_DRAW_OWN_IMAGE_STAGE = "END_DRAW_OWN_IMAGE_STAGE";
-        public static readonly string END_DRAW_IMAGE_STAGE = "END_DRAW_IMAGE_STAGE";
-        public static readonly string END_CHECK_IMAGE_STAGE = "END_CHECK_IMAGE_STAGE";
         public static readonly string ENTER_ANSWER = "ENTER_ANSER";
-        public static readonly string GAME_END_CORRECT = "GAME_END_CORRECT";
-        public static readonly string GAME_END_INCORRECT = "GAME_END_INCORRECT";
         public static readonly string GAME_END_FORM4_OPEN = "GAME_END_FORM4_OPEN";
 
         // Error state
@@ -32,26 +27,6 @@ namespace SharedObject
 
     public class ResClass
     {
-        /**
-         * Event code list
-         * 
-         * [Base code]
-         * 1000: Success
-         * 1001: Critical Error
-         * 
-         * [Server code]
-         * 2000: Server created
-         * 2001: Server stoped
-         * 
-         * [Client code]
-         * 3000: Client connected
-         * 3001: Client disconnected
-         * 
-         * [Chat code]
-         * 
-         * [Image code]
-         * 
-         */
         private int code;
         private string message;
 

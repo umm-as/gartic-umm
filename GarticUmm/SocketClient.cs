@@ -8,8 +8,8 @@ namespace GarticUmm
 {
     public class SocketClient
     {
-        TcpClient clientSocket;
-        Thread recieveThread;
+        private TcpClient clientSocket;
+        private Thread recieveThread;
         private bool isConnected = false;
         private bool isServer;
 

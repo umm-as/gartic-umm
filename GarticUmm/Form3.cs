@@ -22,6 +22,16 @@ namespace GarticUmm
 
         private void btnSend_Click(object sender, EventArgs e)
         {
+            if (Wordbox.Text.Contains(","))
+            {
+                MessageBox.Show("You can't use \",\"!");
+                return;
+            }
+            if (Wordbox.Text == "")
+            {
+                MessageBox.Show("Enter your word!");
+                return;
+            }
             DataPass(Wordbox.Text); // 버튼 클릭시 이벤트 호출
         }
 
@@ -29,6 +39,16 @@ namespace GarticUmm
         {
             if(e.KeyCode == Keys.Enter)
             {
+                if (Wordbox.Text.Contains(","))
+                {
+                    MessageBox.Show("You can't use \",\"!");
+                    return;
+                }
+                if (Wordbox.Text == "")
+                {
+                    MessageBox.Show("Enter your word!");
+                    return;
+                }
                 DataPass(Wordbox.Text); // 버튼 클릭시 이벤트 호출
             }
             if (e.KeyCode == Keys.Escape)

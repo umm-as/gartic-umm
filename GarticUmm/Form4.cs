@@ -1,13 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using MetroFramework;
 using MetroFramework.Forms;
 
 namespace GarticUmm
@@ -15,65 +6,74 @@ namespace GarticUmm
     
     public partial class GUFinishForm : MetroForm
     {
-        public delegate void WordEventHandler(string current_word, int current_pic_index);
-        public event WordEventHandler Finished;
+        public delegate void WordEventHandler(string present, int imageIdx);
+        public event WordEventHandler OnChoosed;
 
         private string[] presents; // 제시어
-        private int currentPaintIndex; // 현재 그림 인덱스 0이면 왼쪽으로 더이상 넘길 수 없고 present의 크기-1이면 오른쪽으로 넘기지 않음
-        private string currentWord;
-        int i = 0;
-        //
+        private string present;
+        private int presentCnt = 0;
+        private int imageIdx; // 현재 그림 인덱스 0이면 왼쪽으로 더이상 넘길 수 없고 present의 크기-2이면 오른쪽으로 넘기지 않음
 
-        public GUFinishForm(string[] image_key)
+        public GUFinishForm(string[] presents)
         {
             InitializeComponent();
-            this.btnPicLeft.Enabled = false;
-            presents = new string[image_key.Length];
-            presents = image_key;
-        }
-
-        private void btnPicLeft_Click(object sender, EventArgs e)
-        {
-            if(currentPaintIndex == 0)
-                btnPicLeft.Enabled = false;
-
-            if(currentPaintIndex > 0)
-            {
-                btnPicRight.Enabled = true;
-                currentPaintIndex--;
-                Finished(currentWord, currentPaintIndex);
-            }
-        }
-
-        private void btnPicRight_Click(object sender, EventArgs e)
-        {
-            if(currentPaintIndex == i-2)
-                btnPicRight.Enabled = false;
-
-            if( currentPaintIndex < i-2)
-            {
-                btnPicLeft.Enabled=true;
-                currentPaintIndex++;
-                Finished(currentWord, currentPaintIndex);
-            }
+            this.presents = presents;
         }
 
         private void GUFinishForm_Load(object sender, EventArgs e)
         {
-            
-            currentPaintIndex = 0;
-            currentWord = "";
-            // TODO: get presents from server
-            // and parse to list
+            present = "";
+            imageIdx = 0;
+            this.btnPicLeft.Enabled = false;
+            this.btnPicRight.Enabled = false;
+
             foreach (string present in presents)
             {
-                if(present != null)
+                if (present != null)
                 {
                     Words.Items.Add(present);
-                    i++;
+                    presentCnt++;
                 }
             }
+        }
+
+        private void btnPicLeft_Click(object sender, EventArgs e)
+        {
+            imageIdx--;
+
+            btnDisabler();
+
+            OnChoosed(present, imageIdx);
+        }
+
+        private void btnPicRight_Click(object sender, EventArgs e)
+        {
+            imageIdx++;
             
+            btnDisabler();
+
+            OnChoosed(present, imageIdx);
+        }
+
+        private void btnDisabler()
+        {
+            if (imageIdx == 0)
+            {
+                this.btnPicLeft.Enabled = false;
+            } 
+            else
+            {
+                this.btnPicLeft.Enabled = true;
+            }
+
+            if (imageIdx == presentCnt - 2)
+            {
+                this.btnPicRight.Enabled = false;
+            }
+            else
+            {
+                this.btnPicRight.Enabled = true;
+            }
         }
 
         private void btnClose_Click(object sender, EventArgs e)
@@ -85,7 +85,11 @@ namespace GarticUmm
         {
             if (Words.SelectedIndex >= 0)
             {
-                this.currentWord = Words.SelectedItem as string;
+                present = Words.SelectedItem as string;
+                imageIdx = 0;
+                this.btnPicLeft.Enabled = false;
+                this.btnPicRight.Enabled = true;
+                OnChoosed(present, imageIdx);
             }
         }
     }

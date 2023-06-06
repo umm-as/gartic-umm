@@ -1,11 +1,10 @@
 using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Globalization;
 using System.Windows.Forms;
 using MetroFramework.Forms;
 using SharedObject;
 using UmmTimerNS;
+using static GarticUmm.GUFinishForm;
 
 namespace GarticUmm
 {
@@ -418,41 +417,6 @@ namespace GarticUmm
                 {
                     MessageBox.Show("Umm... See you next time...");
                 }
-
-                if (res.Message == Constant.GAME_END_FORM4_OPEN)
-                {
-                    Dictionary<string, List<string>> image = socketServer.GetDictionary();
-
-                    string[] keys = new string[image.Count];
-                    image.Keys.CopyTo(keys, 0);
-
-                    GUFinishForm finishForm = new GUFinishForm(keys);
-
-                    string currentImage ="";
-                    int currnetindex = 0;
-
-                    finishForm.Finished += (string word, int picindex)  =>
-                     {
-                         this.Invoke((MethodInvoker)(delegate ()
-                         {
-                             foreach(var a in image.Keys)
-                             {
-                                 if(a == word)
-                                 {
-                                     currentImage = a;
-                                     currnetindex = picindex;
-                                 }
-
-                             }
-
-                         }));
-
-                         socketClient.SendEvent(5000, image[currentImage][currnetindex]);
-
-                     };
-                    finishForm.ShowDialog();
-                    return;
-                }
             }
 
             if(res.Code == 2002)
@@ -481,6 +445,32 @@ namespace GarticUmm
                     return;
                 }
             }
+
+            if (res.Code == 2005)
+            {
+                string[] presents = res.Message.Split(',');
+
+                GUFinishForm resultControllerForm = new GUFinishForm(presents);
+                resultControllerForm.Owner = this;
+                resultControllerForm.OnChoosed += new WordEventHandler((string present, int imageIdx) => {
+                    socketClient.SendEvent(3006, present + "," + imageIdx.ToString());
+                });
+                this.Invoke((MethodInvoker)(delegate ()
+                {
+                    resultControllerForm.Show();
+                }));
+
+                return;
+            }
+
+            if (res.Code == 2006)
+            {
+                this.Invoke((MethodInvoker)(delegate ()
+                {
+                    history.loadHistory(DrawLineHistroy.toList(res.Message));
+                    panel.Refresh();
+                }));
+            }
         }
 
         private void panel_Paint(object sender, PaintEventArgs e)
@@ -491,7 +481,6 @@ namespace GarticUmm
                 return;
             }
             drawFromHistory();
-
         }
     }
 }

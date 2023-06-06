@@ -32,26 +32,6 @@ namespace SharedObject
 
     public class ResClass
     {
-        /**
-         * Event code list
-         * 
-         * [Base code]
-         * 1000: Success
-         * 1001: Critical Error
-         * 
-         * [Server code]
-         * 2000: Server created
-         * 2001: Server stoped
-         * 
-         * [Client code]
-         * 3000: Client connected
-         * 3001: Client disconnected
-         * 
-         * [Chat code]
-         * 
-         * [Image code]
-         * 
-         */
         private int code;
         private string message;
 

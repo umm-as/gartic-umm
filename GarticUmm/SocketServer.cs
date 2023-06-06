@@ -227,30 +227,34 @@ namespace GarticUmm
                 {
                     readyPlayers = 0;
 
-                    // 게임에 참여한 사람들에게 리스트 보내기 말고 폼4를 띄우는 요청 보낸다.
+                    string presents = "";
+                    foreach (var present in imageMap.Keys)
+                    {
+                        presents += present + ",";
+                    }
+                    presents = presents.TrimEnd(',');
+
                     foreach (var client in playQueue)
                     {
-                        try
-                        {
-                            client.StreamWriter.WriteLine("2004," + Constant.GAME_END_FORM4_OPEN);
-                        }
-                        catch
-                        {
-                            Console.WriteLine("-- onReceive Handler Exception --");
-                        }
+                        client.StreamWriter.WriteLine("2005," + presents);
                     }
 
                     while (playQueue.Size > 0)
                     {
                         readyQueue.Enqueue(playQueue.Dequeue());
                     }
-                    // TODO: 게임 시작 명령이 왔을 때 처리하는 걸로 변경
-                    //imageMap.Clear();
-                    //ClientAnswer.Clear();
-                    //RealAnswer.Clear();
-                    //turn = 0;
-
                 }
+            }
+
+            // 그림 요청 들어왔을 때
+            if (res.Code == 3006)
+            {
+                string[] resData = res.Message.Split(',');
+                string present = resData[0];
+                int imageIdx = int.Parse(resData[1]);
+
+                string imageResult = imageMap[present][imageIdx];
+                target.StreamWriter.WriteLine("2006," + imageResult);
             }
 
             if (res.Code == 2004)
@@ -271,8 +275,14 @@ namespace GarticUmm
                         return;
                     }
 
+                    // initialize game settings
                     isOnGame = true;
-                    while(readyQueue.Size > 0)
+                    imageMap.Clear();
+                    turn = 0;
+                    ClientAnswer.Clear();
+                    RealAnswer.Clear();
+
+                    while (readyQueue.Size > 0)
                     {
                         playQueue.Enqueue(readyQueue.Dequeue());
                     }
@@ -307,11 +317,6 @@ namespace GarticUmm
                     readyQueue.Enqueue(client);
                 }
             }
-        }
-
-        internal Dictionary<string, List<string>> GetDictionary()
-        {
-            return imageMap;
         }
     }
 

@@ -76,22 +76,26 @@ _**변경된 역할분담은 [QA_Report.md](https://github.com/umm-as/gartic-umm
 
 ## 코드표 for Developer
 
+_사용한 적 없는 코드는 ~~삭제선~~표시 하였습니다._
+
 `Base code`
 
 | 코드 번호 | 코드 내용 | 사용 |
 |---|---|---|
-| 1000 | Success | 성공시(거의 안 씀) |
+| ~~1000~~ | ~~Success~~ | ~~성공시(거의 안 씀)~~ |
 | 1001 | Critical Error | 치명적 오류로 프로그램을 종료해야 할 때 |
 
 `Server code`
 
 | 코드 번호 | 코드 내용 | 사용 |
 |---|---|---|
-| 2000 | Server created | 서버가 시작했을 때 |
-| 2001 | Server stoped | 서버가 중단됬을 때 |
+| ~~2000~~ | ~~Server created~~ | ~~서버가 시작했을 때~~ |
+| ~~2001~~ | ~~Server stoped~~ | ~~서버가 중단됬을 때~~ |
 | 2002 | Server run error | 서버 동작에서 에러가 있을 때 |
-| 2003 | Client list update | 클라이언트의 변화가 있을 때 (입장/퇴장) |
+| ~~2003~~ | ~~Client list update~~ | ~~클라이언트의 변화가 있을 때 (입장/퇴장)~~ |
 | 2004 | Change stage | 게임 단계가 변경될 때 (대기 - (게임시작) 제시어 지정 - 그림 - 그림 확인...) |
+| 2005 | Open Form4 with presents | Form4를 띄우는 이벤트를 보낼 때, 제시어 리스트를 값으로 같이 보냅니다 |
+| 2006 | Send image from request | 3006 요청에 대한 이미지를 보냃 때 |
 
 `Client code`
 
@@ -99,19 +103,22 @@ _**변경된 역할분담은 [QA_Report.md](https://github.com/umm-as/gartic-umm
 |---|---|---|
 | 3000 | Client connected in Server | 클라이언트가 서버에 접속했을 때 |
 | 3001 | Client disconnected from Server | 클라이언트가 서버에 접속을 해제했을 때 |
-| 3002 | Client connection error | 클라이언트의 연결에 에러가 있을 때 |
-| 3003 | Client is ready to go to next stage | 클라이언트가 다음 단계로 넘어갈 준비를 마쳤을 때 (동기화 용) |
+| ~~3002~~ | ~~Client connection error~~ | ~~클라이언트의 연결에 에러가 있을 때~~ |
+| ~~3003~~ | ~~Client is ready to go to next stage~~ | ~~클라이언트가 다음 단계로 넘어갈 준비를 마쳤을 때 (동기화 용)~~ |
+| 3004 | Client send present | 클라이언트가 제시어를 입력했을 떄 |
+| 3005 | Client send answer present | 클라이언트가 제시어 답변을 입력했을 떄 |
+| 3006 | Client request image | 게임 종료 후 클라이언트가 그림을 요청했을 때 |
 
 `Chat code`
 
 | 코드 번호 | 코드 내용 | 사용 |
 |---|---|---|
 | 4000 | Message sended | 채팅을 보냈을 때 |
-| 4001 | Message error | 채팅 에러 |
+| ~~4001~~ | ~~Message error~~ | ~~채팅 에러~~ |
 
 `Image code`
 
 | 코드 번호 | 코드 내용 | 사용 |
 |---|---|---|
 | 5000 | Image sended | 그림을 보냈을 때 |
-| 5001 | Image error | 그림 에러 |
+| ~~5001~~ | ~~Image error~~ | ~~그림 에러~~ |

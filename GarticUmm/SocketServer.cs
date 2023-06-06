@@ -24,8 +24,7 @@ namespace GarticUmm
         private bool isOnGame;
 
         private Dictionary<string, List<string>> imageMap;
-        private List<string> ClientAnswer;
-        private List<string> RealAnswer;
+        private Dictionary<string, string> answerMap;
 
         public SocketServer()
         {
@@ -36,8 +35,7 @@ namespace GarticUmm
             isOnGame = false;
 
             imageMap = new Dictionary<string, List<string>>();
-            ClientAnswer = new List<string>();
-            RealAnswer = new List<string>();
+            answerMap = new Dictionary<string, string>();
 
             serverThread = new Thread(ServerStart);
             serverThread.IsBackground = true;
@@ -116,7 +114,7 @@ namespace GarticUmm
 
         private void onReceiveHandler(ResClass res, HandleClient target)
         {
-            if(res.Code == 1000 || res.Code == 4000 || res.Code == 3000 || res.Code == 3001)
+            if(res.Code == 4000 || res.Code == 3000 || res.Code == 3001)
             {
                 foreach (var client in readyQueue)
                 {
@@ -181,19 +179,6 @@ namespace GarticUmm
                 return;
             }
 
-            if (res.Code == 3003)
-            {
-                if (res.Message == Constant.END_DRAW_IMAGE_STAGE)
-                {
-                    return;
-                }
-
-                if (res.Message == Constant.END_CHECK_IMAGE_STAGE)
-                {
-                    return;
-                }
-            }
-
             // 제시어 입력이 들어왔을 때
             if (res.Code == 3004)
             {
@@ -217,40 +202,44 @@ namespace GarticUmm
             // 정답 입력이 들어왔을 때
             if (res.Code == 3005)
             {
+                string saveKey = playQueue.GetPresentSavepointKey(target, turn);
+                answerMap[saveKey] = res.Message;
                 readyPlayers++;
-                var PointKey = playQueue.GetPresentSavepointKey(target, playQueue.Size - 1);
-                ClientAnswer.Add(res.Message);
-                RealAnswer.Add(PointKey);
 
                 // 전부 정답 입력을 완료했을 때
                 if (readyPlayers == playQueue.Size)
                 {
                     readyPlayers = 0;
 
-                    // 게임에 참여한 사람들에게 리스트 보내기 말고 폼4를 띄우는 요청 보낸다.
+                    string presents = "";
+                    foreach (var present in imageMap.Keys)
+                    {
+                        presents += present + ",";
+                    }
+                    presents = presents.TrimEnd(',');
+
                     foreach (var client in playQueue)
                     {
-                        try
-                        {
-                            client.StreamWriter.WriteLine("2004," + Constant.GAME_END_FORM4_OPEN);
-                        }
-                        catch
-                        {
-                            Console.WriteLine("-- onReceive Handler Exception --");
-                        }
+                        client.StreamWriter.WriteLine("2005," + presents);
                     }
 
                     while (playQueue.Size > 0)
                     {
                         readyQueue.Enqueue(playQueue.Dequeue());
                     }
-                    // TODO: 게임 시작 명령이 왔을 때 처리하는 걸로 변경
-                    //imageMap.Clear();
-                    //ClientAnswer.Clear();
-                    //RealAnswer.Clear();
-                    //turn = 0;
-
                 }
+            }
+
+            // 그림 요청 들어왔을 때
+            if (res.Code == 3006)
+            {
+                string[] resData = res.Message.Split(',');
+                string present = resData[0];
+                int imageIdx = int.Parse(resData[1]);
+
+                string imageResult = imageMap[present][imageIdx];
+                string answerResult = answerMap[present];
+                target.StreamWriter.WriteLine("2006," + answerResult + "/" + imageResult);
             }
 
             if (res.Code == 2004)
@@ -271,8 +260,13 @@ namespace GarticUmm
                         return;
                     }
 
+                    // initialize game settings
                     isOnGame = true;
-                    while(readyQueue.Size > 0)
+                    imageMap.Clear();
+                    answerMap.Clear();
+                    turn = 0;
+
+                    while (readyQueue.Size > 0)
                     {
                         playQueue.Enqueue(readyQueue.Dequeue());
                     }
@@ -307,11 +301,6 @@ namespace GarticUmm
                     readyQueue.Enqueue(client);
                 }
             }
-        }
-
-        internal Dictionary<string, List<string>> GetDictionary()
-        {
-            return imageMap;
         }
     }
 

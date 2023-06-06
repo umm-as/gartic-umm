@@ -14,7 +14,7 @@ namespace UmmTimerNS
         {
             Check = 5,
             Ready = 3,
-            Drawing = 6,
+            Drawing = 10,
             TurnEnd = -1,
             Terminate = -2,
         }

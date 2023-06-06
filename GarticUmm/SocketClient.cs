@@ -77,9 +77,10 @@ namespace GarticUmm
 
                     OnReceived(resData);
                 }
-                catch
+                catch (Exception ex)
                 {
                     Console.WriteLine("-- Recieve Message Exception --");
+                    Console.WriteLine(ex.StackTrace);
                 }
             }
 

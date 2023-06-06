@@ -15,25 +15,21 @@ namespace GarticUmm
     
     public partial class GUFinishForm : MetroForm
     {
-        SocketClient socketClient;
+        public delegate void WordEventHandler(string current_word, int current_pic_index);
+        public event WordEventHandler Finished;
 
-        Pen pen;
-        SolidBrush brush;
-        Graphics g;
-        int x = -1;
-        int y = -1;
-        private DrawLineHistroy history = new DrawLineHistroy();
-        
         private string[] presents; // 제시어
-        private int currentPaintIndex = 0; // 현재 그림 인덱스 0이면 왼쪽으로 더이상 넘길 수 없고 present의 크기-1이면 오른쪽으로 넘기지 않음
+        private int currentPaintIndex; // 현재 그림 인덱스 0이면 왼쪽으로 더이상 넘길 수 없고 present의 크기-1이면 오른쪽으로 넘기지 않음
+        private string currentWord;
+        int i = 0;
         //
 
-        public GUFinishForm(SocketClient socketClient)
+        public GUFinishForm(string[] image_key)
         {
             InitializeComponent();
-            this.socketClient = socketClient;
-            g = panel.CreateGraphics();
-            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+            this.btnPicLeft.Enabled = false;
+            presents = new string[image_key.Length];
+            presents = image_key;
         }
 
         private void btnPicLeft_Click(object sender, EventArgs e)
@@ -43,63 +39,54 @@ namespace GarticUmm
 
             if(currentPaintIndex > 0)
             {
+                btnPicRight.Enabled = true;
                 currentPaintIndex--;
-                this.Invoke((MethodInvoker)(delegate ()
-                {
-                    history.clearHistory();
-                    panel.Refresh();
-                    //history.loadHistory(DrawLineHistroy.toList());
-                    drawFromHistory();
-
-                }));
+                Finished(currentWord, currentPaintIndex);
             }
         }
 
         private void btnPicRight_Click(object sender, EventArgs e)
         {
-            if(currentPaintIndex > 0)
+            if(currentPaintIndex == i-2)
                 btnPicRight.Enabled = false;
 
-            if( currentPaintIndex <= 0)
+            if( currentPaintIndex < i-2)
             {
+                btnPicLeft.Enabled=true;
                 currentPaintIndex++;
-                this.Invoke((MethodInvoker)(delegate ()
-                {
-                    history.clearHistory();
-                    panel.Refresh();
-                    //history.loadHistory(DrawLineHistroy.toList();
-                    drawFromHistory();
-
-                }));
+                Finished(currentWord, currentPaintIndex);
             }
         }
 
         private void GUFinishForm_Load(object sender, EventArgs e)
         {
-
+            
+            currentPaintIndex = 0;
+            currentWord = "";
+            // TODO: get presents from server
+            // and parse to list
             foreach (string present in presents)
             {
-                Wordlist.Items.Add(present);
+                if(present != null)
+                {
+                    Words.Items.Add(present);
+                    i++;
+                }
             }
+            
         }
 
-        private void drawFromHistory()
+        private void btnClose_Click(object sender, EventArgs e)
         {
-            Pen penHistory = new Pen(Color.Black, 1);
-            SolidBrush brushHistory = new SolidBrush(Color.Black);
-            foreach (var line in history.getHistory())
-            {
-                penHistory.Color = line.getColor();
-                penHistory.Width = line.getWidth();
-                brushHistory.Color = line.getColor();
-                g.DrawLine(penHistory, new Point(line.FromX, line.FromY), new Point(line.DestX, line.DestY));
-                g.FillEllipse(brushHistory, line.FromX - (float)penHistory.Width / 2f, line.FromY - (float)penHistory.Width / 2f, (float)penHistory.Width, (float)penHistory.Width);
-            }
+            this.Close();
         }
 
         private void Words_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            if (Words.SelectedIndex >= 0)
+            {
+                this.currentWord = Words.SelectedItem as string;
+            }
         }
     }
 }

@@ -545,9 +545,14 @@ namespace GarticUmm
             // 게임종료 후 서버에서 요청한 이미지를 보낸 경우
             if (res.Code == 2006)
             {
+                string[] resData = res.Message.Split('/');
+                string answer = resData[0];
+                string image = resData[1];
+
                 this.Invoke((MethodInvoker)(delegate ()
                 {
-                    history.loadHistory(DrawLineHistroy.toList(res.Message));
+                    resultControllerForm?.SetAnswer(answer);
+                    history.loadHistory(DrawLineHistroy.toList(image));
                     panel.Refresh();
                 }));
             }

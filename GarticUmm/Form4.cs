@@ -97,5 +97,10 @@ namespace GarticUmm
         {
             OnChoosed("", -1);
         }
+
+        public void SetAnswer(string answer)
+        {
+            this.Word.Text = answer;
+        }
     }
 }

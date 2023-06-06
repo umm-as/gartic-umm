@@ -24,8 +24,7 @@ namespace GarticUmm
         private bool isOnGame;
 
         private Dictionary<string, List<string>> imageMap;
-        private List<string> ClientAnswer;
-        private List<string> RealAnswer;
+        private Dictionary<string, string> answerMap;
 
         public SocketServer()
         {
@@ -36,8 +35,7 @@ namespace GarticUmm
             isOnGame = false;
 
             imageMap = new Dictionary<string, List<string>>();
-            ClientAnswer = new List<string>();
-            RealAnswer = new List<string>();
+            answerMap = new Dictionary<string, string>();
 
             serverThread = new Thread(ServerStart);
             serverThread.IsBackground = true;
@@ -204,10 +202,9 @@ namespace GarticUmm
             // 정답 입력이 들어왔을 때
             if (res.Code == 3005)
             {
+                string saveKey = playQueue.GetPresentSavepointKey(target, turn);
+                answerMap[saveKey] = res.Message;
                 readyPlayers++;
-                var PointKey = playQueue.GetPresentSavepointKey(target, playQueue.Size - 1);
-                ClientAnswer.Add(res.Message);
-                RealAnswer.Add(PointKey);
 
                 // 전부 정답 입력을 완료했을 때
                 if (readyPlayers == playQueue.Size)
@@ -241,7 +238,8 @@ namespace GarticUmm
                 int imageIdx = int.Parse(resData[1]);
 
                 string imageResult = imageMap[present][imageIdx];
-                target.StreamWriter.WriteLine("2006," + imageResult);
+                string answerResult = answerMap[present];
+                target.StreamWriter.WriteLine("2006," + answerResult + "/" + imageResult);
             }
 
             if (res.Code == 2004)
@@ -265,9 +263,8 @@ namespace GarticUmm
                     // initialize game settings
                     isOnGame = true;
                     imageMap.Clear();
+                    answerMap.Clear();
                     turn = 0;
-                    ClientAnswer.Clear();
-                    RealAnswer.Clear();
 
                     while (readyQueue.Size > 0)
                     {

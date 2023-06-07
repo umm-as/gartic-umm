@@ -182,8 +182,10 @@ namespace GarticUmm
             // 제시어 입력이 들어왔을 때
             if (res.Code == 3004)
             {
-                playQueue.SetPresent(target, res.Message);
-                imageMap.Add(res.Message, new List<string>());
+                string idpresent;
+                idpresent = target.ID + " - " + res.Message;
+                playQueue.SetPresent(target, idpresent);
+                imageMap.Add(idpresent, new List<string>());
                 readyPlayers++;
 
                 // 전부 제시어 입력을 완료했을 때

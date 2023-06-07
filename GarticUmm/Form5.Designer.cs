@@ -51,7 +51,7 @@
             this.ipTextBox.MaxLength = 32767;
             this.ipTextBox.Name = "ipTextBox";
             this.ipTextBox.PasswordChar = '\0';
-            this.ipTextBox.PromptText = "127.0.0.1";
+            this.ipTextBox.WaterMark = "127.0.0.1";
             this.ipTextBox.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.ipTextBox.SelectedText = "";
             this.ipTextBox.SelectionLength = 0;
@@ -63,6 +63,7 @@
             this.ipTextBox.WaterMark = "127.0.0.1";
             this.ipTextBox.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.ipTextBox.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            this.ipTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ipTextBox_KeyDown);
             // 
             // btnConnect
             // 

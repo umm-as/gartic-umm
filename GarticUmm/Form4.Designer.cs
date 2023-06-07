@@ -37,7 +37,7 @@
             // btnPicLeft
             // 
             this.btnPicLeft.Location = new System.Drawing.Point(39, 111);
-            this.btnPicLeft.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnPicLeft.Margin = new System.Windows.Forms.Padding(2);
             this.btnPicLeft.Name = "btnPicLeft";
             this.btnPicLeft.Size = new System.Drawing.Size(41, 45);
             this.btnPicLeft.TabIndex = 0;
@@ -48,7 +48,7 @@
             // btnPicRight
             // 
             this.btnPicRight.Location = new System.Drawing.Point(245, 111);
-            this.btnPicRight.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnPicRight.Margin = new System.Windows.Forms.Padding(2);
             this.btnPicRight.Name = "btnPicRight";
             this.btnPicRight.Size = new System.Drawing.Size(42, 45);
             this.btnPicRight.TabIndex = 1;
@@ -69,9 +69,10 @@
             // 
             // Words
             // 
+            this.Words.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.Words.FormattingEnabled = true;
             this.Words.Location = new System.Drawing.Point(99, 72);
-            this.Words.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Words.Margin = new System.Windows.Forms.Padding(2);
             this.Words.Name = "Words";
             this.Words.Size = new System.Drawing.Size(123, 21);
             this.Words.TabIndex = 5;
@@ -86,9 +87,9 @@
             this.Controls.Add(this.Word);
             this.Controls.Add(this.btnPicRight);
             this.Controls.Add(this.btnPicLeft);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "GUFinishForm";
-            this.Padding = new System.Windows.Forms.Padding(12, 43, 12, 14);
+            this.Padding = new System.Windows.Forms.Padding(12, 60, 12, 14);
             this.Text = "Finish";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.GUFinishForm_FormClosed);
             this.Load += new System.EventHandler(this.GUFinishForm_Load);

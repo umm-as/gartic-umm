@@ -14,12 +14,12 @@ namespace UmmTimerNS
         {
             Check = 5,
             Ready = 3,
-            Drawing = 10,
+            Drawing = 30,
             TurnEnd = -1,
             Terminate = -2,
         }
 
-        public delegate void TimerEventHandler(TimerType type, int count);
+        public delegate void TimerEventHandler(TimerType type, int count, bool isOwnImage);
         public event TimerEventHandler EventHandler; //GuGameForm이벤트 핸들러
 
         public UmmTimer()
@@ -49,7 +49,7 @@ namespace UmmTimerNS
                 state = TimerType.TurnEnd;
             }
 
-            EventHandler(state, count);
+            EventHandler(state, count, isOwnImage);
         }
 
         public void TimerStart(bool isOwnImage)
@@ -73,7 +73,7 @@ namespace UmmTimerNS
         {
             timer.Stop();
             state = TimerType.Terminate;
-            EventHandler(state, (int)state);
+            EventHandler(state, (int)state, false);
         }
         
         public void TimerReset()

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using SharedObject;
@@ -8,14 +9,16 @@ namespace GarticUmm
 {
     public class SocketClient
     {
+        private string ipAddress;
         private TcpClient clientSocket;
         private Thread recieveThread;
         private bool isConnected = false;
         private bool isServer;
 
-        public SocketClient(bool isServer)
+        public SocketClient(bool isServer, string ipAddress)
         {
             clientSocket = new TcpClient();
+            this.ipAddress = ipAddress;
             this.isServer = isServer;
         }
 
@@ -28,7 +31,7 @@ namespace GarticUmm
         {
             try
             {
-                clientSocket.Connect(Constant.LOCALHOST, Constant.PORT);
+                clientSocket.Connect(IPAddress.Parse(ipAddress), Constant.PORT);
 
                 recieveThread = new Thread(RecieveMessage);
                 recieveThread.IsBackground = true;

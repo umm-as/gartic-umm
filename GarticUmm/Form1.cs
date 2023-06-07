@@ -21,9 +21,9 @@ namespace GarticUmm
 
         private void btnJoinServer_Click(object sender, EventArgs e)
         {
-            GUGameForm gameForm = new GUGameForm(false);
-            gameForm.Owner = this;
-            gameForm.ShowDialog();
+            AccessClientForm loginForm = new AccessClientForm();
+            loginForm.Owner = this;
+            loginForm.ShowDialog();
         }
     }
 }

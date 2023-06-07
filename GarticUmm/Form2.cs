@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using System.Net;
 using System.Windows.Forms;
 using MetroFramework.Forms;
 using SharedObject;
@@ -24,6 +25,7 @@ namespace GarticUmm
         private UmmTimer timer;
 
         // TCP 소켓통신 관련 객체
+        private string ipAddress;
         private bool isServer; // 이 클라이언트가 서버의 역할도 하는지 파악
         private SocketServer socketServer; // 서버 소켓 객체
         private SocketClient socketClient; // 클라이언트 소켓 객체
@@ -32,7 +34,7 @@ namespace GarticUmm
         private GUFinishForm resultControllerForm;
 
         // Initializer
-        public GUGameForm(bool isServer)
+        public GUGameForm(bool isServer, string ipAddress = "127.0.0.1")
         {
             InitializeComponent();
             g = panel.CreateGraphics();
@@ -44,6 +46,7 @@ namespace GarticUmm
             this.thinbtn.Pushed = true;
             this.blackbtn.Pushed = true;
 
+            this.ipAddress = ipAddress;
             this.isServer = isServer;
         }
         
@@ -60,7 +63,22 @@ namespace GarticUmm
             // 서버 소켓도 활성화함
             if (isServer)
             {
-                socketServer = new SocketServer();
+                // 서버 주소를 표시합니다.
+                MessageLog.AppendText("Game room has been created at the address below!" + Environment.NewLine);
+                var host = Dns.GetHostEntry(Dns.GetHostName());
+                foreach (var ip in host.AddressList)
+                {
+                    if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                    {
+                        ipAddress = ip.ToString();
+                        MessageLog.AppendText(ipAddress + Environment.NewLine);
+                        MessageLog.ScrollToCaret();
+
+                        break;
+                    }
+                }
+
+                socketServer = new SocketServer(ipAddress);
                 socketServer.OnRunFail += (string msg) =>
                 {
                     GUGameForm_FormClosed(null, null);
@@ -73,7 +91,7 @@ namespace GarticUmm
             }
 
             // 클라이언트 소켓 활성화
-            socketClient = new SocketClient(isServer);
+            socketClient = new SocketClient(isServer, ipAddress);
             socketClient.OnRunFail += (string msg) =>
             {
                 GUGameForm_FormClosed(null, null);

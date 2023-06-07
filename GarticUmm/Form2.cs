@@ -71,12 +71,10 @@ namespace GarticUmm
                     if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
                     {
                         ipAddress = ip.ToString();
-                        MessageLog.AppendText(ipAddress + Environment.NewLine);
-                        MessageLog.ScrollToCaret();
-
-                        break;
                     }
                 }
+                MessageLog.AppendText(ipAddress + Environment.NewLine);
+                MessageLog.ScrollToCaret();
 
                 socketServer = new SocketServer(ipAddress);
                 socketServer.OnRunFail += (string msg) =>

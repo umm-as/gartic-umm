@@ -19,5 +19,18 @@ namespace GarticUmm
 
             this.Close();
         }
+
+        private void ipTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Enter)
+            {
+                GUGameForm gameForm = new GUGameForm(false, ipTextBox.Text);
+                this.Hide();
+                gameForm.Owner = this;
+                gameForm.ShowDialog();
+
+                this.Close();
+            }
+        }
     }
 }

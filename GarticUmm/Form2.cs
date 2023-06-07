@@ -436,16 +436,10 @@ namespace GarticUmm
 
                     // 제시어를 입력받는 창을 열음
                     GUWordForm wordForm = new GUWordForm();
+                    
                     wordForm.DataPass += (string data) =>
                     {
-                        // For Develop
-                        this.Invoke((MethodInvoker)(delegate ()
-                        {
-                            this.Testlabel.Text = data;
-                        }));
-
                         socketClient.SendEvent(3004, data); // 제시어를 입력했다는 이벤트를 서버로 보냄
-
                         wordForm.Close();
                     };
                     wordForm.ShowDialog();

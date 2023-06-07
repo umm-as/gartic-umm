@@ -18,6 +18,7 @@ namespace GarticUmm
         public GUWordForm()
         {
             InitializeComponent();
+            this.ControlBox = false;
         }
 
         private void btnSend_Click(object sender, EventArgs e)
@@ -51,10 +52,7 @@ namespace GarticUmm
                 }
                 DataPass(Wordbox.Text); // 버튼 클릭시 이벤트 호출
             }
-            if (e.KeyCode == Keys.Escape)
-            {
-                Close();
-            }
+
         }
     }
 }

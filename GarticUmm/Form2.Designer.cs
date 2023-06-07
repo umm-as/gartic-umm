@@ -54,7 +54,6 @@ namespace GarticUmm
             this.MessageSend = new MetroFramework.Controls.MetroTextBox();
             this.SendButton = new MetroFramework.Controls.MetroButton();
             this.toolBar1 = new System.Windows.Forms.ToolBar();
-            this.Testlabel = new MetroFramework.Controls.MetroLabel();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -226,7 +225,7 @@ namespace GarticUmm
             this.LabelStatus.AutoSize = true;
             this.LabelStatus.Location = new System.Drawing.Point(17, 11);
             this.LabelStatus.Name = "LabelStatus";
-            this.LabelStatus.Size = new System.Drawing.Size(119, 20);
+            this.LabelStatus.Size = new System.Drawing.Size(110, 19);
             this.LabelStatus.TabIndex = 3;
             this.LabelStatus.Text = "Check the picture";
             // 
@@ -237,7 +236,7 @@ namespace GarticUmm
             this.LabelTimer.AutoSize = true;
             this.LabelTimer.Location = new System.Drawing.Point(321, 11);
             this.LabelTimer.Name = "LabelTimer";
-            this.LabelTimer.Size = new System.Drawing.Size(22, 20);
+            this.LabelTimer.Size = new System.Drawing.Size(21, 19);
             this.LabelTimer.TabIndex = 0;
             this.LabelTimer.Text = "10";
             // 
@@ -343,19 +342,10 @@ namespace GarticUmm
             this.toolBar1.Size = new System.Drawing.Size(737, 42);
             this.toolBar1.TabIndex = 0;
             // 
-            // Testlabel
-            // 
-            this.Testlabel.Location = new System.Drawing.Point(720, 26);
-            this.Testlabel.Name = "Testlabel";
-            this.Testlabel.Size = new System.Drawing.Size(196, 20);
-            this.Testlabel.TabIndex = 4;
-            this.Testlabel.Text = "Word";
-            // 
             // GUGameForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(1098, 666);
-            this.Controls.Add(this.Testlabel);
             this.Controls.Add(this.splitContainer1);
             this.Font = new System.Drawing.Font("MV Boli", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "GUGameForm";
@@ -409,7 +399,6 @@ namespace GarticUmm
         private System.Windows.Forms.Panel panel;
         private System.Windows.Forms.ToolBarButton whitebtn;
         private System.Windows.Forms.RichTextBox MessageLog;
-        private MetroFramework.Controls.MetroLabel Testlabel;
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.SplitContainer splitContainer3;
         private System.Windows.Forms.SplitContainer splitContainer4;

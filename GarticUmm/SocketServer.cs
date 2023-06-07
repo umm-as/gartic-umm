@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using SharedObject;
@@ -10,6 +11,7 @@ namespace GarticUmm
 {
     internal class SocketServer
     {
+        private string ipAddress;
         private Thread serverThread;
         private bool isRunning = false;
         private TcpListener server;
@@ -26,8 +28,9 @@ namespace GarticUmm
         private Dictionary<string, List<string>> imageMap;
         private Dictionary<string, string> answerMap;
 
-        public SocketServer()
+        public SocketServer(string ip)
         {
+            ipAddress = ip;
             readyQueue = new PersonQueue<HandleClient>();
             playQueue = new PersonQueue<HandleClient>();
             turn = 0;
@@ -52,7 +55,7 @@ namespace GarticUmm
         {
             try
             {
-                server = new TcpListener(Constant.LOCALHOST, Constant.PORT);
+                server = new TcpListener(IPAddress.Parse(ipAddress), Constant.PORT);
                 server.Start();
 
                 isRunning = true;
@@ -99,12 +102,12 @@ namespace GarticUmm
         {
             while (playQueue.Size > 0)
             {
-                playQueue.Dequeue().StopClient();
+                playQueue.Dequeue()?.StopClient();
             }
 
             while (readyQueue.Size > 0)
             {
-                readyQueue.Dequeue().StopClient();
+                readyQueue.Dequeue()?.StopClient();
             }
 
             serverOwner = null;

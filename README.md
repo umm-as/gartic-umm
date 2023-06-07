@@ -9,14 +9,14 @@ _**QA 리포트는 [QA_Report.md](https://github.com/umm-as/gartic-umm/blob/mast
 
 ## 프로젝트 주제명
 
-**Galtic-Umm**
+**Gartic-Umm**
 
 </br>
 
 ## 프로젝트 주제에 대한 설명
 
-Umm 팀에서 Galtic phone이라는 게임에 영향을 받아 그 게임을 참고하여\
-window form에서 소켓 통신을 이용해 Galtic 멀티플레이 게임을 만들고자 합니다.
+Umm 팀에서 Gartic phone이라는 게임에 영향을 받아 그 게임을 참고하여\
+window form에서 소켓 통신을 이용해 Gartic 멀티플레이 게임을 만들고자 합니다.
 
 ### 기본적인 게임의 진행방식은 다음과 같습니다.
 
@@ -95,7 +95,7 @@ _사용한 적 없는 코드는 ~~삭제선~~표시 하였습니다._
 | ~~2003~~ | ~~Client list update~~ | ~~클라이언트의 변화가 있을 때 (입장/퇴장)~~ |
 | 2004 | Change stage | 게임 단계가 변경될 때 (대기 - (게임시작) 제시어 지정 - 그림 - 그림 확인...) |
 | 2005 | Open Form4 with presents | Form4를 띄우는 이벤트를 보낼 때, 제시어 리스트를 값으로 같이 보냅니다 |
-| 2006 | Send image from request | 3006 요청에 대한 이미지를 보냃 때 |
+| 2006 | Send image from request | 3006 요청에 대한 이미지를 보낼 때 |
 
 `Client code`
 

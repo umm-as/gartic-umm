@@ -280,6 +280,7 @@ namespace GarticUmm
                         client.StreamWriter.WriteLine("2004," + Constant.GAME_START);
                     }
                 }
+                
             }
         }
 

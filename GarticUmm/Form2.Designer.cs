@@ -241,9 +241,6 @@ namespace GarticUmm
             // 
             // MessageSend
             // 
-            // 
-            // 
-            // 
             this.MessageSend.CustomButton.Image = null;
             this.MessageSend.CustomButton.Location = new System.Drawing.Point(272, 1);
             this.MessageSend.CustomButton.Name = "";

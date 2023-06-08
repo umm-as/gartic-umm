@@ -20,6 +20,7 @@ namespace GarticUmm
         private SolidBrush brush; // 점 찍을 때 필요한 객체
         private DrawLineHistroy history = new DrawLineHistroy(); // 선 정보를 보관할 객체
         private bool refreshflag = true; // panel 새로고침 방지할 플래그
+        private string myPresent = "";
 
         // Timer 객체
         private UmmTimer timer;
@@ -324,18 +325,18 @@ namespace GarticUmm
 
         // Timer 객체의 이벤트 핸들러
         // 1초마다 호출되어 이벤트를 처리함
-        private void TimerHandler(UmmTimer.TimerType type, int count) //타이머 호출
+        private void TimerHandler(UmmTimer.TimerType type, int count, bool isOwnImage) //타이머 호출
         {
             //각각 상태에서 Label 및 상태 변경
             switch (type)
             {
                 // 이전 플레이어가 그린 이미지 확인 단계
                 case UmmTimer.TimerType.Check:
-                    LabelStatus.Text = "Check the picture...";
+                    stateLabel.Text = "Check the picture in " + count.ToString();
                     break;
                 // 그림 그리기 전 준비 단계
                 case UmmTimer.TimerType.Ready:
-                    LabelStatus.Text = "Ready...";
+                    stateLabel.Text = "Ready... " + count.ToString();
                     // panel 지움
                     this.Invoke((MethodInvoker)(delegate ()
                     {
@@ -345,12 +346,28 @@ namespace GarticUmm
                     break;
                 // 그림 그리는 단계
                 case UmmTimer.TimerType.Drawing:
-                    LabelStatus.Text = "Drawing...";
+                    if (isOwnImage)
+                    {
+                        stateLabel.Text = "Drawing '" + myPresent + "' in " + count.ToString();
+                    }
+                    else
+                    {
+                        stateLabel.Text = "Drawing image in " + count.ToString();
+                    }
                     panel.Enabled = true; //그림 그릴 때 만 panel을 열어둠
                     eraserbtn.Enabled = true;
                     break;
             }
-            LabelTimer.Text = count.ToString(); // 화면에 보여주는 시간 업데이트
+
+            if (count == -1)
+            {
+                stateLabel.Text = "Wait for other players...";
+            }
+
+            if (count == -2)
+            {
+                stateLabel.Text = "Gartic Umm";
+            }
 
             // 턴이 끝났을 때 - 그림 그리는 단계가 종료되었을 때
             if (type == UmmTimer.TimerType.TurnEnd)
@@ -438,12 +455,7 @@ namespace GarticUmm
                     GUWordForm wordForm = new GUWordForm();
                     wordForm.DataPass += (string data) =>
                     {
-                        // For Develop
-                        this.Invoke((MethodInvoker)(delegate ()
-                        {
-                            this.Testlabel.Text = data;
-                        }));
-
+                        myPresent = data;
                         socketClient.SendEvent(3004, data); // 제시어를 입력했다는 이벤트를 서버로 보냄
 
                         wordForm.Close();
@@ -477,11 +489,6 @@ namespace GarticUmm
                     wordForm.label1.Text = "Look at the picture\nand enter your answer!";
                     wordForm.DataPass += (string data) =>
                     {
-                        this.Invoke((MethodInvoker)(delegate ()
-                        {
-                            this.Testlabel.Text = data;
-                        }));
-
                         socketClient.SendEvent(3005, data); // 제시어 답변을 입력했다는 이벤트를 서버로 보냄
 
                         wordForm.Close();

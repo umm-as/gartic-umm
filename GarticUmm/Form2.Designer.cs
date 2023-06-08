@@ -46,14 +46,12 @@ namespace GarticUmm
             this.eraserbtn = new System.Windows.Forms.ToolBarButton();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.LabelStatus = new MetroFramework.Controls.MetroLabel();
-            this.LabelTimer = new MetroFramework.Controls.MetroLabel();
-            this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.MessageLog = new System.Windows.Forms.RichTextBox();
-            this.splitContainer4 = new System.Windows.Forms.SplitContainer();
+            this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.MessageSend = new MetroFramework.Controls.MetroTextBox();
             this.SendButton = new MetroFramework.Controls.MetroButton();
             this.toolBar1 = new System.Windows.Forms.ToolBar();
+            this.stateLabel = new MetroFramework.Controls.MetroLabel();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -66,10 +64,6 @@ namespace GarticUmm
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
-            this.splitContainer4.Panel1.SuspendLayout();
-            this.splitContainer4.Panel2.SuspendLayout();
-            this.splitContainer4.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -201,63 +195,20 @@ namespace GarticUmm
             // splitContainer2
             // 
             this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer2.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
             this.splitContainer2.Location = new System.Drawing.Point(0, 0);
             this.splitContainer2.Name = "splitContainer2";
             this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
             // splitContainer2.Panel1
             // 
-            this.splitContainer2.Panel1.Controls.Add(this.LabelStatus);
-            this.splitContainer2.Panel1.Controls.Add(this.LabelTimer);
+            this.splitContainer2.Panel1.Controls.Add(this.MessageLog);
             // 
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.splitContainer3);
             this.splitContainer2.Size = new System.Drawing.Size(358, 582);
-            this.splitContainer2.SplitterDistance = 42;
+            this.splitContainer2.SplitterDistance = 551;
             this.splitContainer2.TabIndex = 0;
-            // 
-            // LabelStatus
-            // 
-            this.LabelStatus.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.LabelStatus.AutoSize = true;
-            this.LabelStatus.Location = new System.Drawing.Point(17, 11);
-            this.LabelStatus.Name = "LabelStatus";
-            this.LabelStatus.Size = new System.Drawing.Size(110, 19);
-            this.LabelStatus.TabIndex = 3;
-            this.LabelStatus.Text = "Check the picture";
-            // 
-            // LabelTimer
-            // 
-            this.LabelTimer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.LabelTimer.AutoSize = true;
-            this.LabelTimer.Location = new System.Drawing.Point(321, 11);
-            this.LabelTimer.Name = "LabelTimer";
-            this.LabelTimer.Size = new System.Drawing.Size(21, 19);
-            this.LabelTimer.TabIndex = 0;
-            this.LabelTimer.Text = "10";
-            // 
-            // splitContainer3
-            // 
-            this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer3.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
-            this.splitContainer3.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer3.Name = "splitContainer3";
-            this.splitContainer3.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitContainer3.Panel1
-            // 
-            this.splitContainer3.Panel1.Controls.Add(this.MessageLog);
-            // 
-            // splitContainer3.Panel2
-            // 
-            this.splitContainer3.Panel2.Controls.Add(this.splitContainer4);
-            this.splitContainer3.Size = new System.Drawing.Size(358, 536);
-            this.splitContainer3.SplitterDistance = 507;
-            this.splitContainer3.TabIndex = 0;
             // 
             // MessageLog
             // 
@@ -267,37 +218,33 @@ namespace GarticUmm
             this.MessageLog.Name = "MessageLog";
             this.MessageLog.ReadOnly = true;
             this.MessageLog.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
-            this.MessageLog.Size = new System.Drawing.Size(358, 507);
-            this.MessageLog.TabIndex = 4;
+            this.MessageLog.Size = new System.Drawing.Size(358, 551);
+            this.MessageLog.TabIndex = 6;
             this.MessageLog.Text = "";
             // 
-            // splitContainer4
+            // splitContainer3
             // 
-            this.splitContainer4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer4.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
-            this.splitContainer4.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer4.Name = "splitContainer4";
+            this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer3.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer3.Name = "splitContainer3";
             // 
-            // splitContainer4.Panel1
+            // splitContainer3.Panel1
             // 
-            this.splitContainer4.Panel1.Controls.Add(this.MessageSend);
+            this.splitContainer3.Panel1.Controls.Add(this.MessageSend);
             // 
-            // splitContainer4.Panel2
+            // splitContainer3.Panel2
             // 
-            this.splitContainer4.Panel2.Controls.Add(this.SendButton);
-            this.splitContainer4.Size = new System.Drawing.Size(358, 25);
-            this.splitContainer4.SplitterDistance = 296;
-            this.splitContainer4.TabIndex = 0;
+            this.splitContainer3.Panel2.Controls.Add(this.SendButton);
+            this.splitContainer3.Size = new System.Drawing.Size(358, 27);
+            this.splitContainer3.SplitterDistance = 298;
+            this.splitContainer3.TabIndex = 0;
             // 
             // MessageSend
-            // 
-            // 
-            // 
             // 
             this.MessageSend.CustomButton.Image = null;
             this.MessageSend.CustomButton.Location = new System.Drawing.Point(272, 1);
             this.MessageSend.CustomButton.Name = "";
-            this.MessageSend.CustomButton.Size = new System.Drawing.Size(23, 23);
+            this.MessageSend.CustomButton.Size = new System.Drawing.Size(25, 25);
             this.MessageSend.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
             this.MessageSend.CustomButton.TabIndex = 1;
             this.MessageSend.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
@@ -314,8 +261,8 @@ namespace GarticUmm
             this.MessageSend.SelectionLength = 0;
             this.MessageSend.SelectionStart = 0;
             this.MessageSend.ShortcutsEnabled = true;
-            this.MessageSend.Size = new System.Drawing.Size(296, 25);
-            this.MessageSend.TabIndex = 0;
+            this.MessageSend.Size = new System.Drawing.Size(298, 27);
+            this.MessageSend.TabIndex = 7;
             this.MessageSend.UseSelectable = true;
             this.MessageSend.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.MessageSend.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
@@ -326,8 +273,8 @@ namespace GarticUmm
             this.SendButton.Dock = System.Windows.Forms.DockStyle.Fill;
             this.SendButton.Location = new System.Drawing.Point(0, 0);
             this.SendButton.Name = "SendButton";
-            this.SendButton.Size = new System.Drawing.Size(58, 25);
-            this.SendButton.TabIndex = 2;
+            this.SendButton.Size = new System.Drawing.Size(56, 27);
+            this.SendButton.TabIndex = 8;
             this.SendButton.Text = "Send";
             this.SendButton.UseSelectable = true;
             this.SendButton.Click += new System.EventHandler(this.SendButton_Click);
@@ -342,16 +289,29 @@ namespace GarticUmm
             this.toolBar1.Size = new System.Drawing.Size(737, 42);
             this.toolBar1.TabIndex = 0;
             // 
+            // stateLabel
+            // 
+            this.stateLabel.AutoSize = true;
+            this.stateLabel.FontSize = MetroFramework.MetroLabelSize.Tall;
+            this.stateLabel.FontWeight = MetroFramework.MetroLabelWeight.Bold;
+            this.stateLabel.Location = new System.Drawing.Point(23, 22);
+            this.stateLabel.Name = "stateLabel";
+            this.stateLabel.Size = new System.Drawing.Size(114, 25);
+            this.stateLabel.TabIndex = 1;
+            this.stateLabel.Text = "Gartic Umm";
+            this.stateLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.stateLabel.UseStyleColors = true;
+            // 
             // GUGameForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(1098, 666);
+            this.Controls.Add(this.stateLabel);
             this.Controls.Add(this.splitContainer1);
             this.Font = new System.Drawing.Font("MV Boli", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "GUGameForm";
             this.Padding = new System.Windows.Forms.Padding(20, 63, 20, 21);
             this.Resizable = false;
-            this.Text = "Gartic Umm";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.GUGameForm_FormClosed);
             this.Load += new System.EventHandler(this.GUGameForm_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
@@ -360,7 +320,6 @@ namespace GarticUmm
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.splitContainer2.Panel1.ResumeLayout(false);
-            this.splitContainer2.Panel1.PerformLayout();
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
@@ -368,21 +327,14 @@ namespace GarticUmm
             this.splitContainer3.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
-            this.splitContainer4.Panel1.ResumeLayout(false);
-            this.splitContainer4.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
-            this.splitContainer4.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private MetroFramework.Controls.MetroButton SendButton;
-        private MetroFramework.Controls.MetroTextBox MessageSend;
-        private MetroFramework.Controls.MetroLabel LabelStatus;
-        private MetroFramework.Controls.MetroLabel LabelTimer;
         private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.ToolBar toolBar1;
         private System.Windows.Forms.ToolBar toolBar2;
@@ -398,9 +350,11 @@ namespace GarticUmm
         private System.Windows.Forms.ToolBarButton eraserbtn;
         private System.Windows.Forms.Panel panel;
         private System.Windows.Forms.ToolBarButton whitebtn;
-        private System.Windows.Forms.RichTextBox MessageLog;
         private System.Windows.Forms.SplitContainer splitContainer2;
+        private System.Windows.Forms.RichTextBox MessageLog;
         private System.Windows.Forms.SplitContainer splitContainer3;
-        private System.Windows.Forms.SplitContainer splitContainer4;
+        private MetroFramework.Controls.MetroTextBox MessageSend;
+        private MetroFramework.Controls.MetroButton SendButton;
+        private MetroFramework.Controls.MetroLabel stateLabel;
     }
 }

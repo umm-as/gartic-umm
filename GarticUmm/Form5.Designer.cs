@@ -53,7 +53,7 @@
             this.ipTextBox.MaxLength = 32767;
             this.ipTextBox.Name = "ipTextBox";
             this.ipTextBox.PasswordChar = '\0';
-            this.ipTextBox.PromptText = "127.0.0.1";
+            this.ipTextBox.WaterMark = "127.0.0.1";
             this.ipTextBox.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.ipTextBox.SelectedText = "";
             this.ipTextBox.SelectionLength = 0;
